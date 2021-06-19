@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="blog.mapper.UserMapper">
+    <sql id="selectedColumns">
+        select id, rtrim(username) username, rtrim(email) email, rtrim(pwd) pwd
+        from user_information where
+    </sql>
+
+    <select id="getUserById" resultType="User" parameterType="int">
+        <include refid="selectedColumns"/> id = #{id}
+    </select>
+
+    <select id="getUserByUsername" resultType="User" parameterType="String">
+        <include refid="selectedColumns"/> username = #{username}
+    </select>
+
+    <select id="getUserByEmail" resultType="User" parameterType="String">
+        <include refid="selectedColumns"/> email = #{email}
+    </select>
+
+    <insert id="insertUser" parameterType="User">
+        insert into user_information(username,pwd,email) values(#{username},#{pwd},#{email})
+    </insert>
+</mapper>

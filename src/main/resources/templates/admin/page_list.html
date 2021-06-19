@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:with="title='页面管理',active='page'">
+<!--<header th:replace="admin/header::headerFragment(${title},${active})"></header>-->
+<link rel="stylesheet" href="admin/css/styles.css">
+<link rel="stylesheet" href="admin/css/style.min.css">
+<link rel="stylesheet" href="admin/css/flexslider.css">
+<link rel="stylesheet" href="admin/css/responsive.css">
+<link rel="stylesheet" href="admin/css/reset.css">
+<link rel="stylesheet" href="admin/css/contact.css">
+<body class="fixed-left">
+<div id="wrapper">
+    <div th:replace="admin/header::header-body"></div>
+</div>
+<div style="text-align:center;" th:replace="admin/footer :: footer"></div>
+<script type="text/javascript">
+</script>
+</body>
+</html>

@@ -1,23 +1,35 @@
-# Windows thumbnail cache files
-Thumbs.db
-ehthumbs.db
-ehthumbs_vista.db
+HELP.md
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
 
-# Dump file
-*.stackdump
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
 
-# Folder config file
-[Dd]esktop.ini
+### IntelliJ IDEA ###
+/.idea/
+*.iws
+*.iml
+*.ipr
+/target/
+/.mvn/
 
-# Recycle Bin used on file shares
-$RECYCLE.BIN/
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
 
-# Windows Installer files
-*.cab
-*.msi
-*.msix
-*.msm
-*.msp
-
-# Windows shortcuts
-*.lnk
+### VS Code ###
+.vscode/

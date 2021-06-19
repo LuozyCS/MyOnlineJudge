@@ -1,0 +1,96 @@
+<!DOCTYPE HTML>
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org" style="height:100%;">
+<link rel="stylesheet" href="site/css/style.css">
+<link rel="stylesheet" href="site/css/style.min.css">
+<link rel="stylesheet" href="site/css/bootstrap.min.css">
+<link rel="stylesheet" href="site/css/responsive.css">
+<link rel="stylesheet" href="site/css/effects/set2.css">
+<link rel="stylesheet" href="site/css/effects/normalize.css">
+
+<body style="height:max-content;width:100%;background: url(/site/img/OIP.jpeg) bottom center no-repeat #efeff4 ;background-size: 100% 100%;width: 100%;height: 100%;overflow-x:hidden;">
+
+    <ul class="nav" style="position: absolute;right:0px;width:200px;">
+        <li style="list-style:none;">
+            <a title="个人界面" href="/login" style="text-decoration: none;
+font-size: larger;color: blue;" th:text="'Hello, ' + ${LoginName}" th:if="${LoginName} != null"></a>
+            <ul>
+                <li style="list-style:none;">
+                    <a href="/list" style="text-decoration: none;color:black;">管理界面</a>
+                </li>
+                <li style="list-style:none;">
+                    <a href="/login" style="text-decoration: none;color:black;">退出登录</a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+    <div style="text-align: right;">
+        <a th:text="您未登录" th:if="${LoginName} == null" style="text-align: right;font-size: larger;color: orangered;text-decoration: none;" href="/login"></a>
+    </div>
+    <!-- header -->
+    <!--    <div th:replace="site/header::header"></div>-->
+
+    <!-- main -->
+    <main role="main-inner-wrapper" class="container">
+
+
+        <div class="blog-details" style="position: absolute;top: 100px;left:0;right:0;">
+
+            <article class="post-details" id="post-details">
+
+                <header role="bog-header" class="bog-header text-center" style="text-align:center;">
+
+                    <h2>
+                        <th:block th:text="${ArticleTitle}"></th:block>
+                    </h2>
+                    <div class="m-text ui attached padded segment">
+                        <div class="typo typo-selection">
+                            <div id="test-editormd-view">
+                                <textarea id="append-test" style="display:none;">[[${ArticleContent}]]</textarea>
+                            </div>
+                        </div>
+                    </div>
+                </header>
+
+            </article>
+
+            <footer style="position: fixed;bottom: 50px;left:0px;right:0px;width:60%;transform:translate(30%,0);height:300px;">
+                <div th:replace="/site/bilibili::footer"></div>
+            </footer>
+        </div>
+    </main>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!--editormd-->
+    <script src="/editormd/lib/marked.min.js"></script>
+    <script src="/editormd/lib/prettify.min.js"></script>
+    <script src="/editormd/lib/raphael.min.js"></script>
+    <script src="/editormd/lib/underscore.min.js"></script>
+    <script src="/editormd/lib/sequence-diagram.min.js"></script>
+    <script src="/editormd/lib/flowchart.min.js"></script>
+    <script src="/editormd/lib/jquery.flowchart.min.js"></script>
+    <script src="/editormd/editormd.js"></script>
+    <script type="text/javascript" th:inline="javascript">
+        /*editormd*/
+        $(function() {
+            editormd.markdownToHTML("test-editormd-view", {
+                htmlDecode: "style,script,iframe", // you can filter tags decode
+                emoji: true,
+                taskList: true,
+                tex: true, // 默认不解析
+                flowChart: true, // 默认不解析
+                sequenceDiagram: true, // 默认不解析
+            });
+            $(".nav>li").children("ul").hide();
+            $(".nav>li").mouseover(function() {
+                $(this).children("ul").show();
+            });
+            $(".nav>li").mouseout(function() {
+                $(this).children("ul").hide();
+            })
+        })
+    </script>
+
+</body>
+
+</html>

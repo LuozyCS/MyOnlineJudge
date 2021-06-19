@@ -1,0 +1,261 @@
+.ace-dpl-account {
+    position: relative;
+    width: 600px;
+    height: 560px;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, .15);
+    background-color: #fff
+}
+
+.ace-dpl-account .ability-tabs .ability-tabs-item {
+    display: inline-block;
+    width: 50%;
+    height: 52px;
+    line-height: 52px;
+    text-align: center;
+    font-size: 14px;
+    color: #73777a;
+    border-bottom: 1px solid #d8d8d8;
+    cursor: pointer
+}
+
+.ace-dpl-account .ability-tabs .ability-tabs-item:last-child {
+    border-left: 1px solid #d8d8d8
+}
+
+.ace-dpl-account .ability-tabs .ability-tabs-item.active {
+    border-bottom: 3px solid #ff6a00
+}
+
+.ace-dpl-account .ability-tabs .ability-tabs-item.active .ability-tabs-item-icon {
+    color: #ff6a00
+}
+
+.ace-dpl-account .ability-tabs .ability-tabs-item.active .ability-tabs-item-icon.alipay {
+    color: #009cea
+}
+
+.ace-dpl-account .ability-tabs .ability-tabs-item .ability-tabs-item-icon {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 22px
+}
+
+.ace-dpl-account .ability-tabs .ability-tabs-item .ability-tabs-item-text {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 12px
+}
+
+.ace-dpl-account .alipay-channel .alipay-qrcode, .ace-dpl-account .alipay-channel .failure, .ace-dpl-account .alipay-channel .wait-for-auth, .position-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%)
+}
+
+.ace-dpl-account .alipay-channel {
+    position: relative;
+    height: 470px;
+    text-align: center
+}
+
+.ace-dpl-account .alipay-channel .alipay-text-wrap {
+    padding-top: 74px
+}
+
+.ace-dpl-account .alipay-channel .alipay-text-wrap.app-text-wrap {
+    padding-top: 45px
+}
+
+.ace-dpl-account .alipay-channel .alipay-text-wrap .dingtalk {
+    font-size: 22px;
+    color: #3296fa
+}
+
+.ace-dpl-account .alipay-channel .alipay-text-wrap .alipay {
+    font-size: 22px;
+    color: #009cea
+}
+
+.ace-dpl-account .alipay-channel .alipay-text-wrap .aliyunlogo {
+    font-size: 22px;
+    color: #ff6a00
+}
+
+.ace-dpl-account .alipay-channel .alipay-text-wrap .app-icon-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    line-height: 30px
+}
+
+.ace-dpl-account .alipay-channel .alipay-text {
+    font-size: 14px;
+    line-height: 30px;
+    letter-spacing: .47;
+    color: #999
+}
+
+.ace-dpl-account .alipay-channel .wait-for-auth .wait-for-auth-icon {
+    color: #35b34a
+}
+
+.ace-dpl-account .alipay-channel .failure .failure-icon {
+    color: #f15533
+}
+
+.ace-dpl-account .alipay-channel .failure .warning-icon {
+    color: #ffa400
+}
+
+.ace-dpl-account .alipay-channel .account-notice-icon {
+    font-size: 40px;
+    vertical-align: middle
+}
+
+.ace-dpl-account .alipay-channel .account-notice-title {
+    margin-left: 12px;
+    font-size: 28px;
+    vertical-align: middle
+}
+
+.ace-dpl-account .alipay-channel .account-notice-subtitle {
+    margin-top: 12px;
+    font-size: 14px;
+    color: #999;
+    width: 400px
+}
+
+.ace-dpl-account .alipay-channel .account-notice-button {
+    margin-top: 20px;
+    width: 320px;
+    height: 40px;
+    font-size: 14px;
+    line-height: 40px;
+    color: #fff;
+    background-color: #ff6a00;
+    cursor: pointer
+}
+
+.ace-dpl-account .alipay-channel .alipay-register-link {
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translate(-50%);
+    font-size: 14px;
+    color: #1890ff
+}
+
+.ace-dpl-account .alipay-channel .alipay-register-link:hover, .ace-dpl-account .alipay-channel .alipay-register-link:link, .ace-dpl-account .alipay-channel .alipay-register-link:visited {
+    color: #1890ff
+}
+
+#alibaba-login-iframe {
+    width: 330px;
+    height: 340px;
+    border: none;
+    position: absolute;
+    left: 50%;
+    top: 126px;
+    transform: translate(-50%)
+}
+
+.ace-dpl-account .third-party-login-wrap {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 40px;
+    border-top: 1px solid #d8d8d8
+}
+
+.ace-dpl-account .third-party-login {
+    width: 50%;
+    line-height: 40px;
+    text-align: center;
+    border-right: 1px solid #d8d8d8;
+    float: left
+}
+
+.ace-dpl-account .third-party-login .third-party-login-link:focus, .ace-dpl-account .third-party-login .third-party-login-link:link, .ace-dpl-account .third-party-login .third-party-login-link:visited {
+    text-decoration: none
+}
+
+.ace-dpl-account .third-party-login .third-party-login-text {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 12px;
+    font-size: 14px;
+    color: #999
+}
+
+.ace-dpl-account .third-party-login .third-party-login-text:link.taobao, .ace-dpl-account .third-party-login .third-party-login-text:visited.taobao {
+    color: #ff5000
+}
+
+.ace-dpl-account .third-party-login .third-party-login-text:link.cbu, .ace-dpl-account .third-party-login .third-party-login-text:visited.cbu {
+    color: #ff6a00
+}
+
+.ace-dpl-account .third-party-login .third-party-login-text:link.dingtalk, .ace-dpl-account .third-party-login .third-party-login-text:visited.dingtalk {
+    color: #3296fa
+}
+
+.ace-dpl-account .third-party-login .third-party-login-text:link.weibo, .ace-dpl-account .third-party-login .third-party-login-text:visited.weibo {
+    color: #d82524
+}
+
+.ace-dpl-account .third-party-login .third-party-login-text:link.alipay, .ace-dpl-account .third-party-login .third-party-login-text:visited.alipay {
+    color: #009cea
+}
+
+.ace-dpl-account .third-party-login .third-party-login-link {
+    display: inline-block;
+    margin-right: 8px;
+    vertical-align: middle
+}
+
+.ace-dpl-account .third-party-login .third-party-login-icon {
+    font-size: 22px
+}
+
+.ace-dpl-account .third-party-login .third-party-login-icon.taobao {
+    color: #ff5000
+}
+
+.ace-dpl-account .third-party-login .third-party-login-icon.cbu {
+    color: #ff6a00
+}
+
+.ace-dpl-account .third-party-login .third-party-login-icon.dingtalk {
+    color: #3296fa
+}
+
+.ace-dpl-account .third-party-login .third-party-login-icon.weibo {
+    color: #d82524
+}
+
+.ace-dpl-account .third-party-login .third-party-login-icon.alipay {
+    color: #009cea
+}
+
+.ace-dpl-account .third-party-login .third-party-login-icon.umeng {
+    width: 20px;
+    height: 20px;
+    background-size: contain;
+    background-position: 0 0;
+    background-repeat: no-repeat;
+    background-image: url(https://gw.alicdn.com/tfs/TB1BG0OaAWE3KVjSZSyXXXocXXa-400-400.png)
+}
+
+.ace-dpl-account .ram-login {
+    width: 50%;
+    float: left;
+    line-height: 40px;
+    text-align: center
+}
+
+.ace-dpl-account .ram-login .ram-login-text {
+    cursor: pointer;
+    color: #1890ff
+}

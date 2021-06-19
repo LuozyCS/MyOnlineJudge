@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:fragment="comments">
+
+<head>
+    <meta charset="UTF-8">
+</head>
+<footer>
+    <style type="text/css">
+        .bb-comment {
+            font-family: "Microsoft YaHei", Arial, Helvetica, sans-serif;
+            zoom: 1;
+            min-height: 100px;
+            background: #fff;
+        }
+        
+        .bb-comment * {
+            box-sizing: content-box;
+        }
+        
+        .bb-comment .comment-list {
+            padding-top: 20px;
+        }
+        
+        .bb-comment .comment-list .list-item .con {
+            position: relative;
+            margin-left: 85px;
+            padding: 22px 0 14px 0;
+            border-top: 1px solid #e5e9ef;
+        }
+        
+        .bb-comment .comment-list .list-item .user {
+            font-size: 12px;
+            font-weight: bold;
+            line-height: 18px;
+            padding-bottom: 4px;
+            display: block;
+            word-wrap: break-word;
+            position: relative;
+        }
+        
+        .bb-comment .comment-list .list-item .text {
+            line-height: 20px;
+            padding: 2px 0;
+            padding-top: 2px;
+            padding-right: 0px;
+            padding-bottom: 2px;
+            padding-left: 0px;
+            font-size: 14px;
+            text-shadow: none;
+            overflow: hidden;
+            word-wrap: break-word;
+            word-break: break-word;
+            white-space: pre-wrap;
+        }
+        
+        .bb-comment p {
+            margin: 0;
+        }
+        
+        .bb-comment .comment-list .con .info {
+            color: #99a2aa;
+            line-height: 26px;
+            font-size: 12px;
+        }
+        
+        .bb-comment .comment-list .con .info>span {
+            margin-right: 20px;
+        }
+        
+        .bb-comment .comment-list .con .paging-box {
+            font-size: 12px;
+        }
+        
+        .bb-comment .comment-send,
+        .bb-comment .comment-list .con .comment-send {
+            margin: 10px 0;
+            padding-top: 15px;
+        }
+        
+        .bb-comment .comment-send .textarea-container,
+        .bb-comment .comment-list .com .comment-send .textarea-container {
+            position: relative;
+            margin-left: 85px;
+            margin-right: 80px;
+        }
+        
+        .bb-comment .comment-send .textarea-container .ipt-arrow,
+        .bb-comment .comment-list .con .comment-send .textarea-container .ipt-arrow {
+            position: absolute;
+            left: -12px;
+            top: 22px;
+            width: 13px;
+            height: 20px;
+            display: inline-block;
+            z-index: 2;
+        }
+        
+        .bb-comment .comment-send .textarea-container .ipt-txt,
+        .bb-comment .comment-list .con .comment-send .textarea-container .ipt-txt {
+            font-size: 12px;
+            display: inline-block;
+            box-sizing: border-box;
+            background-color: #f4f5f7;
+            border: 1px solid #e5e9ef;
+            overflow: auto;
+            border-radius: 4px;
+            color: #555;
+            width: 100%;
+            height: 65px;
+            transition: 0s;
+            padding: 5px 10px;
+            line-height: normal;
+            outline: none;
+        }
+        
+        .bb-comment .comment-send .textarea-container .comment-submit,
+        .bb-comment .comment-list .con .comment-send .textarea-container .comment-submit {
+            box-sizing: border-box;
+            width: 70px;
+            height: 65px;
+            position: absolute;
+            right: -80px;
+            top: 0;
+            padding: 4px 15px;
+            font-size: 14px;
+            color: #fff;
+            border-radius: 4px;
+            text-align: center;
+            min-width: 60px;
+            vertical-align: top;
+            cursor: pointer;
+            background-color: #00a1d6;
+            border: 1px solid #00a1d6;
+            transition: 0.1s;
+            user-select: none;
+            outline: none;
+        }
+        
+        .bb-comment .comment-list .con .info .reply.btn-hover.btn-highlight {
+            padding: 0 5px;
+            border-radius: 4px;
+            margin-right: 15px;
+            cursor: pointer;
+            display: inline-block;
+        }
+        
+        .bb-comment .comment-list .list-item .reply-box .reply-item,
+        .comment-bilibili-fold .comment-list .list-item .reply-box .reply-item {
+            padding: 10px 0;
+        }
+        
+        .bb-comment .comment-list .list-item .reply-box .reply-item .reply-con,
+        .comment-bilibili-fold .comment-list .list-item .reply-box .reply-item .reply-con {
+            display: inline-block;
+            width: calc(100% - 34px);
+        }
+        
+        .bb-comment .comment-list .list-item .reply-box .reply-item .reply-con .user .name,
+        .comment-bilibili-fold .comment-list .list-item .reply-box .reply-item .reply-con .user .name {
+            position: relative;
+            top: -1px;
+        }
+        
+        .bb-comment .comment-list .list-item .user .text-con,
+        .comment-bilibili-fold .comment-list .list-item .user .text-con {
+            font-weight: normal;
+            font-size: 14px;
+            line-height: 20px;
+            white-space: pre-wrap;
+        }
+    </style>
+    <!--    height: 64px;-->
+
+    <body style="background-color:rgba(255,255,255,0);">
+    <div id="footer-body">
+        <div class="bb-comment " style="background-color:rgba(255,255,255,0);">
+            <div th:text="${error}" style="width:100;height:100;"></div>
+            <div class="comment-send ">
+                <div class="textarea-container">
+                    <textarea id="tear" cols="80" rows="5" oninput="test()" placeholder="发一条友善的评论，不超过500字" class="ipt-txt"></textarea>
+                    <button type="submit" id="submit" class="comment-submit" disabled="true">发表评论</button>
+                </div>
+            </div>
+            <h3>
+                共
+                <block th:text="${DirectComments.size()}"></block>条评论
+            </h3>
+            <div class="comment-list " style="overflow:auto; height:150px;">
+                <div class="con " th:each="comment:${DirectComments}">
+                    <div class="user">
+                        <!--            #FB7299-->
+                        <a target="_blank" class="name" style="color: #0d92f0;" th:text="${comment.publisher.username+':'}"></a>
+                    </div>
+                    <div style="border:1px border;">
+                        <p class="text" th:text="${comment.content}" th:if="${comment.content!=null}"></p>
+                        <p class="text" style="color:gray" th:if="${comment.content==null}">评论已删除</p>
+                    </div>
+
+                    <div class="info">
+                        <span class="down" style="cursor: pointer;" th:name="${comment.id}" th:if="${origin_id!=comment.id}">查看详情</span>
+                        <span class="up" style="cursor:pointer" th:if="${origin_id==comment.id}">收起</span>
+                        <span class="time" th:text="${comment.publishTime}"></span>
+                        <span class="reply btn-hover btn-highlight" th:name="${comment.id}" th:if="${comment.content!=null}">回复</span>
+                        <span class="delete" th:name="${comment.id}" style="cursor:pointer;" th:if="${comment.content!=null and User!=null and User.id==comment.publisher.id}">删除</span>
+                    </div>
+
+                    <div class="reply-box" th:if="${origin_id==comment.id}">
+                        <div class="reply-item reply-wrap" th:each="subcomment:${Comments}">
+                            <div class="user">
+                                <a target="_blank" class="name" style="color:green ;" th:text="${subcomment.publisher.username}"></a>
+                                <span th:if="${subcomment.parent.id!=origin_id}" style="color:#0d92f0;" th:text="'  回复 ' + ${subcomment.parent.publisher.username}"></span>
+                                <span class="text-con">:</span>
+                                <span class="text-con" th:text="${subcomment.content}" th:if="${subcomment.content!=null}"></span>
+                                <span class="text-con" style="color:gray" th:if="${subcomment.content==null}">评论已删除</span>
+                            </div>
+                            <div class="info">
+                                <span class="time" th:text="${subcomment.publishTime}"></span>
+                                <span class="reply btn-hover" th:name="${subcomment.id}" style="cursor:pointer;" th:if="${subcomment.content!=null}">回复</span>
+                                <span class="delete" th:name="${subcomment.id}" style="cursor:pointer;" th:if="${subcomment.content!=null and User!=null and User.id==subcomment.publisher.id}">删除</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </body>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" th:inline="javascript">
+        $(function() {
+            var subcomment = false;
+            $(document).on("click",".reply.btn-hover",function() {
+                subcomment = true;
+                $(".ipt-txt").attr("placeholder",
+                    "回复 @" + $(this).parent().siblings(".user").find("a.name").text());
+                var parentid = $(this).attr("name");
+                $(document).off("click",".comment-submit")
+                $(document).on("click",".comment-submit",function() {
+                    var content = $(".ipt-txt").val();
+                    console.log(parentid);
+                    var params = {
+                        "content": content,
+                        "parentid": parentid,
+                        "articleid": [[${ArticleId}]]
+                    };
+                    $.ajax({
+                        type:"post",
+                        ansyv:true,
+                        data:params,
+                        datatype:"json",
+                        url:"/comment/second",
+                        success:function(data){
+                            console.log("success");
+                            $("#tear").val('')
+                            //window.location.reload()
+                            $("#footer-body").load(location.href+" .bb-comment")
+                        },
+                        error:function(){
+                            alert("评论失败，内容为空或者过长");
+                            console.log("error")
+                        }
+                    })
+                })
+            })
+            $(document).on("click",".comment-submit",function() {
+                if (subcomment)
+                    return;
+                var content = $(".ipt-txt").val();
+                var params = {
+                    "content": content,
+                    "originid": "-1",
+                    "parentid": "-1",
+                    "articleid": [[${ArticleId}]]
+                };
+                $.ajax({
+                    type: "post",
+                    ansyv: true,
+                    data: params,
+                    datatype: "json",
+                    url: "/comment/first",
+                    success: function(data) {
+                        console.log("success");
+                        $("#tear").val('')
+                        //window.location.reload()
+                        $("#footer-body").load(location.href+" .bb-comment")
+                    },
+                    error: function() {
+                        alert("评论失败，内容为空或者过长");
+                        console.log("error")
+                    }
+                })
+            })
+            $(document).on("click",".delete",function() {
+                var con=confirm("确定删除吗？");
+                if(con){
+                    var id = $(this).attr("name");
+                    var params = {
+                        "articleid": [[${ArticleId}]],
+                        "id": id
+                    };
+                    $.ajax({
+                         type:"post",
+                         ansyv:true,
+                         data:params,
+                         datatype:"json",
+                         url:"/comment/third",
+                         success:function(data){
+                            console.log("success")
+                            $("#footer-body").load(location.href+" .bb-comment")
+                         },
+                         error:function(){
+                            console.log("error")
+                         }
+                    })
+                }
+            })
+            $(document).on("click",".up",function(){
+                if ($(this).text() == "查看详情") {
+                    $(this).text("收起")
+                    $(this).parent().siblings(".reply-box").show()
+                }
+                else {
+                    $(this).text("查看详情")
+                    $(this).parent().siblings(".reply-box").hide()
+                }
+            })
+            $(document).on("click",".down",function(){
+                window.location.href = "indirect comments of comment " + $(this).attr("name") + " in article " + [[${ArticleId}]]
+                //$(this).hide()
+                //$(this).sublings(".up").show()
+
+                /*var params = {
+                    "articleid": [[${ArticleId}]],
+                    "id": $(this).attr("name")
+                }
+                $.ajax({
+                     type:"get",
+                     ansyv:true,
+                     data:params,
+                     datatype:"json",
+                     url:"/comment/indirect comments",
+                     success:function(data){
+                         console.log("success")
+                         $("#footer-body").load(location.href+" .bb-comment")
+                     },
+                     error:function(){
+                        console.log("error")
+                     }
+                })*/
+            })
+        })
+
+        function test() {
+            if (tear.value == "") {
+                submit.setAttribute("disabled", "true");
+            } else {
+                submit.removeAttribute("disabled");
+            }
+        }
+    </script>
+</footer>
+
+</html>

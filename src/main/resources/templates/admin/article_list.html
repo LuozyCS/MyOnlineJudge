@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:with="title='文章管理',active='article'">
+
+<head>
+    <link rel="stylesheet" href="admin/css/styles.css">
+    <link rel="stylesheet" href="admin/css/style.min.css">
+    <link rel="stylesheet" href="admin/css/contact.css">
+    <link rel="stylesheet" href="admin/css/responsive.css">
+    <link rel="stylesheet" href="admin/css/reset.css">
+    <link rel="stylesheet" href="admin/css/flexslider.css">
+    <script src="https://code.jquery.com/jquery.js"></script>
+</head>
+<style>
+    table {
+        border-collapse: collapse;
+    }
+    
+    table,
+    th,
+    td {
+        border: 1px solid black;
+    }
+</style>
+<header th:replace="admin/header::headerFragment(${title},${active})"></header>
+<ul class="nav" style="position: absolute;right:0px;width:200px;">
+    <li style="list-style:none;">
+        <a title="个人界面" href="/login" style="text-decoration: none;
+font-size: larger;color: blue !important;text-align:center;" th:text="'Hello, ' + ${LoginName}" th:if="${LoginName} != null"></a>
+        <ul>
+            <li style="list-style:none;text-align:center;">
+                <a href="/list" style="text-decoration: none;color:black;">管理界面</a>
+            </li>
+            <li style="list-style:none;text-align:center;">
+                <a href="/login" style="text-decoration: none;color:black;">退出登录</a>
+            </li>
+        </ul>
+    </li>
+</ul>
+
+<body class="fixed-left">
+
+    <div id="wrapper">
+        <!--    <div th:replace="admin/header::header-body"></div>-->
+        <div class="content-page" style="margin-top:100px;transform: translate(-10%,-10%);">
+            <div class="content">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h4 class="page-title">文章管理</h4>
+                        </div>
+                        <div class="col-md-12">
+                            <table class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th width="35%">文章标题</th>
+                                        <th width="35%">发布时间</th>
+                                        <th width="30%">操作</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <tr th:block th:each="article: ${Articles}">
+                                        <td>
+                                            <a th:href="'article/id=' + ${article.id}" th:text="${article.title}"></a>
+                                        </td>
+                                        <td>
+                                            <block th:text="${article.publishTime}"></block>
+                                        </td>
+                                        <td>
+                                            <block>
+                                                <a id="delete" style="cursor:pointer;" th:url1="'/delete_request/id='+${article.id}">删除</a>
+                                                <a th:href="'/publish/article_id = ' + ${article.id}">修改</a>
+                                            </block>
+                                        </td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <!--                        <div th:replace="comm/macros :: pageAdminNav(${articles})"></div>-->
+                        </div>
+                    </div>
+                    <!--                <div th:replace="admin/footer :: footer-content"></div>-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--<div th:replace="admin/footer :: footer"></div>-->
+    <script type="text/javascript" th:inline="javascript">
+        $(function() {
+            $(".nav>li").children("ul").hide();
+            $(".nav>li").mouseover(function() {
+                $(this).children("ul").show();
+            });
+            $(".nav>li").mouseout(function() {
+                $(this).children("ul").hide();
+            })
+            $("#delete").click(function() {
+                var second = confirm("你确定删除这篇文章吗？");
+                if (second == true) {
+                    window.location.href = $(this).attr("url1");
+                    // console.log($(this).attr("url1"));
+                }
+            })
+        })
+    </script>
+</body>
+
+</html>

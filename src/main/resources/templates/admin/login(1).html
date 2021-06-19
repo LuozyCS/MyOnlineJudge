@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>My Blog - 用户登录</title>
+</head>
+
+<style>
+    .paralism {
+        display: inline-block;
+        width: 600px;
+    }
+    
+    .bg-wrap,
+    body,
+    html {
+        height: 100%;
+    }
+    
+    input {
+        line-height: normal;
+        -webkit-appearance: textfield;
+        background-color: white;
+        -webkit-rtl-ordering: logical;
+        cursor: text;
+        padding: 1px;
+        border-width: 2px;
+        border-style: inset;
+        border-color: initial;
+        border-image: initial;
+    }
+    
+    input[type="text"],
+    input[type="password"] {
+        border: 0;
+        outline: 0;
+    }
+    
+    input,
+    button {
+        text-rendering: auto;
+        color: initial;
+        letter-spacing: normal;
+        word-spacing: normal;
+        text-transform: none;
+        text-indent: 0px;
+        text-shadow: none;
+        display: inline-block;
+        text-align: start;
+        margin: 0em;
+        font: 400 13.3333px Arial;
+    }
+    
+    input[type=button] {
+        -webkit-appearance: button;
+        cursor: pointer;
+    }
+    
+    .bg-wrap {
+        position: relative;
+        background: url(http://img.javaex.cn/FipOsQoe90u_7i3dOVpaeX5QD7c6) top left no-repeat;
+        background-size: cover;
+        overflow: hidden;
+    }
+    
+    .main-cont-wrap {
+        z-index: 1;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-left: -190px;
+        margin-top: -255px;
+        box-sizing: border-box;
+        width: 380px;
+        padding: 30px 30px 40px;
+        background: #fff;
+        box-shadow: 0 20px 30px 0 rgba(63, 63, 65, .06);
+        border-radius: 10px;
+    }
+    
+    .form-title {
+        margin-bottom: 40px;
+        float: left;
+        width: 30%;
+    }
+    
+    .form-title span {
+        font-size: 30px;
+        color: #2589ff;
+    }
+    
+    .form-title span active {
+        font-size: 30px;
+        /* background-color: #ff2525; */
+        color: #ff5125;
+    }
+    
+    .form-item {
+        margin-bottom: 30px;
+        position: relative;
+        height: 40px;
+        line-height: 40px;
+        border-bottom: 1px solid #e3e3e3;
+        box-sizing: border-box;
+    }
+    
+    .form-txt {
+        display: inline-block;
+        width: 70px;
+        color: #595961;
+        font-size: 14px;
+        margin-right: 10px;
+    }
+    
+    .form-input {
+        border: 0;
+        outline: 0;
+        font-size: 14px;
+        color: #595961;
+        width: 155px;
+    }
+    
+    .form-btn {
+        margin-top: 40px;
+    }
+    
+    .ui-button {
+        display: block;
+        width: 320px;
+        height: 50px;
+        text-align: center;
+        color: #fff;
+        background: #2589ff;
+        border-radius: 6px;
+        font-size: 16px;
+        border: 0;
+        outline: 0;
+    }
+</style>
+</head>
+
+<body>
+    <div class="bg-wrap">
+        <div class="main-cont-wrap login-model">
+            <form id="login" th:action="${login_request}">
+                <div class="paralism">
+                    <div class="form-title" id="login_by_username_div">
+                        <span>用户登录</span>
+                    </div>
+                    <div class="form-title" id="login_by_email_div">
+                        <span>邮箱登录</span>
+                    </div>
+                </div>
+
+                <div class="form-item" id="email">
+                    <span class="form-txt">账号：</span>
+                    <input type="text" class="form-input original" id="username" name="username" data-type="必填" name="loginName" placeholder="请输入账号" />
+                </div>
+                <div class="form-item">
+                    <span class="form-txt">密码：</span>
+                    <input type="password" class="form-input original" id="password" data-type="必填" name="password" placeholder="请输入密码" />
+                </div>
+                <div class="form-btn">
+                    <input type="button" id="submit" class="ui-button" id="submit" value="登录" />
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+
+<script>
+    $(function() {
+        console.log("2245");
+        $("#login_by_email_div").click(function() {
+            $("#username").attr("placeholder", "请输入邮箱")
+                .attr("name", "email")
+        })
+        $("#login_by_email_div").css("background-color", "red")
+        $("#login_by_username_div").click(function() {
+            $("#username").attr("placeholder", "请输入账号")
+                .attr("name", "username").css("background-color" = "blue");
+        })
+
+    })
+</script>
+</html>

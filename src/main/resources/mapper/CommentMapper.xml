@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="blog.mapper.CommentMapper">
+    <resultMap id="CommentMap" type="Comment">
+        <result property="id" column="id"/>
+        <result property="content" column="content"/>
+        <result property="publishTime" column="publish_time"/>
+
+        <association property="article" javaType="Article">
+            <result property="id" column="article_id"/>
+        </association>
+
+        <association property="publisher" javaType="User">
+            <result property="id" column="publisher_id"/>
+        </association>
+
+        <association property="parent" javaType="Comment">
+            <result property="id" column="parent_id"/>
+        </association>
+    </resultMap>
+
+    <select id="getComments" resultMap="CommentMap">
+        select publisher_id, comment.id, content, publish_time, article_id
+            <if test="origin_id != -1">, parent_id</if>
+        from user_information, (select id, content, publish_time, publisher_id, article_id
+            <if test="origin_id != -1">, parent_id</if>
+            from discussion where article_id = #{article_id} and origin_id = #{origin_id})comment
+        where user_information.id = publisher_id
+        order by publish_time desc
+    </select>
+
+    <insert id="publishComment">
+        start transaction;
+            set @next_id = null;
+            select max(id) + 1 into @next_id from discussion where article_id = #{article_id};
+            insert into discussion(article_id, id, publisher_id, content, publish_time, origin_id, parent_id)
+                values(#{article_id}, ifnull(@next_id, 1), #{publisher_id}, #{content}, now(), #{origin_id}, #{parent_id});
+        commit;
+    </insert>
+
+    <select id="getOriginId" resultType="int">
+        select origin_id from discussion where id = #{id} and article_id = #{article_id}
+    </select>
+
+    <update id="clearComment">
+        update discussion set content = null where id = #{id} and article_id = #{article_id}
+    </update>
+</mapper>
