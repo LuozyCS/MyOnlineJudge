@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" th:with="title='文章管理',active='article'">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:with="title='文章管理',active='problem'">
 
 <head>
     <link rel="stylesheet" href="admin/css/styles.css">
@@ -59,17 +59,17 @@ font-size: larger;color: blue !important;text-align:center;" th:text="'Hello, ' 
                                 </thead>
 
                                 <tbody>
-                                    <tr th:block th:each="article: ${Articles}">
+                                    <tr th:block th:each="problem: ${Problems}">
                                         <td>
-                                            <a th:href="'problem/id=' + ${article.id}" th:text="${article.title}"></a>
+                                            <a th:href="'problem/id=' + ${problem.id}" th:text="${problem.title}"></a>
                                         </td>
                                         <td>
-                                            <block th:text="${article.publishTime}"></block>
+                                            <block th:text="${problem.publishTime}"></block>
                                         </td>
                                         <td>
                                             <block>
-                                                <a id="delete" style="cursor:pointer;" th:url1="'/delete_request/id='+${article.id}">删除</a>
-                                                <a th:href="'/publish/problem_id = ' + ${article.id}">修改</a>
+                                                <a id="delete" style="cursor:pointer;" th:url1="'/delete_request/id='+${problem.id}">删除</a>
+                                                <a th:href="'/publish/problem_id = ' + ${problem.id}">修改</a>
                                             </block>
                                         </td>
 

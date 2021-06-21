@@ -1,8 +1,8 @@
 package judge.controller.request;
 
 import judge.controller.CookiendSession.CookieCheck;
-import judge.dataTransferObject.Article;
-import judge.mapper.ArticleMapper;
+import judge.dataTransferObject.Problem;
+import judge.mapper.ProblemMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,7 +15,7 @@ import java.util.List;
 
 @Controller
 public class BloglistController {
-    @Autowired private ArticleMapper articleMapper;
+    @Autowired private ProblemMapper problemMapper;
     @Autowired private CookieCheck cookieCheck;
 
     @GetMapping({"/","/problem"})
@@ -28,7 +28,7 @@ public class BloglistController {
 
         model=cookieCheck.check(cookies,model);
 
-        List<Article> list=  articleMapper.getAllExceptContent();
+        List<Problem> list=  problemMapper.getAllExceptContent();
         System.out.println(list);
         model.addAttribute("ProblemList",list);
         return "site/problem";

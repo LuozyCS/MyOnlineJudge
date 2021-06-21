@@ -1,6 +1,6 @@
 package judge;
 
-import judge.dataTransferObject.Article;
+import judge.dataTransferObject.Problem;
 import judge.dataTransferObject.Comment;
 import org.springframework.stereotype.Component;
 
@@ -15,49 +15,49 @@ import java.util.List;
     private IndirectCommentsCache()
     {
     }
-    public static void addIfAbsent(Article article, Comment parent, LinkedList<Comment> indirectComments)
+    public static void addIfAbsent(Problem problem, Comment parent, LinkedList<Comment> indirectComments)
     {
-        addIfAbsent(article.getId(), parent.getId(), indirectComments);
+        addIfAbsent(problem.getId(), parent.getId(), indirectComments);
     }
-    public static void addIfAbsent(int articleId, int parentId, LinkedList<Comment> indirectComments)
+    public static void addIfAbsent(int problemId, int parentId, LinkedList<Comment> indirectComments)
     {
-        cache.putIfAbsent(articleId, new HashMap<Integer, LinkedList<Comment>>());
-        cache.get(articleId).putIfAbsent(parentId, indirectComments);
+        cache.putIfAbsent(problemId, new HashMap<Integer, LinkedList<Comment>>());
+        cache.get(problemId).putIfAbsent(parentId, indirectComments);
     }
-    public static boolean contains(Article article, Comment parent)
+    public static boolean contains(Problem problem, Comment parent)
     {
-        return contains(article.getId(), parent.getId());
+        return contains(problem.getId(), parent.getId());
     }
-    public static boolean contains(int articleId, int parentId)
+    public static boolean contains(int problemId, int parentId)
     {
-        HashMap<Integer, LinkedList<Comment>> value = cache.get(articleId);
+        HashMap<Integer, LinkedList<Comment>> value = cache.get(problemId);
         return value != null && value.containsKey(parentId);
     }
-    public static List<Comment> get(Article article, Comment parent)
+    public static List<Comment> get(Problem problem, Comment parent)
     {
-        return get(article.getId(), parent.getId());
+        return get(problem.getId(), parent.getId());
     }
-    public static List<Comment> get(int articleId, int parentId)
+    public static List<Comment> get(int problemId, int parentId)
     {
-        HashMap<Integer, LinkedList<Comment>> value = cache.get(articleId);
+        HashMap<Integer, LinkedList<Comment>> value = cache.get(problemId);
         return value == null ? null : value.get(parentId);
     }
-    public static List<Comment> remove(Article article, Comment parent)
+    public static List<Comment> remove(Problem problem, Comment parent)
     {
-        return remove(article.getId(), parent.getId());
+        return remove(problem.getId(), parent.getId());
     }
-    public static List<Comment> remove(int articleId, int parentId)
+    public static List<Comment> remove(int problemId, int parentId)
     {
-        HashMap<Integer, LinkedList<Comment>> value = cache.get(articleId);
+        HashMap<Integer, LinkedList<Comment>> value = cache.get(problemId);
         return value == null ? null : value.remove(parentId);
     }
-    public static void set(Article article, Comment parent, LinkedList<Comment> indirectComments)
+    public static void set(Problem problem, Comment parent, LinkedList<Comment> indirectComments)
     {
-        set(article.getId(), parent.getId(), indirectComments);
+        set(problem.getId(), parent.getId(), indirectComments);
     }
-    public static void set(int articleId, int parentId, LinkedList<Comment> indirectComments)
+    public static void set(int problemId, int parentId, LinkedList<Comment> indirectComments)
     {
-        cache.putIfAbsent(articleId, new HashMap<Integer, LinkedList<Comment>>());
-        cache.get(articleId).put(parentId, indirectComments);
+        cache.putIfAbsent(problemId, new HashMap<Integer, LinkedList<Comment>>());
+        cache.get(problemId).put(parentId, indirectComments);
     }
 }

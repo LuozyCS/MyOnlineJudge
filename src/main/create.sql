@@ -11,7 +11,7 @@
 --     pwd char(20),
 -- );
 
- --create table article
+ --create table problem
  --(
  --    id int primary key identity(-2147483648, 1),
  --    title varchar(300),
@@ -22,7 +22,7 @@
  --drop table comment;
  --create table comment
  --(
- --    article_id int references article(id) not null,
+ --    article_id int references problem(id) not null,
  --    id int check(id != -1),
  --    publisher_id int references user_information(id) not null,
  --    content nvarchar(500),
@@ -53,24 +53,24 @@
 
 -- select telephone, wechat, nickname, pwd from user_information where telephone = 17860071778
 
--- delete from article;
+-- delete from problem;
 
- --insert into article values('title1', 'content1', getdate(), -2147483648);
- --insert into article values('title2', 'content2', getdate(), -2147483648);
- --insert into article values('title3', 'content3', getdate(), -2147483648);
- --insert into article values('title4', 'content4', getdate(), -2147483648);
- --insert into article values('title5', 'content5', getdate(), -2147483648);
+ --insert into problem values('title1', 'content1', getdate(), -2147483648);
+ --insert into problem values('title2', 'content2', getdate(), -2147483648);
+ --insert into problem values('title3', 'content3', getdate(), -2147483648);
+ --insert into problem values('title4', 'content4', getdate(), -2147483648);
+ --insert into problem values('title5', 'content5', getdate(), -2147483648);
 
- --select * from article;
+ --select * from problem;
 
--- select userid, nickname, article.id, title, convert(char(23), publish_time, 25) pub_time
--- from user_information, article
+-- select userid, nickname, problem.id, title, convert(char(23), publish_time, 25) pub_time
+-- from user_information, problem
 -- where user_information.id = userid
 -- order by publish_time desc
 
 -- publish_time, convert(char(23), publish_time, 121), 
 
--- exec sp_rename 'article.userid', 'publisher_id', 'column'
+-- exec sp_rename 'problem.userid', 'publisher_id', 'column'
 
 -- select user_information.id, nickname, comment.id, content, publish_time
 -- from user_information, (select id, content, publish_time, publisher_id from comment where article_id = -2147483645 and origin_id = id)comment
@@ -83,7 +83,7 @@
         --where user_information.id = publisher_id
         --order by publish_time desc
 
--- select * from article order by publish_time desc, id asc
+-- select * from problem order by publish_time desc, id asc
 
 -- exec sp_rename 'user_information.wechat', 'username', 'column'
 
@@ -96,10 +96,10 @@
 
 -- update user_information set email='180400511@stu.hit.edu.cn'
 
--- alter table article add content nvarchar(4000)
+-- alter table problem add content nvarchar(4000)
 
--- update article set content='content1' where id = -2147483644
+-- update problem set content='content1' where id = -2147483644
 
 select * from user_information
-select * from article
+select * from problem
 select * from comment

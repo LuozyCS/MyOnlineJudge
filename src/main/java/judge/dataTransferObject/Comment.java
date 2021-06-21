@@ -6,7 +6,7 @@ import java.sql.Timestamp;
 
 @Data public class Comment
 {
-    private Article article;
+    private Problem problem;
     private int id;
     private User publisher;
     private String content;
@@ -14,16 +14,16 @@ import java.sql.Timestamp;
     private Comment parent;
     @Override public int hashCode()
     {
-        return id;//(article.getId() << 24) | (id & 0x00ffffff);
+        return id;
     }
     @Override public boolean equals(Object object)
     {
         return object instanceof Comment //同时挡住null
                 && id == ((Comment)object).id
-                && article.getId() == ((Comment)object).article.getId();
+                && problem.getId() == ((Comment)object).problem.getId();
     }
 
-    public boolean equalsInTheSameArticle(Comment comment)
+    public boolean equalsInTheSameProblem(Comment comment)
     {
         return comment != null && id == comment.id;
     }

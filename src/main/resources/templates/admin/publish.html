@@ -33,7 +33,7 @@
             <br>
             <input id="oldid" name="id" style="display:none;"/>
 
-            <div id="article-content">
+            <div id="problem-content">
                 <textarea name="content" id="content" style="display:none" th:text="${oldcontent}"></textarea>
             </div>
 
@@ -53,7 +53,7 @@
         //这是一个最简单的Editormd配置，往后我们要修改Editormd的
         //功能或者样式，就改这里的配置就可以了
         console.log(123);
-        testEditor = editormd("article-content", {
+        testEditor = editormd("problem-content", {
             width: "100%",    // 设置富文本编辑框的宽度
             height: 500,
             syncScrolling: "single",
@@ -73,7 +73,7 @@
             //图片上传
             imageUpload: true,
             imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
-            imageUploadURL: "/article/file/upload", // 文件上传的处理请求！
+            imageUploadURL: "/problem/file/upload", // 文件上传的处理请求！
             onload: function () {
                 console.log('onload', this);
             },

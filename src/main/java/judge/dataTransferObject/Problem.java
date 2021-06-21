@@ -4,7 +4,7 @@ import lombok.Data;
 
 import java.sql.Timestamp;
 
-@Data public class Article
+@Data public class Problem
 {
     private int id;
     private String title, content;
@@ -16,8 +16,8 @@ import java.sql.Timestamp;
     }
     @Override public boolean equals(Object object)
     {
-        return object instanceof Article //同时挡住null; Article null?
-                && id == ((Article)object).id;
+        return object instanceof Problem //同时挡住null; Article null?
+                && id == ((Problem)object).id;
     }
     public String getErrorMessages(){
         StringBuffer result = new StringBuffer();
@@ -36,8 +36,5 @@ import java.sql.Timestamp;
 
         return result.length() == 0 ? null : result.substring(0,result.length() - 1);
     }
-//
-//    public String getErroMessage(){
-//
-//    }
+
 }

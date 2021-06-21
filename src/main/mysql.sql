@@ -7,7 +7,7 @@ create table user_information
     nickname char(32),
     pwd char(20) not null
 );
-create table article
+create table problem
 (
     id int primary key auto_increment,
     title varchar(300),
@@ -17,7 +17,7 @@ create table article
 );
 create table discussion
 (
-    article_id int references article(id),
+    article_id int references problem(id),
     id int check(id != -1),
     publisher_id int references user_information(id),
     content nvarchar(500),

@@ -6,8 +6,8 @@
         <result property="content" column="content"/>
         <result property="publishTime" column="publish_time"/>
 
-        <association property="article" javaType="Article">
-            <result property="id" column="article_id"/>
+        <association property="problem" javaType="Problem">
+            <result property="id" column="problem_id"/>
         </association>
 
         <association property="publisher" javaType="User">
@@ -20,11 +20,11 @@
     </resultMap>
 
     <select id="getComments" resultMap="CommentMap">
-        select publisher_id, comment.id, content, publish_time, article_id
+        select publisher_id, comment.id, content, publish_time, problem_id
             <if test="origin_id != -1">, parent_id</if>
-        from user_information, (select id, content, publish_time, publisher_id, article_id
+        from user_information, (select id, content, publish_time, publisher_id, problem_id
             <if test="origin_id != -1">, parent_id</if>
-            from discussion where article_id = #{article_id} and origin_id = #{origin_id})comment
+            from discussion where problem_id = #{problem_id} and origin_id = #{origin_id})comment
         where user_information.id = publisher_id
         order by publish_time desc
     </select>
@@ -32,17 +32,17 @@
     <insert id="publishComment">
         start transaction;
             set @next_id = null;
-            select max(id) + 1 into @next_id from discussion where article_id = #{article_id};
-            insert into discussion(article_id, id, publisher_id, content, publish_time, origin_id, parent_id)
-                values(#{article_id}, ifnull(@next_id, 1), #{publisher_id}, #{content}, now(), #{origin_id}, #{parent_id});
+            select max(id) + 1 into @next_id from discussion where problem_id = #{problem_id};
+            insert into discussion(problem_id, id, publisher_id, content, publish_time, origin_id, parent_id)
+                values(#{problem_id}, ifnull(@next_id, 1), #{publisher_id}, #{content}, now(), #{origin_id}, #{parent_id});
         commit;
     </insert>
 
     <select id="getOriginId" resultType="int">
-        select origin_id from discussion where id = #{id} and article_id = #{article_id}
+        select origin_id from discussion where id = #{id} and problem_id = #{problem_id}
     </select>
 
     <update id="clearComment">
-        update discussion set content = null where id = #{id} and article_id = #{article_id}
+        update discussion set content = null where id = #{id} and problem_id = #{problem_id}
     </update>
 </mapper>

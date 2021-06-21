@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="judge.mapper.ArticleMapper">
-    <resultMap id="ArticleMap" type="Article">
+<mapper namespace="judge.mapper.ProblemMapper">
+    <resultMap id="ProblemMap" type="Problem">
         <result property="id" column="id"/>
         <result property="title" column="title"/>
         <result property="publishTime" column="publish_time"/>
@@ -11,43 +11,43 @@
         </association>
     </resultMap>
 
-    <select id="getAllExceptContent" resultMap="ArticleMap">
-        select publisher_id, article.id, title, publish_time
-        from user_information, article
+    <select id="getAllExceptContent" resultMap="ProblemMap">
+        select publisher_id, problem.id, title, publish_time
+        from user_information, problem
         where user_information.id = publisher_id
         order by publish_time desc
     </select>
 
 
-    <select id="getAllExceptContent_ByPublisherId" resultMap="ArticleMap" parameterType="int">
+    <select id="getAllExceptContent_ByPublisherId" resultMap="ProblemMap" parameterType="int">
         select id, title, publish_time
-        from article
+        from problem
         where publisher_id=#{publisherId}
         order by publish_time desc
     </select>
 
-    <delete id="deleteArticle" parameterType="int">
+    <delete id="deleteProblem" parameterType="int">
         delete
-        from article
-        where id = #{articleId}
+        from problem
+        where id = #{problemId}
     </delete>
 
     <select id="getContent" resultType="String" parameterType="int">
-        select content from article where id = #{articleId}
+        select content from problem where id = #{problemId}
     </select>
 
     <select id="getPublisher" resultType="int" parameterType="int">
-        select publisher_id from article where id = #{articleId}
+        select publisher_id from problem where id = #{problemId}
     </select>
 
     <select id="getTitle" resultType="String" parameterType="int">
-        select title from article where id=#{articleId}
+        select title from problem where id=#{problemId}
     </select>
-    <insert id="insertArticle" parameterType="Article">
-        insert into article(title,content,publish_time,publisher_id) values(#{title},#{content},now(),#{publisher.id})
+    <insert id="insertProblem" parameterType="Problem">
+        insert into problem(title,content,publish_time,publisher_id) values(#{title},#{content},now(),#{publisher.id})
     </insert>
-    <update id="updateArticle" parameterType="Article">
-        update article set content=#{content} where id=#{id}
+    <update id="updateProblem" parameterType="Problem">
+        update problem set content=#{content} where id=#{id}
     </update>
 </mapper>
 

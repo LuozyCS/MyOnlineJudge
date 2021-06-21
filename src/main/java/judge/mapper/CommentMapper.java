@@ -10,14 +10,14 @@ import java.util.List;
 @Mapper @Repository
 public interface CommentMapper
 {
-    List<Comment> getComments(@Param("article_id")final int articleId, @Param("origin_id")final int originId);
-    default List<Comment> getDirectComments(int articleId)
+    List<Comment> getComments(@Param("problem_id")final int problemId, @Param("origin_id")final int originId);
+    default List<Comment> getDirectComments(int problemId)
     {
-        return getComments(articleId, -1);
+        return getComments(problemId, -1);
     }
-    int publishComment(@Param("article_id")final int articleId, @Param("publisher_id")final int publisherId
+    int publishComment(@Param("problem_id")final int problemId, @Param("publisher_id")final int publisherId
             , @Param("origin_id")final int originId, @Param("parent_id")final int parentId
             , @Param("content")final String content);
-    int getOriginId(@Param("article_id")final int articleId, @Param("id")final int id);
-    void clearComment(@Param("article_id")final int articleId, @Param("id")final int id);
+    int getOriginId(@Param("problem_id")final int problemId, @Param("id")final int id);
+    void clearComment(@Param("problem_id")final int problemId, @Param("id")final int id);
 }

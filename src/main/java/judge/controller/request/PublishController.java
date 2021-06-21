@@ -1,9 +1,9 @@
 package judge.controller.request;
 
 import judge.controller.CookiendSession.CookieCheck;
-import judge.dataTransferObject.Article;
+import judge.dataTransferObject.Problem;
 import judge.dataTransferObject.User;
-import judge.mapper.ArticleMapper;
+import judge.mapper.ProblemMapper;
 import judge.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -18,25 +18,25 @@ import javax.servlet.http.HttpServletRequest;
 @Component
 public class PublishController {
     @Autowired
-    private ArticleMapper articleMapper;
+    private ProblemMapper problemMapper;
     @Autowired
     private UserMapper userMapper;
     @Autowired
     private CookieCheck cookieCheck;
     @PostMapping("/addProblem")
-    public String addArticle(
-            Article article
+    public String addProblem(
+            Problem problem
             , HttpServletRequest request
             , Model model
     ){
         Cookie[] cookies = request.getCookies();
         cookieCheck.check(cookies,model);
         User user=(User)model.getAttribute("User");
-        article.setPublisher(user);
+        problem.setPublisher(user);
 
-        String ErrorMessages=article.getErrorMessages();
+        String ErrorMessages= problem.getErrorMessages();
         if (ErrorMessages==null)
-            articleMapper.insertArticle(article);
+            problemMapper.insertProblem(problem);
         else
             model.addAttribute("failed",ErrorMessages);
 
@@ -44,19 +44,19 @@ public class PublishController {
     }
 
     @PostMapping("/updateProblem")
-    public String updateArticle(
-            Article article
+    public String updateProblem(
+            Problem problem
             , HttpServletRequest request
             , Model model
     ){
 
         User user=(User)model.getAttribute("User");
 
-        article.setPublisher(user);
+        problem.setPublisher(user);
 
-        String ErrorMessages=article.getErrorMessages();
+        String ErrorMessages= problem.getErrorMessages();
         if( ErrorMessages==null || (ErrorMessages.isEmpty()) )
-            articleMapper.updateArticle(article);
+            problemMapper.updateProblem(problem);
         else
             model.addAttribute("failed",ErrorMessages);
 
@@ -65,13 +65,13 @@ public class PublishController {
     }
 
     @RequestMapping("/publish/problem_id = {id}")
-    public String modifyArticle(
+    public String modifyProblem(
             @PathVariable("id") final int id
             , Model model
     )
     {
 
-        model.addAttribute("oldcontent",articleMapper.getContent(id));
+        model.addAttribute("oldcontent", problemMapper.getContent(id));
         model.addAttribute("oldid",id);
         return "admin/publish";
     }

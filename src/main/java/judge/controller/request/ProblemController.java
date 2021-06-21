@@ -2,7 +2,7 @@ package judge.controller.request;
 
 import judge.controller.CookiendSession.CookieCheck;
 import judge.dataTransferObject.Comment;
-import judge.mapper.ArticleMapper;
+import judge.mapper.ProblemMapper;
 import judge.mapper.CommentMapper;
 import judge.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,15 +16,15 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
-public class ArticleController
+public class ProblemController
 {
 
     @Autowired private UserMapper userMapper;
-    @Autowired private ArticleMapper articleMapper;
+    @Autowired private ProblemMapper problemMapper;
     @Autowired private CommentMapper commentMapper;
     @Autowired private CookieCheck cookieCheck;
     @GetMapping("/problem/id={id}")
-    public String article(
+    public String problem(
             @PathVariable("id") int id
             , Model model
             , HttpServletRequest request)
@@ -33,9 +33,9 @@ public class ArticleController
 
         model=cookieCheck.check(cookies,model);
 //        System.out.println(((User)model.getAttribute("User")).getId());
-//        System.out.println("article controller " + id);
-        model.addAttribute("ProblemContent", articleMapper.getContent(id));
-        model.addAttribute("ProblemTitle",articleMapper.getTitle(id));
+//        System.out.println("problem controller " + id);
+        model.addAttribute("ProblemContent", problemMapper.getContent(id));
+        model.addAttribute("ProblemTitle", problemMapper.getTitle(id));
         model.addAttribute("ProblemId",id);
         List<Comment> directComments = commentMapper.getDirectComments(id);
         model.addAttribute("DirectComments", directComments);

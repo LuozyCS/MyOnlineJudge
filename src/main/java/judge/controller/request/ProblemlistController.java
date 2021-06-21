@@ -1,9 +1,9 @@
 package judge.controller.request;
 
 import judge.controller.CookiendSession.CookieCheck;
-import judge.dataTransferObject.Article;
+import judge.dataTransferObject.Problem;
 import judge.dataTransferObject.User;
-import judge.mapper.ArticleMapper;
+import judge.mapper.ProblemMapper;
 import judge.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,13 +17,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @Controller
-public class ArticlelistController {
+public class ProblemlistController {
     @Autowired private UserMapper userMapper;
-    @Autowired private ArticleMapper articleMapper;
+    @Autowired private ProblemMapper problemMapper;
     @Autowired private CookieCheck cookieCheck;
 
     @GetMapping("/admin_problem_list")
-    public String articlelist(Model model,
+    public String problemlist(Model model,
                               HttpServletResponse response,
                               HttpServletRequest request
                               )
@@ -39,10 +39,10 @@ public class ArticlelistController {
 
 
         int tmpPublisherId=user.getId();
-        List<Article> userArticleList=articleMapper.getAllExceptContent_ByPublisherId(tmpPublisherId);
-        model.addAttribute("Problems",userArticleList);
+        List<Problem> userProblemList = problemMapper.getAllExceptContent_ByPublisherId(tmpPublisherId);
+        model.addAttribute("Problems", userProblemList);
 
-        for(Article a: userArticleList){
+        for(Problem a: userProblemList){
             System.out.println(a.getTitle());
         }
 
@@ -50,15 +50,13 @@ public class ArticlelistController {
 
 
 
-//        List<Article> list_0=  articleMapper.getAllExceptContent();
-//        System.out.println(list_0);
-//        model.addAttribute("ArticleList",list_0);
+
 
 
     }
 
     //用于删除文章的controller
-    @GetMapping("/delete_request/id={id}") public String deleteArticle(
+    @GetMapping("/delete_request/id={id}") public String deleteProblem(
             @PathVariable("id") int id,
             Model model,
             HttpServletResponse response,
@@ -68,8 +66,8 @@ public class ArticlelistController {
         cookieCheck.check(cookies,model);
         User user=(User) model.getAttribute("User");
 
-    if(user.getId()==articleMapper.getPublisher(id)) {
-        articleMapper.deleteArticle(id);
+    if(user.getId()== problemMapper.getPublisher(id)) {
+        problemMapper.deleteProblem(id);
     }
         return "admin/admin_problem_list";
     }
