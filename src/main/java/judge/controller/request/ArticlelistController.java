@@ -1,16 +1,15 @@
-package blog.controller.request;
+package judge.controller.request;
 
-import blog.controller.CookiendSession.CookieCheck;
-import blog.dataTransferObject.Article;
-import blog.dataTransferObject.User;
-import blog.mapper.ArticleMapper;
-import blog.mapper.UserMapper;
+import judge.controller.CookiendSession.CookieCheck;
+import judge.dataTransferObject.Article;
+import judge.dataTransferObject.User;
+import judge.mapper.ArticleMapper;
+import judge.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.thymeleaf.util.StringUtils;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;

@@ -1,7 +1,7 @@
-package blog;
+package judge;
 
-import blog.dataTransferObject.Article;
-import blog.dataTransferObject.Comment;
+import judge.dataTransferObject.Article;
+import judge.dataTransferObject.Comment;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;

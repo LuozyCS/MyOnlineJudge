@@ -1,7 +1,7 @@
-package blog.controller.object;
+package judge.controller.object;
 
-import blog.mapper.UserMapper;
-import blog.dataTransferObject.User;
+import judge.mapper.UserMapper;
+import judge.dataTransferObject.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

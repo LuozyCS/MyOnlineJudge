@@ -1,8 +1,7 @@
-package blog.controller.request;
+package judge.controller.request;
 
-import blog.controller.CookiendSession.CookieCheck;
-import blog.dataTransferObject.User;
-import blog.mapper.UserMapper;
+import judge.dataTransferObject.User;
+import judge.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,9 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 
 @Controller public class LoginController
 {

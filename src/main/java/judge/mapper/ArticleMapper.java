@@ -1,6 +1,6 @@
-package blog.mapper;
+package judge.mapper;
 
-import blog.dataTransferObject.Article;
+import judge.dataTransferObject.Article;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 

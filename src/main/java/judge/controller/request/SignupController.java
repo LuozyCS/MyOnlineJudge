@@ -1,7 +1,7 @@
-package blog.controller.request;
+package judge.controller.request;
 
-import blog.dataTransferObject.User;
-import blog.mapper.UserMapper;
+import judge.dataTransferObject.User;
+import judge.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;

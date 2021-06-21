@@ -1,4 +1,4 @@
-package blog.dataTransferObject;
+package judge.dataTransferObject;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;//不会提供无参构造！

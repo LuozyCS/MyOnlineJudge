@@ -1,14 +1,13 @@
-package blog;
+package judge;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.io.*;
 
-@SpringBootApplication @MapperScan("blog.mapper")
-public class BlogApplication implements WebMvcConfigurer
+@SpringBootApplication @MapperScan("judge.mapper")
+public class JudgeApplication
 {
 	public static void main(String[] args) throws IOException {
 
@@ -29,6 +28,6 @@ public class BlogApplication implements WebMvcConfigurer
 //		}
 //
 //		System.out.println(sb.toString());
-		SpringApplication.run(BlogApplication.class, args);
+		SpringApplication.run(JudgeApplication.class, args);
 	}
 }

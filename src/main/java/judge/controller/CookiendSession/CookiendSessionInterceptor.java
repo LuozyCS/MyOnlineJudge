@@ -1,7 +1,7 @@
-package blog.controller.CookiendSession;
+package judge.controller.CookiendSession;
 
-import blog.dataTransferObject.User;
-import blog.mapper.UserMapper;
+import judge.dataTransferObject.User;
+import judge.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.HandlerInterceptor;

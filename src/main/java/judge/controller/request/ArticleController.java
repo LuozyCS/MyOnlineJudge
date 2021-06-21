@@ -1,13 +1,11 @@
-package blog.controller.request;
+package judge.controller.request;
 
-import blog.controller.CookiendSession.CookieCheck;
-import blog.dataTransferObject.Comment;
-import blog.dataTransferObject.User;
-import blog.mapper.ArticleMapper;
-import blog.mapper.CommentMapper;
-import blog.mapper.UserMapper;
+import judge.controller.CookiendSession.CookieCheck;
+import judge.dataTransferObject.Comment;
+import judge.mapper.ArticleMapper;
+import judge.mapper.CommentMapper;
+import judge.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

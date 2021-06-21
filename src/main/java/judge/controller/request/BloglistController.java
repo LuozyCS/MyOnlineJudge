@@ -1,8 +1,8 @@
-package blog.controller.request;
+package judge.controller.request;
 
-import blog.controller.CookiendSession.CookieCheck;
-import blog.dataTransferObject.Article;
-import blog.mapper.ArticleMapper;
+import judge.controller.CookiendSession.CookieCheck;
+import judge.dataTransferObject.Article;
+import judge.mapper.ArticleMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

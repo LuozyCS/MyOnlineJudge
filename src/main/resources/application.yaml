@@ -33,7 +33,7 @@ spring:
 
 #spring.mvc.servlet.load-on-startup: 0
 mybatis:
-  type-aliases-package: blog.dataTransferObject
+  type-aliases-package: judge.dataTransferObject
   mapper-locations: classpath:mapper/*Mapper.xml
 #mvc: default-servlet-handler
 

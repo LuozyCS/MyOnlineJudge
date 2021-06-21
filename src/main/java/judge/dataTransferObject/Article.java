@@ -1,4 +1,4 @@
-package blog.dataTransferObject;
+package judge.dataTransferObject;
 
 import lombok.Data;
 
