@@ -32,11 +32,12 @@ spring:
 #  connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
 
 #spring.mvc.servlet.load-on-startup: 0
-
 mybatis:
   type-aliases-package: blog.dataTransferObject
   mapper-locations: classpath:mapper/*Mapper.xml
 #mvc: default-servlet-handler
 
 #org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+server:
+  port: 27017
 #  blog.controller.CookiendSession.CookieCheck

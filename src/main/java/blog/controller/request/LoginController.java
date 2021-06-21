@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 @Controller public class LoginController
 {
@@ -21,8 +24,7 @@ import javax.servlet.http.HttpServletResponse;
             , @RequestParam(value = "email", required = false) final String email
             , @RequestParam("pwd") final String password
             , final HttpServletResponse response
-            , final Model model)
-    {
+            , final Model model) throws IOException {
         System.out.printf("request to login: username = %s, email = %s, password = %s\n", username, email, password);
         User user = email == null ?
                 userMapper.getUserByUsername(username) : userMapper.getUserByEmail(email);
@@ -44,6 +46,10 @@ import javax.servlet.http.HttpServletResponse;
         cookie2.setPath("/");
         response.addCookie(cookie1);
         response.addCookie(cookie2);
+
+        /////////////////////////////////////////////
+
+        /////////////////////////////////////////////
         return "redirect:blog";
 //        request.setAttribute("isLogin", username);
 //        request.getSession().setAttribute("isLogin",username);

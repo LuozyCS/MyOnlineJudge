@@ -20,6 +20,7 @@ import java.util.List;
 @Controller
 public class ArticleController
 {
+
     @Autowired private UserMapper userMapper;
     @Autowired private ArticleMapper articleMapper;
     @Autowired private CommentMapper commentMapper;
