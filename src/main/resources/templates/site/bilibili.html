@@ -241,7 +241,7 @@
                     var params = {
                         "content": content,
                         "parentid": parentid,
-                        "articleid": [[${ArticleId}]]
+                        "problemid": [[${ProblemId}]]
                     };
                     $.ajax({
                         type:"post",
@@ -270,7 +270,7 @@
                     "content": content,
                     "originid": "-1",
                     "parentid": "-1",
-                    "articleid": [[${ArticleId}]]
+                    "problemid": [[${ProblemId}]]
                 };
                 $.ajax({
                     type: "post",
@@ -295,7 +295,7 @@
                 if(con){
                     var id = $(this).attr("name");
                     var params = {
-                        "articleid": [[${ArticleId}]],
+                        "problemid": [[${ProblemId}]],
                         "id": id
                     };
                     $.ajax({
@@ -325,28 +325,8 @@
                 }
             })
             $(document).on("click",".down",function(){
-                window.location.href = "indirect comments of comment " + $(this).attr("name") + " in article " + [[${ArticleId}]]
-                //$(this).hide()
-                //$(this).sublings(".up").show()
+                window.location.href = "indirect comments of comment " + $(this).attr("name") + " in problem " + [[${ProblemId}]]
 
-                /*var params = {
-                    "articleid": [[${ArticleId}]],
-                    "id": $(this).attr("name")
-                }
-                $.ajax({
-                     type:"get",
-                     ansyv:true,
-                     data:params,
-                     datatype:"json",
-                     url:"/comment/indirect comments",
-                     success:function(data){
-                         console.log("success")
-                         $("#footer-body").load(location.href+" .bb-comment")
-                     },
-                     error:function(){
-                        console.log("error")
-                     }
-                })*/
             })
         })
 

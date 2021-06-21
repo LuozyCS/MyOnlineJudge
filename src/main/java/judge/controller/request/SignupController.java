@@ -49,7 +49,7 @@ import java.util.regex.Pattern;
                 if (message == null)
                 {
                     model.addAttribute("failed", "未知错误");
-                    return "admin/signup";
+                    return "site/signup";
                 }
                 Matcher matcher = pattern.matcher(message);
                 if (matcher.find())
@@ -57,17 +57,17 @@ import java.util.regex.Pattern;
                     if ("email".equals(matcher.group(2)))
                     {
                         model.addAttribute("failed", "邮箱" + matcher.group(1) + "已被注册");
-                        return "admin/signup";
+                        return "site/signup";
                     }
                     if ("username".equals(matcher.group(2)))
                     {
                         model.addAttribute("failed", "用户名\"" + matcher.group(1) + "\"已存在");
-                        return "admin/signup";
+                        return "site/signup";
                     }
                 } else
                 {
                     model.addAttribute("failed", "未知错误");
-                    return "admin/signup";
+                    return "site/signup";
                 }
 //                String sqlState = ((SQLIntegrityConstraintViolationException)cause).getSQLState();
 //                if ("23000".equals(sqlState))

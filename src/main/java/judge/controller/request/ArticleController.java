@@ -23,7 +23,7 @@ public class ArticleController
     @Autowired private ArticleMapper articleMapper;
     @Autowired private CommentMapper commentMapper;
     @Autowired private CookieCheck cookieCheck;
-    @GetMapping("/article/id={id}")
+    @GetMapping("/problem/id={id}")
     public String article(
             @PathVariable("id") int id
             , Model model
@@ -34,15 +34,15 @@ public class ArticleController
         model=cookieCheck.check(cookies,model);
 //        System.out.println(((User)model.getAttribute("User")).getId());
 //        System.out.println("article controller " + id);
-        model.addAttribute("ArticleContent", articleMapper.getContent(id));
-        model.addAttribute("ArticleTitle",articleMapper.getTitle(id));
-        model.addAttribute("ArticleId",id);
+        model.addAttribute("ProblemContent", articleMapper.getContent(id));
+        model.addAttribute("ProblemTitle",articleMapper.getTitle(id));
+        model.addAttribute("ProblemId",id);
         List<Comment> directComments = commentMapper.getDirectComments(id);
         model.addAttribute("DirectComments", directComments);
         for (Comment comment : directComments)
             comment.setPublisher(userMapper.getUserById(comment.getPublisher().getId()));
 
 //        System.err.println(model.getAttribute("Comments"));
-        return "site/blog-details";
+        return "site/problem-details";
     }
 }

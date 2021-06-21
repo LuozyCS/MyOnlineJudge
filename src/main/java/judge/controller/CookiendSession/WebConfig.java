@@ -37,24 +37,24 @@ public class WebConfig implements WebMvcConfigurer {
                         "/**/*.js",
                         "/**/*.css",
                         "/**/*.jpg", "/**/*.png",
-                        "/blog",
+                        "/problem",
                         "/signup", "/sign_up",
                         "/login", "/login_request",
-                        "/article/id=*");
+                        "/admin_login", "/admin_login_request",
+                        "/problem/id=*");
     }
 
     @Override public void addViewControllers(ViewControllerRegistry registry)
     {
         registry.addViewController("login").setViewName("site/login");
-//        registry.addViewController("login1").setViewName("site/login(1)");
-        registry.addViewController("edit").setViewName("admin/page_edit");
+        registry.addViewController("admin_login").setViewName("site/admin_login");
+//        registry.addViewController("edit").setViewName("admin/page_edit");
         registry.addViewController("list").setViewName("admin/page_list");
         registry.addViewController("comments").setViewName("admin/comment_list");
         registry.addViewController("admin/index").setViewName("admin/index");
-        registry.addViewController("admin/category").setViewName("admin/category");
-        registry.addViewController("article").setViewName("admin/article_list");
-        registry.addViewController("signup").setViewName("admin/signup");
-        registry.addViewController("signup1").setViewName("site/signup(1)");
+//        registry.addViewController("admin/category").setViewName("admin/category");
+        registry.addViewController("admin_problem_list").setViewName("admin/admin_problem_list");//管理员发布过的题目
+        registry.addViewController("signup").setViewName("site/signup");
         registry.addViewController("publish").setViewName("admin/publish");
     }
 }

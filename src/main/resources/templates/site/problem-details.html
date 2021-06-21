@@ -41,12 +41,12 @@ font-size: larger;color: blue;" th:text="'Hello, ' + ${LoginName}" th:if="${Logi
                 <header role="bog-header" class="bog-header text-center" style="text-align:center;">
 
                     <h2>
-                        <th:block th:text="${ArticleTitle}"></th:block>
+                        <th:block th:text="${ProblemTitle}"></th:block>
                     </h2>
                     <div class="m-text ui attached padded segment">
                         <div class="typo typo-selection">
                             <div id="test-editormd-view">
-                                <textarea id="append-test" style="display:none;">[[${ArticleContent}]]</textarea>
+                                <textarea id="append-test" style="display:none;">[[${ProblemContent}]]</textarea>
                             </div>
                         </div>
                     </div>

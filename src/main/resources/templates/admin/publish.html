@@ -3,8 +3,8 @@
 
 <head>
     <meta charset="UTF-8">
-    <title th:if="${!#strings.isEmpty(oldcontent)}">文章修改</title>
-    <title th:if="${#strings.isEmpty(oldcontent)}">文章发布</title>
+    <title th:if="${!#strings.isEmpty(oldcontent)}">题目修改</title>
+    <title th:if="${#strings.isEmpty(oldcontent)}">题目发布</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
@@ -20,26 +20,19 @@
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
     <strong>Warning!</strong> <p th:text="${failed}" />
 </div>
-<h1 style="text-align: center">文章发布</h1>
+<h1 style="text-align: center">题目发布</h1>
 <div class="panel panel-default" style="width: 90%;margin: auto;">
     <div class="panel-body">
-        <!--博客表单-->
+        <!--题目表单-->
         <form name="mdEditorForm">
-            <!-- 文章的标题 -->
+            <!-- 题目的标题 -->
             <div class="input-group input-group-lg" >
                 <span class="input-group-addon" id="sizing-addon1">标题</span>
                 <input type="text" class="form-control" placeholder="请输入标题" aria-describedby="sizing-addon1" name="title" autocomplete="off" required/>
             </div>
             <br>
             <input id="oldid" name="id" style="display:none;"/>
-            <!-- 文章的作者 -->
-<!--            <div class="input-group input-group-lg ">-->
-<!--                <span class="input-group-addon" id="sizing-addon2">作者</span>-->
-<!--                <input type="text" class="form-control" placeholder="请输入作者" aria-describedby="sizing-addon2" name="author" autocomplete="off" required>-->
-<!--            </div>-->
-<!--            <br>-->
-            <!-- 文章的主体内容 textarea -->
-            <!--富文本编辑器以 id="article-content" 为定位点 -->
+
             <div id="article-content">
                 <textarea name="content" id="content" style="display:none" th:text="${oldcontent}"></textarea>
             </div>
@@ -112,10 +105,10 @@
                     if([[${oldcontent}]]==null)
                         {
                         $("#oldid").val(0);
-                        mdEditorForm.action = "/addArticle";//提交至服务器的路径
+                        mdEditorForm.action = "/addProblem";//提交至服务器的路径
                     }else{
                         $("#oldid").val([[${oldid}]]);
-                        mdEditorForm.action = "/updateArticle";//提交至服务器的路径
+                        mdEditorForm.action = "/updateProblem";//提交至服务器的路径
                     }
                     mdEditorForm.submit();
                 },

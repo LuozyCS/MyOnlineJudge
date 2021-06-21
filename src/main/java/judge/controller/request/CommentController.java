@@ -26,22 +26,17 @@ import java.util.List;
 
 //    @ResponseBody
 //    @RequestMapping("/comment/indirect comments")
-    @RequestMapping("/article/indirect comments of comment {comment_id} in article {article_id}")
+    @RequestMapping("/problem/indirect comments of comment {comment_id} in problem {problem_id}")
     public String getIndirectMappers(
             @PathVariable("comment_id") final int commentId
-            , @PathVariable("article_id") final int articleId
+            , @PathVariable("problem_id") final int articleId
             , RedirectAttributesModelMap model
-//            Model model
             , HttpServletRequest request) throws IOException
     {
-//        final int commentId = Integer.parseInt(request.getParameter("id"));
-//        final int articleId = Integer.parseInt(request.getParameter("articleid"));
-//        HashMap<String, Object> data = new HashMap<String, Object>(2);
-//        data.put("origin_id", commentId);
+
         model.addFlashAttribute("origin_id", commentId);
         List<Comment> comments = commentMapper.getComments(articleId, commentId);
-//        System.out.println(comments);
-//        data.put("Comments", comments);
+
         model.addFlashAttribute("Comments", comments);
         for (Comment comment : comments)
         {
@@ -53,18 +48,15 @@ import java.util.List;
                     break;
                 }
         }
-//        response.getWriter().write(new JSONObject(data).toString());
-//        request.setAttribute("origin_id", commentId);
-//        request.setAttribute("Comments", comments);
-//        System.err.println(new JSONObject(data));
-        return "redirect:/article/id="+articleId;
+
+        return "redirect:/problem/id="+articleId;
     }
 
     @RequestMapping({"comment/first","comment/second"})
     public String publishComment(Model model, HttpServletRequest request)
     {
         cookieCheck.check(request.getCookies(), model);
-        final int articleId = Integer.parseInt(request.getParameter("articleid"));
+        final int articleId = Integer.parseInt(request.getParameter("problemid"));
         final int parentId = Integer.parseInt(request.getParameter("parentid"));
         final int originIdOfParent = parentId == -1 ? -2 : commentMapper.getOriginId(articleId, parentId);
 
@@ -72,12 +64,12 @@ import java.util.List;
         if (content == null || content.isEmpty())
         {
             model.addAttribute("comment error", "评论不能为空");
-            return "site/blog-details";
+            return "site/problem-details";
         }
         else if (content.length() > 500)
         {
             model.addAttribute("comment error", "评论不能超过500字\n");
-            return "site/blog-details";
+            return "site/problem-details";
         }
 
         commentMapper.publishComment(
@@ -93,7 +85,7 @@ import java.util.List;
         for (Comment comment : directComments)
             comment.setPublisher(userMapper.getUserById(comment.getPublisher().getId()));
 
-        return "site/blog-details";
+        return "site/problem-details";
     }
 
     @RequestMapping("comment/third")
@@ -101,13 +93,13 @@ import java.util.List;
     {
 //        cookieCheck.check(request.getCookies(), model);
 //        if (((String)(model.getAttribute("LoginName"))).equals(request.getParameter("username")))
-        final int articleId = Integer.parseInt(request.getParameter("articleid"));
+        final int articleId = Integer.parseInt(request.getParameter("problemid"));
         commentMapper.clearComment(articleId, Integer.parseInt(request.getParameter("id")));
         List<Comment> directComments = commentMapper.getDirectComments(articleId);
         System.out.println(directComments);
         model.addAttribute("DirectComments", directComments);
         for (Comment comment : directComments)
             comment.setPublisher(userMapper.getUserById(comment.getPublisher().getId()));
-        return "site/blog-details";
+        return "site/problem-details";
     }
 }

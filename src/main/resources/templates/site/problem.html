@@ -1,0 +1,107 @@
+<!DOCTYPE HTML>
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!--<div th:replace="site/head::head(${commons.site_title()},${commons.google_site_verification()}, ${commons.baidu_site_verification()})"></div>-->
+<header>
+    <link rel="stylesheet" href="site/css/style.css">
+    <link rel="stylesheet" href="site/css/style.min.css">
+    <link rel="stylesheet" href="site/css/bootstrap.min.css">
+    <link rel="stylesheet" href="site/css/responsive.css">
+    <link rel="stylesheet" href="site/css/effects/set2.css">
+    <link rel="stylesheet" href="site/css/effects/normalize.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+</header>
+
+<body>
+
+
+    <main role="main-inner-wrapper" class="container">
+
+
+        <div class="row">
+
+            <!-- Left -->
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+
+                <article role="pge-title-content" class="OJ-header" style="height:350px;">
+
+                    <header>
+
+                        <h2><span>Online Judge</span></h2>
+
+                    </header>
+
+                    <p>For C++ and C.</p>
+
+                </article>
+
+                <ul class="grid-lod effect-2" id="grid">
+                    <th:block th:each="problem: ${ProblemList}">
+
+
+                            <li style="list-style:none;">
+                                <section class="blog-content">
+                                    <a th:href="'problem/id=' + ${problem.id}">
+                                        <figure>
+                                            <!--                                        <div style="width:20px;height:10px;background-color:blue;">1</div>-->
+                                            <img src="admin/images/bg/1.png" alt="" class="img-responsive" />
+                                        </figure>
+                                    </a>
+                                    <!-- 如果不想要图片，可以直接把article，放到a里 -->
+                                    <article>
+                                        <block th:text="${problem.title}"></block>
+                                    </article>
+                                </section>
+                            </li>
+
+                    </th:block>
+                </ul>
+            </div>
+
+
+            <!-- right -->
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                <div style="height:20px;"></div>
+                <ul class="nav" style="position: absolute;right:0px;width:200px;">
+                    <li style="list-style:none;">
+                        <a title="个人界面" href="/login" style="text-decoration: none;
+font-size: larger;color: blue;text-align:center;" th:text="'Hello, ' + ${LoginName}" th:if="${LoginName} != null"></a>
+                        <ul>
+                            <li style="list-style:none;text-align:center;">
+                                <a href="/list" style="text-decoration: none;color:black;">管理界面</a>
+                            </li>
+                            <li style="list-style:none;text-align:center;">
+                                <a href="/login" style="text-decoration: none;color:black;">退出登陆</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <div style="text-align: right;">
+                    <a th:text="您未登录" th:if="${LoginName} == null" style="text-align: right;font-size: larger;color: orangered;text-decoration: none;" href="/login"></a>
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </main>
+
+
+
+</body>
+<script>
+    $(function(){
+    $(".nav>li").children("ul").hide();
+            $(".nav>li").mouseover(function() {
+                $(this).children("ul").show();
+            });
+            $(".nav>li").mouseout(function() {
+                $(this).children("ul").hide();
+            })
+            //$("")
+    })
+</script>
+</html>

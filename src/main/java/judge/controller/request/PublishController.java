@@ -23,7 +23,7 @@ public class PublishController {
     private UserMapper userMapper;
     @Autowired
     private CookieCheck cookieCheck;
-    @PostMapping("/addArticle")
+    @PostMapping("/addProblem")
     public String addArticle(
             Article article
             , HttpServletRequest request
@@ -40,10 +40,10 @@ public class PublishController {
         else
             model.addAttribute("failed",ErrorMessages);
 
-        return "redirect:/article";
+        return "redirect:/admin_problem_list";
     }
 
-    @PostMapping("/updateArticle")
+    @PostMapping("/updateProblem")
     public String updateArticle(
             Article article
             , HttpServletRequest request
@@ -61,10 +61,10 @@ public class PublishController {
             model.addAttribute("failed",ErrorMessages);
 
 
-        return "redirect:/article";
+        return "redirect:/admin_problem_list";
     }
 
-    @RequestMapping("/publish/article_id = {id}")
+    @RequestMapping("/publish/problem_id = {id}")
     public String modifyArticle(
             @PathVariable("id") final int id
             , Model model

@@ -18,7 +18,7 @@ public class BloglistController {
     @Autowired private ArticleMapper articleMapper;
     @Autowired private CookieCheck cookieCheck;
 
-    @GetMapping({"/","/blog"})
+    @GetMapping({"/","/problem"})
     public String blog(Model model,
                        HttpServletResponse response,
                        HttpServletRequest request)
@@ -30,8 +30,8 @@ public class BloglistController {
 
         List<Article> list=  articleMapper.getAllExceptContent();
         System.out.println(list);
-        model.addAttribute("ArticleList",list);
-        return "site/blog";
+        model.addAttribute("ProblemList",list);
+        return "site/problem";
     }
 //    System.getProperty("user.dir");
 }

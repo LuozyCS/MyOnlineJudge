@@ -22,7 +22,7 @@ public class ArticlelistController {
     @Autowired private ArticleMapper articleMapper;
     @Autowired private CookieCheck cookieCheck;
 
-    @GetMapping("/article")
+    @GetMapping("/admin_problem_list")
     public String articlelist(Model model,
                               HttpServletResponse response,
                               HttpServletRequest request
@@ -40,13 +40,13 @@ public class ArticlelistController {
 
         int tmpPublisherId=user.getId();
         List<Article> userArticleList=articleMapper.getAllExceptContent_ByPublisherId(tmpPublisherId);
-        model.addAttribute("Articles",userArticleList);
+        model.addAttribute("Problems",userArticleList);
 
         for(Article a: userArticleList){
             System.out.println(a.getTitle());
         }
 
-        return "admin/article_list";
+        return "admin/admin_problem_list";
 
 
 
@@ -71,7 +71,7 @@ public class ArticlelistController {
     if(user.getId()==articleMapper.getPublisher(id)) {
         articleMapper.deleteArticle(id);
     }
-        return "redirect:/article";
+        return "admin/admin_problem_list";
     }
 
 

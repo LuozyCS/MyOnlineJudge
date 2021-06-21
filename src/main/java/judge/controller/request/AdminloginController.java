@@ -12,19 +12,19 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@Controller public class LoginController
-{
+@Controller
+public class AdminloginController {
+
     @Autowired private UserMapper userMapper;
 
-    @PostMapping("/login_request") public String login(
+    @PostMapping("/admin_login_request") public String login(
             @RequestParam(value = "username", required = false) final String username
-            , @RequestParam(value = "email", required = false) final String email
             , @RequestParam("pwd") final String password
             , final HttpServletResponse response
             , final Model model) throws IOException {
-        System.out.printf("request to login: username = %s, email = %s, password = %s\n", username, email, password);
-        User user = email == null ?
-                userMapper.getUserByUsername(username) : userMapper.getUserByEmail(email);
+        System.out.println("hello");
+        System.out.printf("request to login: username = %s, password = %s\n", username, password);
+        User user = userMapper.getUserByUsername(username) ;
         System.out.println(user);
         if (user == null)
         {
@@ -44,8 +44,6 @@ import java.io.IOException;
         response.addCookie(cookie2);
 
 
-        return "redirect:problem";
+        return "redirect:list";
     }
-
-
 }
