@@ -64,12 +64,12 @@ public class ProblemlistController {
         if(cookieCheck.Admincheck(cookies)==false){//不是管理员就回list
             return "redirect:/list";
         }
-        cookieCheck.check(cookies,model);
-        User user=(User) model.getAttribute("User");
+//        cookieCheck.check(cookies,model);
+//        User user=(User) model.getAttribute("User");
 
-    if(user.getId()== problemMapper.getPublisher(id)) {
+//    if(user.getId()== problemMapper.getPublisher(id)) {
         problemMapper.deleteProblem(id);
-    }
+//    }
         return "redirect:/admin_problem_list";
     }
 

@@ -23,6 +23,7 @@ public class CookieCheck {
                     User user=userMapper.getUserByUsername(cookie.getValue());
                     model.addAttribute("LoginName",cookie.getValue());
                     model.addAttribute("User",user);
+
                     break;
                 }
             }

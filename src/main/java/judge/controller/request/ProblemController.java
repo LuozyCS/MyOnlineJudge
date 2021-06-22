@@ -57,7 +57,7 @@ public class ProblemController
         if(cookieCheck.Admincheck(cookies)==false){//不是管理员就隐藏按钮
             model.addAttribute("failed","you are not administrator");
         }
-        //在此添加排行榜内容
+        //在此添加排行榜与提交历史内容
 
 
 

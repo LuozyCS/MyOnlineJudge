@@ -58,7 +58,9 @@ public class PublishController {
         if(cookieCheck.Admincheck(cookies)==false){//不是管理员就回list
             return "redirect:/list";
         }
+        model=cookieCheck.check(cookies,model);
         User user=(User)model.getAttribute("User");
+//        System.out.println(model.getAttribute("User"));
 
         problem.setPublisher(user);
 
