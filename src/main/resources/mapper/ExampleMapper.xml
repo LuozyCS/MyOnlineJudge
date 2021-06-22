@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="judge.mapper.ExampleMapper">
+    <resultMap id="exampleMap" type="Example">
+        <result property="id" column="id"/>
+        <result property="IO" column="IO"/>
+        <result property="example_id" column="example_id"/>
+        <result property="content" column="content"/>
+    </resultMap>
+
+    <select id="getAllById" resultMap="exampleMap" parameterType="int">
+        select id, IO, example_id,content
+        from example
+        where id=#{problemId}
+        order by example_id
+    </select>
+
+    <select id="getInputByIdAndExampleId" resultType="Example" >
+        select id, IO, example_id,content
+        from example
+        where id=#{problemId} and example_id=#{exampleId} and IO=0
+    </select>
+
+    <select id="getOutputByIdAndExampleId" resultType="Example" >
+        select id, IO, example_id,content
+        from example
+        where id=#{problemId} and example_id=#{exampleId} and IO=1
+    </select>
+
+    <select id="getFirstInputById" resultType="Example" parameterType="int">
+        select id, IO, example_id,content
+        from example
+        where id=#{problemId} and example_id=0 and IO=0
+    </select>
+
+    <select id="getFirstOutputById" resultType="Example" parameterType="int">
+        select id, IO, example_id,content
+        from example
+        where id=#{problemId} and example_id=0 and IO=1
+    </select>
+
+    <delete id="deleteExample" >
+        delete
+        from example
+        where id = #{problemId} and example_id=#{exampleId}
+    </delete>
+
+    <insert id="insertExample" >
+        insert into example(id,IO,example_id,content) values(#{input.id},#{input.IO},#{input.example_id},#{input.content})
+    </insert>
+    <update id="updateExample">
+        update example set content=#{example.content} where id=#{example.id} and IO=#{example.IO} and example_id=#{example.example_id}
+    </update>
+
+</mapper>

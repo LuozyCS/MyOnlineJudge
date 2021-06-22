@@ -1,95 +1,198 @@
 <!DOCTYPE HTML>
 
 <html lang="en" xmlns:th="http://www.thymeleaf.org" style="height:100%;">
-<link rel="stylesheet" href="site/css/style.css">
-<link rel="stylesheet" href="site/css/style.min.css">
-<link rel="stylesheet" href="site/css/bootstrap.min.css">
-<link rel="stylesheet" href="site/css/responsive.css">
-<link rel="stylesheet" href="site/css/effects/set2.css">
-<link rel="stylesheet" href="site/css/effects/normalize.css">
+<link rel="stylesheet" href="/site/css/style.css">
+<link rel="stylesheet" href="/site/css/style.min.css">
+<link rel="stylesheet" href="/site/css/bootstrap.min.css">
+<link rel="stylesheet" href="/site/css/responsive.css">
+<link rel="stylesheet" href="/site/css/effects/set2.css">
+<link rel="stylesheet" href="/site/css/effects/normalize.css">
+
+<!--begin code mirror -->
+<!--下面两个是使用Code Mirror必须引入的-->
+<link rel="stylesheet" href="/site/codemirror-5.31.0/lib/codemirror.css"/>
+<script src="/site/codemirror-5.31.0/lib/codemirror.js"></script>
+<!--引入css文件，用以支持主题-->
+<link rel="stylesheet" href="/site/codemirror-5.31.0/theme/dracula.css"/>
+<!--支持代码折叠-->
+<link rel="stylesheet" href="/site/codemirror-5.31.0/addon/fold/foldgutter.css"/>
+<!--end Code Mirror -->
 
 <body style="height:max-content;width:100%;background: url(/site/img/OIP.jpeg) bottom center no-repeat #efeff4 ;background-size: 100% 100%;width: 100%;height: 100%;overflow-x:hidden;">
 
-    <ul class="nav" style="position: absolute;right:0px;width:200px;">
-        <li style="list-style:none;">
-            <a title="个人界面" href="/login" style="text-decoration: none;
+<ul class="nav" style="position: absolute;right:0px;width:200px;">
+    <li style="list-style:none;">
+        <a title="个人界面" href="/login" style="text-decoration: none;
 font-size: larger;color: blue;" th:text="'Hello, ' + ${LoginName}" th:if="${LoginName} != null"></a>
-            <ul>
-                <li style="list-style:none;">
-                    <a href="/list" style="text-decoration: none;color:black;">管理界面</a>
-                </li>
-                <li style="list-style:none;">
-                    <a href="/login" style="text-decoration: none;color:black;">退出登录</a>
-                </li>
-            </ul>
-        </li>
-    </ul>
-    <div style="text-align: right;">
-        <a th:text="您未登录" th:if="${LoginName} == null" style="text-align: right;font-size: larger;color: orangered;text-decoration: none;" href="/login"></a>
-    </div>
-    <!-- header -->
-    <!--    <div th:replace="site/header::header"></div>-->
+        <ul>
+            <li style="list-style:none;">
+                <a href="/list" style="text-decoration: none;color:black;">管理界面</a>
+            </li>
+            <li style="list-style:none;">
+                <a href="/login" style="text-decoration: none;color:black;">退出登录</a>
+            </li>
+        </ul>
+    </li>
+</ul>
+<div style="text-align: right;">
+    <a th:text="您未登录" th:if="${LoginName} == null"
+       style="text-align: right;font-size: larger;color: orangered;text-decoration: none;" href="/login"></a>
+</div>
+<!-- header -->
+<!--    <div th:replace="site/header::header"></div>-->
 
-    <!-- main -->
-    <main role="main-inner-wrapper" class="container">
+<!-- main -->
+<main role="main-inner-wrapper" class="container">
 
 
-        <div class="blog-details" style="position: absolute;top: 100px;left:0;right:0;">
-
-            <problem class="post-details" id="post-details">
-
-                <header role="bog-header" class="bog-header text-center" style="text-align:center;">
-
-                    <h2>
-                        <th:block th:text="${ProblemTitle}"></th:block>
-                    </h2>
-                    <div class="m-text ui attached padded segment">
-                        <div class="typo typo-selection">
-                            <div id="test-editormd-view">
-                                <textarea id="append-test" style="display:none;">[[${ProblemContent}]]</textarea>
+    <div class="blog-details" style="position: absolute;top: 100px;left:0;right:0;">
+        <!--题目列表-->
+        <div style="left: 0px;right:0px;height: 400px">
+            <div style="float: left;width: 70%;height: 400px">
+                <!--<article class="post-details" id="post-details">
+                    <header role="bog-header" class="bog-header text-center" style="text-align:center;">
+                        <h2>
+                            <th:block th:text="${ProblemTitle}"></th:block>
+                        </h2>
+                        <div class="m-text ui attached padded segment">
+                            <div class="typo typo-selection">
+                                <div id="test-editormd-view">
+                                    <textarea id="append-test" style="display:none;">[[${ProblemContent}]]</textarea>
+                                </div>
                             </div>
                         </div>
+                    </header>
+                </article>-->
+                <article>
+                    <h1>
+                        <th:block th:text="${ProblemTitle}"></th:block>
+                    </h1>
+                    <div>
+                        <textarea id="append-test" style="display:none;">[[${ProblemContent}]]</textarea>
                     </div>
-                </header>
+                    <hr>
+                    <div>
+                        <b>样例输入</b>
 
-            </problem>
+                    </div>
+                    <div>
+                        <b>样例输出</b>
 
-            <footer style="position: fixed;bottom: 50px;left:0px;right:0px;width:60%;transform:translate(30%,0);height:300px;">
-                <div th:replace="/site/bilibili::footer"></div>
-            </footer>
+                    </div>
+                </article>
+
+
+            </div>
+            <div style="float: right;width: 30%;height: 400px">
+                <table>
+                    <tbody>
+                    <tr>
+                        <td>难度：<span>简单</span></td>
+                    </tr>
+                    <tr>
+                        <td>时空限制：<span>1s/64MB</span></td>
+                    </tr>
+                    <tr>
+                        <td>时空限制：<span>1s/64MB</span></td>
+                    </tr>
+                    <tr>
+                        <td>时空限制：<span>1s/64MB</span></td>
+                    </tr>
+
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </main>
+        <!--编辑器-->
+        <div style="top:400px;left:0px;right:0px">
+            <textarea id="code" name="code" style="margin:0 auto;"></textarea>
+            <div>
+                    <button value="提交代码" style="float: right;height: 20px;width: 20px">
+                        提交代码
+                    </button>
+            </div>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!--editormd-->
-    <script src="/editormd/lib/marked.min.js"></script>
-    <script src="/editormd/lib/prettify.min.js"></script>
-    <script src="/editormd/lib/raphael.min.js"></script>
-    <script src="/editormd/lib/underscore.min.js"></script>
-    <script src="/editormd/lib/sequence-diagram.min.js"></script>
-    <script src="/editormd/lib/flowchart.min.js"></script>
-    <script src="/editormd/lib/jquery.flowchart.min.js"></script>
-    <script src="/editormd/editormd.js"></script>
-    <script type="text/javascript" th:inline="javascript">
-        /*editormd*/
-        $(function() {
-            editormd.markdownToHTML("test-editormd-view", {
-                htmlDecode: "style,script,iframe", // you can filter tags decode
-                emoji: true,
-                taskList: true,
-                tex: true, // 默认不解析
-                flowChart: true, // 默认不解析
-                sequenceDiagram: true, // 默认不解析
-            });
-            $(".nav>li").children("ul").hide();
-            $(".nav>li").mouseover(function() {
-                $(this).children("ul").show();
-            });
-            $(".nav>li").mouseout(function() {
-                $(this).children("ul").hide();
-            })
+        </div>
+
+        <!--结果-->
+        <div>
+
+        </div>
+
+        <!--评论区-->0
+        <footer style="left:0px;right:0px;width:60%;transform:translate(30%,0);height:300px;">
+            <div th:replace="/site/bilibili::footer"></div>
+        </footer>
+    </div>
+</main>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!--editormd-->
+<script src="/editormd/lib/marked.min.js"></script>
+<script src="/editormd/lib/prettify.min.js"></script>
+<script src="/editormd/lib/raphael.min.js"></script>
+<script src="/editormd/lib/underscore.min.js"></script>
+<script src="/editormd/lib/sequence-diagram.min.js"></script>
+<script src="/editormd/lib/flowchart.min.js"></script>
+<script src="/editormd/lib/jquery.flowchart.min.js"></script>
+<script src="/editormd/editormd.js"></script>
+
+<!--Java代码高亮必须引入-->
+<script src="/site/codemirror-5.31.0/clike.js"></script>
+<!--groovy代码高亮-->
+<script src="/site/codemirror-5.31.0/mode/groovy/groovy.js"></script>
+<script src="/site/codemirror-5.31.0/addon/fold/foldcode.js"></script>
+<script src="/site/codemirror-5.31.0/addon/fold/foldgutter.js"></script>
+<script src="/site/codemirror-5.31.0/addon/fold/brace-fold.js"></script>
+<script src="/site/codemirror-5.31.0/addon/fold/comment-fold.js"></script>
+<!--括号匹配-->
+<script src="/site/codemirror-5.31.0/addon/edit/matchbrackets.js"></script>
+
+<script type="text/javascript" th:inline="javascript">
+    /*editormd*/
+    $(function () {
+        editormd.markdownToHTML("test-editormd-view", {
+            htmlDecode: "style,script,iframe", // you can filter tags decode
+            emoji: true,
+            taskList: true,
+            tex: true, // 默认不解析
+            flowChart: true, // 默认不解析
+            sequenceDiagram: true, // 默认不解析
+        });
+        $(".nav>li").children("ul").hide();
+        $(".nav>li").mouseover(function () {
+            $(this).children("ul").show();
+        });
+        $(".nav>li").mouseout(function () {
+            $(this).children("ul").hide();
         })
-    </script>
+    })
+</script>
+
+<script>
+    console.log("2222222");
+    //根据DOM元素的id构造出一个编辑器
+    var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+        mode: "text/groovy",    //实现groovy代码高亮
+        mode: "text/x-java", //实现Java代码高亮
+        mode: "text/x-c++src",    //C++
+        lineNumbers: true,	//显示行号
+        theme: "dracula",	//设置主题
+        lineWrapping: true,	//代码折叠
+        styleActiveLine: true,       // 当前行背景高亮
+        foldGutter: true,
+        gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
+        matchBrackets: true,	//括号匹配
+        //readOnly: true,        //只读
+    });
+    //editor.setSize('800px', '950px');     //设置代码框的长宽
+
+    editor.setValue("");    //先代码框的值清空
+    console.log("111111111");
+    editor.setValue(obj.scriptCode);    //给代码框赋值
+
+    // editor.setOption("readOnly", true);
+</script>
 
 </body>
 
