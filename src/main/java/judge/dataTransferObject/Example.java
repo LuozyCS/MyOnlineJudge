@@ -11,29 +11,31 @@ public class Example {
     private int example_id;
     private String content;
 
-    @Override public int hashCode()
-    {
-        return id;
-    }
-    @Override public boolean equals(Object object)
-    {
-        return object instanceof Example
-                && id == ((Example)object).id && IO == ((Example)object).IO && content == ((Example)object).content;
-    }
-    public String getErrorMessages(){
-        StringBuffer result = new StringBuffer();
+//    @Override public int hashCode()
+//    {
+//        return id;
+//    }
 
-        if (content != null ){
-            if (content.length() > 4000) {
-                result.append("题目内容不能超过4000个字符\n");
-            }
-        }
+//    @Override public boolean equals(Object object)
+//    {
+//        return object instanceof Example
+//                && id == ((Example)object).id && IO == ((Example)object).IO && content == ((Example)object).content;
+//    }
 
-        if (content == null ){
-                result.append("题目内容不能为空\n");
-        }
-
-        return result.length() == 0 ? null : result.substring(0,result.length() - 1);
-    }
+//    public String getErrorMessages(){
+//        StringBuffer result = new StringBuffer();
+//
+//        if (content != null ){
+//            if (content.length() > 4000) {
+//                result.append("题目内容不能超过4000个字符\n");
+//            }
+//        }
+//
+//        if (content == null ){
+//                result.append("题目内容不能为空\n");
+//        }
+//
+//        return result.length() == 0 ? null : result.substring(0,result.length() - 1);
+//    }
 
 }

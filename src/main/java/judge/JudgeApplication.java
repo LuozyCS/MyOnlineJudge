@@ -10,12 +10,18 @@ import java.io.*;
 public class JudgeApplication
 {
 	public static void main(String[] args) throws IOException {
-
-//		String commandStr = "g++ C:\\Users\\dell\\Desktop\\hello.c";
+//		//创建cpp文件的地址，到myoj下，src外面
+////		File file = new File("lzy.cpp");
+////		file.createNewFile();
+//
+////		编译的地址
+//		//  .\\能在src外面  即同cpp同一位置生成exe文件
+//		//  .\\a.exe也是和cpp在同一目录
+//		String commandStr = "g++ .\\hello.c";
 //		BufferedReader br;
 //		BufferedWriter bw;
 //		Process p1 = Runtime.getRuntime().exec(commandStr);
-//		Process p = Runtime.getRuntime().exec("a.exe");
+//		Process p = Runtime.getRuntime().exec(".\\a.exe");
 //
 //		bw = new BufferedWriter(new OutputStreamWriter(p.getOutputStream()));
 //		bw.write("1 2 3");
@@ -26,8 +32,7 @@ public class JudgeApplication
 //		while ((line = br.readLine()) != null) {
 //			sb.append(line + "\n");
 //		}
-//
-//		System.out.println(sb.toString());
+//        System.err.println(sb.toString());
 		SpringApplication.run(JudgeApplication.class, args);
 	}
 }

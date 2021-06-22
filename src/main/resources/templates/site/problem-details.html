@@ -168,7 +168,6 @@ font-size: larger;color: blue;" th:text="'Hello, ' + ${LoginName}" th:if="${Logi
             $(this).children("ul").hide();
         });
         $("#codeCommit").click(function () {
-            console.log("woshi111");
             str=editor.getValue();
             console.log(str);
             $.post("/code_submit",
