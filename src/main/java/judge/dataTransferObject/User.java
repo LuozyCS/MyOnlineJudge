@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 public class User
 {
     private int id;
+    private int admin;
 //    @Size(min = 1,max = 2, message = "用户名不能为空，也不能超过32个英文字符")
 //    @NotBlank
 //    @NotEmpty

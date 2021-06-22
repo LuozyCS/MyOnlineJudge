@@ -29,11 +29,14 @@ public class AdminloginController {
         if (user == null)
         {
             model.addAttribute("failed", "no this person");
-            return "/site/login";
+            return "/site/admin_login";
         } else if (!password.equals(user.getPwd()))
         {
             model.addAttribute("failed", "wrong password");
-            return "/site/login";
+            return "/site/admin_login";
+        }else if(user.getAdmin()==0){
+            model.addAttribute("failed", "you are not administrator");
+            return "/site/admin_login";
         }
 
         Cookie cookie1 = new Cookie("isLogin", user.getUsername());

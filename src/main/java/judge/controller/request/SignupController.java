@@ -31,7 +31,7 @@ import java.util.regex.Pattern;
 
         try
         {
-            User user = new User(0, username, email, password);
+            User user = new User(0, 0, username, email, password);
 
             String ErrorMessages=user.getErrorMessages();
             if (ErrorMessages==null)

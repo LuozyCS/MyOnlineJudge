@@ -71,6 +71,7 @@ public class PublishController {
     )
     {
 
+
         model.addAttribute("oldcontent", problemMapper.getContent(id));
         model.addAttribute("oldid",id);
         return "admin/publish";
