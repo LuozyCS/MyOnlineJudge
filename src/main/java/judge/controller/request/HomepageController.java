@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @Controller
-public class BloglistController {
+public class HomepageController {
     @Autowired private ProblemMapper problemMapper;
     @Autowired private CookieCheck cookieCheck;
 

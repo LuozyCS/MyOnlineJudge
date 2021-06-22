@@ -76,8 +76,5 @@ import java.util.regex.Pattern;
         return "redirect:login";
     }
 
-//    public String signup(HttpServletRequest request){
-//        String username=request.getParameter("username");
-//        return "signup";
-//    }
+
 }

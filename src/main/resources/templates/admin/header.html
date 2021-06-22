@@ -37,12 +37,15 @@
                             class="fa fa-dashboard" aria-hidden="true"></i><span> OJ界面 </span></a>
                 </li>
                 <li>
-                    <a th:href="@{/publish}"
-                       th:class="'waves-effect'"><i
-                            class="fa fa-pencil-square-o" aria-hidden="true"></i><span> 发布题目 </span></a>
+
+                    <!--报错代码-->
+                        <a th:href="@{/publish}" th:if = "${ #strings.isEmpty(failed)}"
+                           th:class="'waves-effect'"><i
+                                class="fa fa-pencil-square-o" aria-hidden="true"></i><span> 发布题目 </span></a>
+
                 </li>
                 <li>
-                    <a th:href="@{/admin_problem_list}"
+                    <a th:href="@{/admin_problem_list}" th:if = "${ #strings.isEmpty(failed)}"
                        th:class="'waves-effect'"><i
                             class="fa fa-list" aria-hidden="true"></i><span> 题目管理 </span></a>
                 </li>

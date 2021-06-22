@@ -29,17 +29,18 @@ public class ProblemlistController {
                               )
     {
 
-
         //确认cookie
         Cookie[] cookies = request.getCookies();
+        if(cookieCheck.Admincheck(cookies)==false){//不是管理员就回list
+            return "redirect:/list";
+        }
+//        cookieCheck.check(cookies,model);
+//        User user=(User) model.getAttribute("User");
+//        //通过cookie查找publisherId，查找文章
+//        int tmpPublisherId=user.getId();
 
-        cookieCheck.check(cookies,model);
-        User user=(User) model.getAttribute("User");
-        //通过cookie查找publisherId，查找文章
-
-
-        int tmpPublisherId=user.getId();
-        List<Problem> userProblemList = problemMapper.getAllExceptContent_ByPublisherId(tmpPublisherId);
+        //管理员可以看到所有题目
+        List<Problem> userProblemList = problemMapper.getAllExceptContent();
         model.addAttribute("Problems", userProblemList);
 
         for(Problem a: userProblemList){
@@ -47,11 +48,6 @@ public class ProblemlistController {
         }
 
         return "admin/admin_problem_list";
-
-
-
-
-
 
     }
 
@@ -62,14 +58,19 @@ public class ProblemlistController {
             HttpServletResponse response,
             HttpServletRequest request)
     {
+
+        System.out.println("delete controller");
         Cookie[] cookies = request.getCookies();
+        if(cookieCheck.Admincheck(cookies)==false){//不是管理员就回list
+            return "redirect:/list";
+        }
         cookieCheck.check(cookies,model);
         User user=(User) model.getAttribute("User");
 
     if(user.getId()== problemMapper.getPublisher(id)) {
         problemMapper.deleteProblem(id);
     }
-        return "admin/admin_problem_list";
+        return "redirect:/admin_problem_list";
     }
 
 

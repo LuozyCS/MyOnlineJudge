@@ -30,6 +30,11 @@ public class PublishController {
             , Model model
     ){
         Cookie[] cookies = request.getCookies();
+
+        if(cookieCheck.Admincheck(cookies)==false){//不是管理员就回list
+            return "redirect:/list";
+        }
+
         cookieCheck.check(cookies,model);
         User user=(User)model.getAttribute("User");
         problem.setPublisher(user);
@@ -49,7 +54,10 @@ public class PublishController {
             , HttpServletRequest request
             , Model model
     ){
-
+        Cookie[] cookies = request.getCookies();
+        if(cookieCheck.Admincheck(cookies)==false){//不是管理员就回list
+            return "redirect:/list";
+        }
         User user=(User)model.getAttribute("User");
 
         problem.setPublisher(user);
@@ -68,12 +76,35 @@ public class PublishController {
     public String modifyProblem(
             @PathVariable("id") final int id
             , Model model
+            ,HttpServletRequest request
     )
     {
-
+        Cookie[] cookies = request.getCookies();
+        if(cookieCheck.Admincheck(cookies)==false){//不是管理员就回list
+            return "redirect:/list";
+        }
 
         model.addAttribute("oldcontent", problemMapper.getContent(id));
         model.addAttribute("oldid",id);
         return "admin/publish";
     }
+
+    @RequestMapping("/publish")
+    public String modifyProblem(
+            HttpServletRequest request
+            ,Model model
+    )
+    {
+        Cookie[] cookies = request.getCookies();
+        Boolean isAdmin=cookieCheck.Admincheck(cookies);
+        if(isAdmin==true){
+            return "admin/publish";
+        }else{
+//            model.addAttribute("failed","you are not administrator");
+            return "redirect:/list";
+        }
+
+    }
+
+
 }

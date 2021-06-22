@@ -29,4 +29,20 @@ public class CookieCheck {
         }
         return model;
     }
+
+    public boolean Admincheck(Cookie[] cookies){
+        if(cookies!=null && cookies.length>0){
+            for(Cookie cookie:cookies) {
+
+                if (StringUtils.equalsIgnoreCase(cookie.getName(), "isLogin")) {
+                    User user=userMapper.getUserByUsername(cookie.getValue());
+                    if(user.getAdmin()==1){
+                        return true;//是管理员 admin=1
+                    }
+                    break;
+                }
+            }
+        }
+        return false;
+    }
 }

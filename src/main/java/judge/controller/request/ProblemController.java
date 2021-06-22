@@ -10,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -44,5 +46,21 @@ public class ProblemController
 
 //        System.err.println(model.getAttribute("Comments"));
         return "site/problem-details";
+    }
+
+    @RequestMapping("/list")
+    public String pagelist(
+            HttpServletRequest request
+            ,Model model
+    ){
+        Cookie[] cookies = request.getCookies();
+        if(cookieCheck.Admincheck(cookies)==false){//不是管理员就隐藏按钮
+            model.addAttribute("failed","you are not administrator");
+        }
+        //在此添加排行榜内容
+
+
+
+        return "admin/page_list";
     }
 }
