@@ -117,6 +117,7 @@ public class AcController {
                 fileDc.delete();
             }
         } else {
+            response.getWriter().write("Judging");
             System.out.println("正在判题" + user.getId() + "_" + problemId);
             return;
         }
