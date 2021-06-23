@@ -24,13 +24,13 @@ import java.sql.Timestamp;
 
         if (title != null ){
             if (title.length() > 300) {
-                result.append("文章标题不能超过300个字符\n");
+                result.append("题目标题不能超过300个字符\n");
             }
         }
 
         if (content != null ){
             if (content.length() > 300) {
-                result.append("文章内容不能超过300个字符\n");
+                result.append("题目内容不能超过300个字符\n");
             }
         }
 

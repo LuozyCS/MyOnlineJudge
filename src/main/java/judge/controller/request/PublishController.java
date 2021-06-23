@@ -102,7 +102,7 @@ public class PublishController {
         if(isAdmin==true){
             return "admin/publish";
         }else{
-//            model.addAttribute("failed","you are not administrator");
+            model.addAttribute("failed","you are not administrator");
             return "redirect:/list";
         }
 
