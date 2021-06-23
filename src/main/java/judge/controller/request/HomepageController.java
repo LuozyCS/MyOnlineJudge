@@ -25,8 +25,11 @@ public class HomepageController {
     {
         System.out.println(cookieCheck);
         Cookie[] cookies = request.getCookies();
-
         model=cookieCheck.check(cookies,model);
+
+        if(cookieCheck.Admincheck(cookies)==false){//不是管理员就隐藏右上角按钮
+            model.addAttribute("failed","you are not administrator");
+        }
 
         List<Problem> list=  problemMapper.getAllExceptContent();
         System.out.println(list);

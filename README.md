@@ -13,10 +13,23 @@
 
 **记录暂时未修改的内容**
 
- 1. 注册时，没填写邮箱不可以注册，但仍然会转跳到login且并未写入数据库。bug
- 2. 普通用户右上角图标应该显示历史做题记录，管理员显示管理界面。demand
+ 1.注册时，没填写邮箱不可以注册，但仍然会转跳到login且并未写入数据库。bug
+ ~~2. 普通用户右上角图标应该显示历史做题记录，管理员显示管理界面。demand~~
+3.对于运行时间过长的程序，需要终止并返回错误，避免恶意代码。bug
+4.做题分析的标头无法显示。bug
+5.做题分析的题目名无法显示。bug
+6.管理员创建problem 并传入样例。demand
+7.response。demand
+8.安全问题。bug
+9.对于死循环代码的超时报错。bug
 
+## 关于数据库
+**accept** pass=0
+**wrong answer** pass=1
+**compile error** pass=2
+**runtime error** pass=3
 
+**若没有通过时间pass_time,则pass_time=-1**
 
 ## 关于文件路径的记录
  //创建cpp文件的地址，到myoj下，src外面  

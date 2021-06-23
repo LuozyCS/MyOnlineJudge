@@ -5,6 +5,7 @@ import judge.dataTransferObject.User;
 import judge.mapper.ExampleMapper;
 import judge.mapper.ProblemMapper;
 import judge.mapper.UserMapper;
+import judge.mapper.UserProblemMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,6 +30,8 @@ public class AcController {
     private UserMapper userMapper;
     @Autowired
     private CookieCheck cookieCheck;
+    @Autowired
+    private UserProblemMapper userProblemMapper;
 
     @PostMapping("/code_submit")
     public void login(
@@ -41,6 +44,7 @@ public class AcController {
         Cookie[] cookies = request.getCookies();
         model = cookieCheck.check(cookies, model);
         User user = (User) model.getAttribute("User");
+        int pId = Integer.parseInt(problemId);
         File file = new File(user.getId() + "_" + problemId + ".cpp");
         if (!file.exists()) {
             try {
@@ -55,6 +59,8 @@ public class AcController {
             fileWrite.write(userText);
             fileWrite.close();
 
+
+
             String commandStr = "g++ -o " + user.getId() + "_" + problemId + ".exe " + user.getId() + "_" + problemId + ".cpp ";
 //            保留可能输出错误信息的希望
 //            + " > " + ".\\" + user.getId() + "_" + problemId + "_debug.txt 2>&1"
@@ -67,12 +73,11 @@ public class AcController {
 
             File fileE = new File(".\\\\"+user.getId() + "_" + problemId + ".exe");
             if (fileE.exists()) {//判断是否编译成功
-
+                long startTime = System.currentTimeMillis();//计时
                 for (int exId = 0; exId < 1; exId++) {
                     commandStr = " .\\\\" + user.getId() + "_" + problemId + ".exe";
                     Process p = Runtime.getRuntime().exec(commandStr);
                     bw = new BufferedWriter(new OutputStreamWriter(p.getOutputStream()));
-                    int pId = Integer.parseInt(problemId);
 //                System.out.println(pId);
 //                System.out.println(exId);
 //                System.out.println(exampleMapper.getInputByIdAndExampleId(pId, exId));
@@ -97,22 +102,27 @@ public class AcController {
                         fileDe.delete();
                         //输出错误信息,未通过样例,传到前端
                         response.getWriter().write("Wrong Answer!");
-                        System.out.println("Failed");
+                        userProblemMapper.insertUserProblem(user.getId(),pId,1,-1);
+                        System.out.println("Wrong Answer");
                         return;
                     }
                 }
+                long endTime = System.currentTimeMillis();
+                int usedTime = (int)(endTime-startTime);
                 //删除可执行程序和源程序 暂时不删  debug
                 File fileDc = new File(".\\\\" + user.getId() + "_" + problemId + ".cpp");
                 File fileDe = new File(".\\\\" + user.getId() + "_" + problemId + ".exe");
                 fileDc.delete();
                 fileDe.delete();
                 response.getWriter().write("Accept");
+                userProblemMapper.insertUserProblem(user.getId(),pId,0,usedTime);
                 System.out.println("Accept");
                 return;
             }
             else if (!fileE.exists()) {
                 //如果可以，在这里输出错误信息
-                response.getWriter().write("Runtime Error");
+                response.getWriter().write("Compile Error");
+                userProblemMapper.insertUserProblem(user.getId(),pId,2,-1);
                 File fileDc = new File(".\\\\" + user.getId() + "_" + problemId + ".cpp");
                 fileDc.delete();
             }
