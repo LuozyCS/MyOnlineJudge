@@ -95,9 +95,16 @@ font-size: larger;color: blue;" th:text="'Hello, ' + ${LoginName}" th:if="${Logi
                     <tr>
                         <td>时空限制：<span>1s/64MB</span></td>
                     </tr>
-                    <tr>
-                        <td>时空限制：<span>1s/64MB</span></td>
+                    <tr hidden="hidden">
+                        <td>
+                            <div id="data" th:text="${ProblemId}">
+
+                            </div>
+                            <span>1s/64MB</span></td>
                     </tr>
+                    <!--<tr id="data" th:value="${ProblemTitle}">
+
+                    </tr>-->
 
                     </tbody>
                 </table>
@@ -105,7 +112,7 @@ font-size: larger;color: blue;" th:text="'Hello, ' + ${LoginName}" th:if="${Logi
         </div>
         <!--编辑器-->
         <div style="top:400px;left:0px;right:0px">
-            <textarea id="code" name="code" style="margin:0 auto;"></textarea>
+            <textarea id="code" name="content" style="margin:0 auto;"></textarea>
             <div>
                 <button id="codeCommit" value="提交代码" style="float: right;height: 20px;width: 20px">
                     提交代码
@@ -171,9 +178,15 @@ font-size: larger;color: blue;" th:text="'Hello, ' + ${LoginName}" th:if="${Logi
             console.log("woshi111");
             str=editor.getValue();
             console.log(str);
+            var id=$("#data").text();
+            console.log($("#data").text());
             $.post("/code_submit",
                 {
-                    userText:str
+                    userText:str,
+                    problemId:id
+                },
+                function (data,status) {
+                    console.log(data);
                 }
             );
 
