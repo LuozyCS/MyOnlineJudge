@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="judge.mapper.UserProblemMapper">
+    <resultMap id="userProblemMap" type="UserProblem">
+        <result property="user_id" column="user_id"/>
+        <result property="problem_id" column="problem_id"/>
+        <result property="pass" column="pass"/>
+        <result property="pass_time" column="pass_time"/>
+        <result property="when" column="when"/>
+    </resultMap>
+
+    <select id="getAllByUserId" resultMap="userProblemMap" parameterType="int">
+        select user_id, problem_id, pass,pass_time,`when`
+        from user_problem
+        where user_id=#{user_id}
+        order by `when`
+    </select>
+
+    <select id="getAllByProblemId" resultMap="userProblemMap" parameterType="int">
+        select user_id, problem_id, pass,pass_time,`when`
+        from user_problem
+        where problem_id=#{problemId}
+        order by `when`
+    </select>
+
+
+    <insert id="insertUserProblem">
+        insert into user_problem(user_id, problem_id, pass,pass_time,`when`) values(#{user_id},#{problem_id},#{pass},#{pass_time},now());
+    </insert>
+
+
+</mapper>
