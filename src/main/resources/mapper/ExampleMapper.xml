@@ -9,32 +9,32 @@
     </resultMap>
 
     <select id="getAllById" resultMap="exampleMap" parameterType="int">
-        select id, IO, example_id,content
+        select id, IO, example_id,rtrim(content) content
         from example
         where id=#{problemId}
         order by example_id
     </select>
 
     <select id="getInputByIdAndExampleId" resultType="Example" >
-        select id, IO, example_id,content
+        select id, IO, example_id,rtrim(content) content
         from example
         where id=#{problemId} and example_id=#{exampleId} and IO=0
     </select>
 
     <select id="getOutputByIdAndExampleId" resultType="Example" >
-        select id, IO, example_id,content
+        select id, IO, example_id,rtrim(content) content
         from example
         where id=#{problemId} and example_id=#{exampleId} and IO=1
     </select>
 
     <select id="getFirstInputById" resultType="Example" parameterType="int">
-        select id, IO, example_id,content
+        select id, IO, example_id,rtrim(content) content
         from example
         where id=#{problemId} and example_id=0 and IO=0
     </select>
 
     <select id="getFirstOutputById" resultType="Example" parameterType="int">
-        select id, IO, example_id,content
+        select id, IO, example_id,rtrim(content) content
         from example
         where id=#{problemId} and example_id=0 and IO=1
     </select>
