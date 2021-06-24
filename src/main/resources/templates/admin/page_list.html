@@ -44,9 +44,10 @@
                             </td>
                             <td>
                                 <block th:if="${historyList.getUserProblem().getPass()}==0" style="color: #00FF00">Accept</block>
-                                <block th:if="${historyList.getUserProblem().getPass()}==1" style="color: #9c3328">Wrong Answer</block>
-                                <block th:if="${historyList.getUserProblem().getPass()}==2" style="color: #9c3328">Compile Error</block>
-                                <block th:if="${historyList.getUserProblem().getPass()}==3" style="color: #9c3328">Runtime Error</block>
+                                <block th:if="${historyList.getUserProblem().getPass()}==1" style="color: #8a1f11">Wrong Answer</block>
+                                <block th:if="${historyList.getUserProblem().getPass()}==2" style="color: #8a1f11">Compile Error</block>
+                                <block th:if="${historyList.getUserProblem().getPass()}==3" style="color: #8a1f11">Runtime Error</block>
+                                <block th:if="${historyList.getUserProblem().getPass()}==4" style="color: #8a1f11">Time Limit Exceeded</block>
                             </td>
                             <td>
                                 <block th:if="${historyList.getUserProblem().getPass_time()}==-1">N/A</block>

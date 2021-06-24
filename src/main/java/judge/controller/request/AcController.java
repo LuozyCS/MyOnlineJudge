@@ -40,98 +40,145 @@ public class AcController {
             HttpServletRequest request,
             HttpServletResponse response,
             Model model
-    ) throws IOException, InterruptedException {
-        Cookie[] cookies = request.getCookies();
-        model = cookieCheck.check(cookies, model);
-        User user = (User) model.getAttribute("User");
-        int pId = Integer.parseInt(problemId);
-        File file = new File(user.getId() + "_" + problemId + ".cpp");
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-                System.out.println("创建成功" + user.getId() + "_" + problemId);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+    ) throws InterruptedException, IOException {
+
+            Cookie[] cookies = request.getCookies();
+            model = cookieCheck.check(cookies, model);
+            User user = (User) model.getAttribute("User");
+            int pId = Integer.parseInt(problemId);
+            File file = new File(user.getId() + "_" + problemId + ".cpp");
+        try {
+            if (!file.exists()) {
+                try {
+                    file.createNewFile();
+                    System.out.println("创建成功" + user.getId() + "_" + problemId);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
 
-            FileWriter fileWrite = new FileWriter(file);//覆盖写入
-            fileWrite.write(userText);
-            fileWrite.close();
+                FileWriter fileWrite = new FileWriter(file);//覆盖写入
+                fileWrite.write(userText);
+                fileWrite.close();
 
 
-
-            String commandStr = "g++ -o " + user.getId() + "_" + problemId + ".exe " + user.getId() + "_" + problemId + ".cpp ";
+                String commandStr = "g++ -o " + user.getId() + "_" + problemId + ".exe " + user.getId() + "_" + problemId + ".cpp ";
 //            保留可能输出错误信息的希望
 //            + " > " + ".\\" + user.getId() + "_" + problemId + "_debug.txt 2>&1"
 
+                Process p1 = Runtime.getRuntime().exec(commandStr);
+                p1.waitFor();
 
-            BufferedReader br;
-            BufferedWriter bw;
-            Process p1 = Runtime.getRuntime().exec(commandStr);
-            p1.waitFor();
+                File fileE = new File(".\\\\" + user.getId() + "_" + problemId + ".exe");
+                if (fileE.exists()) {//判断是否编译成功
 
-            File fileE = new File(".\\\\"+user.getId() + "_" + problemId + ".exe");
-            if (fileE.exists()) {//判断是否编译成功
-                long startTime = System.currentTimeMillis();//计时
-                for (int exId = 0; exId < 1; exId++) {
-                    commandStr = " .\\\\" + user.getId() + "_" + problemId + ".exe";
-                    Process p = Runtime.getRuntime().exec(commandStr);
-                    bw = new BufferedWriter(new OutputStreamWriter(p.getOutputStream()));
-//                System.out.println(pId);
-//                System.out.println(exId);
-//                System.out.println(exampleMapper.getInputByIdAndExampleId(pId, exId));
-                    bw.write(exampleMapper.getInputByIdAndExampleId(pId, exId).getContent());
-                    bw.close();
-                    br = new BufferedReader(new InputStreamReader(p.getInputStream()));
-                    String line = null;
-                    StringBuilder sb = new StringBuilder();
-                    while ((line = br.readLine()) != null) {
-                        sb.append(line + " ");
+                    long executeTime = 0;
+
+                    for (int exId = 0; exId < 1; exId++) {
+
+                        StringBuilder sb = new StringBuilder();
+                        int finalExId = exId;
+
+                        Thread thread = new Thread(()->{
+                            Process p = null;
+                            try {
+                                p = Runtime.getRuntime().exec(" .\\\\" + user.getId() + "_" + problemId + ".exe");
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+
+                            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(p.getOutputStream()));
+
+                            try {
+                                bw.write(exampleMapper.getInputByIdAndExampleId(pId, finalExId).getContent());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+
+                            try {
+                                bw.close();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+
+                            BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
+
+                            String line = null;
+
+                            //若是死循环，回停在下一步读输出流。不管有没有输出都在后面停下
+                            while (true) {
+                                try {
+                                    if (!((line = br.readLine()) != null)) break;
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                                sb.append(line + " ");
+                            }
+                        });
+                        thread.start();
+                        long startTime=System.currentTimeMillis();
+                        for (;thread.isAlive() && System.currentTimeMillis() - startTime < 10000;);
+                        executeTime+=(System.currentTimeMillis()-startTime);
+                        if(System.currentTimeMillis() - startTime >= 10000){
+                            File fileDc = new File(".\\\\" + user.getId() + "_" + problemId + ".cpp");
+                            File fileDe = new File(".\\\\" + user.getId() + "_" + problemId + ".exe");
+                            fileDc.delete();
+                            fileDe.delete();
+                            response.getWriter().write("Time Limit Exceeded");
+                            userProblemMapper.insertUserProblem(user.getId(), pId, 4, -1);
+                            System.out.println("Time Limit Exceeded");
+                            return;
+                        }
+                        if(sb.length()!=0)
+                            sb.deleteCharAt(sb.length() - 1);
+
+                        System.out.println("5");
+                        if (!sb.toString().equals(exampleMapper.getOutputByIdAndExampleId(pId, exId).getContent())) {
+                            //删除可执行程序和源程序
+                            File fileDc = new File(".\\\\" + user.getId() + "_" + problemId + ".cpp");
+                            File fileDe = new File(".\\\\" + user.getId() + "_" + problemId + ".exe");
+                            fileDc.delete();
+                            fileDe.delete();
+                            //输出错误信息,未通过样例,传到前端
+                            response.getWriter().write("Wrong Answer!");
+                            userProblemMapper.insertUserProblem(user.getId(), pId, 1, -1);
+                            System.out.println("Wrong Answer");
+                            return;
+                        }
                     }
-                    sb.deleteCharAt(sb.length() - 1);
-//                    System.out.println(sb.toString());
-//                    System.out.println(sb.toString().length());
-//                    System.out.println(exampleMapper.getOutputByIdAndExampleId(pId, exId).getContent().length());
-//                    System.out.println(exampleMapper.getOutputByIdAndExampleId(pId, exId).getContent());
-                    if (!sb.toString().equals(exampleMapper.getOutputByIdAndExampleId(pId, exId).getContent())) {
-                        //删除可执行程序和源程序
-                        File fileDc = new File(".\\\\" + user.getId() + "_" + problemId + ".cpp");
-                        File fileDe = new File(".\\\\" + user.getId() + "_" + problemId + ".exe");
-                        fileDc.delete();
-                        fileDe.delete();
-                        //输出错误信息,未通过样例,传到前端
-                        response.getWriter().write("Wrong Answer!");
-                        userProblemMapper.insertUserProblem(user.getId(),pId,1,-1);
-                        System.out.println("Wrong Answer");
-                        return;
-                    }
+
+//                    int usedTime = (int) (endTime - startTime);
+                    //删除可执行程序和源程序 暂时不删  debug
+                    File fileDc = new File(".\\\\" + user.getId() + "_" + problemId + ".cpp");
+                    File fileDe = new File(".\\\\" + user.getId() + "_" + problemId + ".exe");
+                    fileDc.delete();
+                    fileDe.delete();
+                    response.getWriter().write("Accept");
+                    userProblemMapper.insertUserProblem(user.getId(), pId, 0, (int)executeTime);
+                    System.out.println("Accept");
+                    return;
+                } else if (!fileE.exists()) {
+                    //如果可以，在这里输出错误信息
+                    response.getWriter().write("Compile Error");
+                    userProblemMapper.insertUserProblem(user.getId(), pId, 2, -1);
+                    File fileDc = new File(".\\\\" + user.getId() + "_" + problemId + ".cpp");
+                    fileDc.delete();
                 }
-                long endTime = System.currentTimeMillis();
-                int usedTime = (int)(endTime-startTime);
-                //删除可执行程序和源程序 暂时不删  debug
-                File fileDc = new File(".\\\\" + user.getId() + "_" + problemId + ".cpp");
-                File fileDe = new File(".\\\\" + user.getId() + "_" + problemId + ".exe");
-                fileDc.delete();
-                fileDe.delete();
-                response.getWriter().write("Accept");
-                userProblemMapper.insertUserProblem(user.getId(),pId,0,usedTime);
-                System.out.println("Accept");
+            } else {
+                response.getWriter().write("Judging");
+                System.out.println("正在判题" + user.getId() + "_" + problemId);
                 return;
             }
-            else if (!fileE.exists()) {
-                //如果可以，在这里输出错误信息
-                response.getWriter().write("Compile Error");
-                userProblemMapper.insertUserProblem(user.getId(),pId,2,-1);
-                File fileDc = new File(".\\\\" + user.getId() + "_" + problemId + ".cpp");
-                fileDc.delete();
-            }
-        } else {
-            response.getWriter().write("Judging");
-            System.out.println("正在判题" + user.getId() + "_" + problemId);
+
+
+        } catch(IOException e){
+            System.out.println("IO catch");
+            File fileDc = new File(".\\\\" + user.getId() + "_" + problemId + ".cpp");
+            File fileDe = new File(".\\\\" + user.getId() + "_" + problemId + ".exe");
+            fileDc.delete();
+            fileDe.delete();
+            response.getWriter().write("Unexpected Error");
             return;
         }
-
-
     }
 }
