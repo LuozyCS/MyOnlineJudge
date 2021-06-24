@@ -70,7 +70,8 @@
 font-size: larger;color: blue;text-align:center;" th:text="'Hello, ' + ${LoginName}" th:if="${LoginName} != null"></a>
                         <ul>
                             <li style="list-style:none;text-align:center;">
-                                <a href="/list" style="text-decoration: none;color:black;">管理界面</a>
+                                <a th:if = "${ #strings.isEmpty(failed)}" href="/list" style="text-decoration: none;color:black;">管理界面</a>
+                                <a th:if = "${not #strings.isEmpty(failed)}" href="/list" style="text-decoration: none;color:black;">做题记录</a>
                             </li>
                             <li style="list-style:none;text-align:center;">
                                 <a href="/login" style="text-decoration: none;color:black;">退出登陆</a>

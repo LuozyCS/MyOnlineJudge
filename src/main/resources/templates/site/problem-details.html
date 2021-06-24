@@ -68,16 +68,21 @@ font-size: larger;color: blue;" th:text="'Hello, ' + ${LoginName}" th:if="${Logi
                         <th:block th:text="${ProblemTitle}"></th:block>
                     </h1>
                     <div>
-                        <textarea id="append-test" style="display:none;">[[${ProblemContent}]]</textarea>
+                        <textarea id="append-test" style="background-color: rgba(255,255,255,0)">[[${ProblemContent}]]</textarea>
                     </div>
                     <hr>
                     <div>
                         <b>样例输入</b>
+                        <p th:if="${inputExample}!=null" th:text="${inputExample.content}">
+
+                        </p>
 
                     </div>
                     <div>
                         <b>样例输出</b>
+                        <p th:if="${outputExample}!=null" th:text="${outputExample.content}">
 
+                        </p>
                     </div>
                 </article>
 
@@ -114,7 +119,7 @@ font-size: larger;color: blue;" th:text="'Hello, ' + ${LoginName}" th:if="${Logi
         <div style="top:400px;left:0px;right:0px">
             <textarea id="code" name="content" style="margin:0 auto;"></textarea>
             <div>
-                <button id="codeCommit" value="提交代码" style="float: right;height: 20px;width: 20px">
+                <button id="codeCommit" value="提交代码" style="float: right;height: 20px">
                     提交代码
                 </button>
             </div>
@@ -122,7 +127,7 @@ font-size: larger;color: blue;" th:text="'Hello, ' + ${LoginName}" th:if="${Logi
         </div>
 
         <!--结果-->
-        <div>
+        <div id="result">
 
         </div>
 
@@ -185,7 +190,7 @@ font-size: larger;color: blue;" th:text="'Hello, ' + ${LoginName}" th:if="${Logi
                     problemId:id
                 },
                 function (data,status) {
-                    console.log(data);
+                    $("#result").text(data);
                 }
             );
 
