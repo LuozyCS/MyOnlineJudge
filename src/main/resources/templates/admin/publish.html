@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="x-admin-sm" lang="zh" xmlns:th="http://www.thymeleaf.org">
+<html class="x-admin-sm" lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 
 <head>
     <meta charset="UTF-8">
@@ -28,7 +28,8 @@
             <!-- 题目的标题 -->
             <div class="input-group input-group-lg" >
                 <span class="input-group-addon" id="sizing-addon1">标题</span>
-                <input type="text" class="form-control" placeholder="请输入标题" aria-describedby="sizing-addon1" name="title" autocomplete="off" required/>
+                <input type="text" class="form-control" th:value="${oldTitle}" th:placeholder="${oldTitle}" aria-describedby="sizing-addon1" name="title" id="title" autocomplete="off" required/>
+
             </div>
             <br>
             <input id="oldid" name="id" style="display:none;"/>
@@ -36,11 +37,14 @@
             <div id="problem-content">
                 <textarea name="content" id="content" style="display:none" th:text="${oldcontent}"></textarea>
             </div>
-
         </form>
 
     </div>
 </div>
+<!--<div class="input-group input-group-lg" >-->
+<!--    <span class="input-group-addon">样例0</span>-->
+<!--    <input type="text" class="form-control" th:placeholder="example_0" aria-describedby="sizing-addon1" name="example0" id="example0" autocomplete="off" required />-->
+<!--</div>-->
 </body>
 
 <!--editormd-->

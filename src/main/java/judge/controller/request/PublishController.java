@@ -1,6 +1,7 @@
 package judge.controller.request;
 
 import judge.controller.CookiendSession.CookieCheck;
+import judge.dataTransferObject.Example;
 import judge.dataTransferObject.Problem;
 import judge.dataTransferObject.User;
 import judge.mapper.ProblemMapper;
@@ -35,16 +36,20 @@ public class PublishController {
             return "redirect:/list";
         }
 
-        cookieCheck.check(cookies,model);
+
+
+        model=cookieCheck.check(cookies,model);
         User user=(User)model.getAttribute("User");
         problem.setPublisher(user);
-
         String ErrorMessages= problem.getErrorMessages();
         if (ErrorMessages==null)
             problemMapper.insertProblem(problem);
         else
             model.addAttribute("failed",ErrorMessages);
 
+
+        //点击发布题目后，发布一个新的题目会到这
+        System.out.println("add");
         return "redirect:/admin_problem_list";
     }
 
@@ -58,7 +63,9 @@ public class PublishController {
         if(cookieCheck.Admincheck(cookies)==false){//不是管理员就回list
             return "redirect:/list";
         }
-        model=cookieCheck.check(cookies,model);
+//        System.out.println("这是example0：");
+//        System.out.println(request.getParameter("example0"));
+//        model=cookieCheck.check(cookies,model);
         User user=(User)model.getAttribute("User");
 //        System.out.println(model.getAttribute("User"));
 
@@ -69,8 +76,8 @@ public class PublishController {
             problemMapper.updateProblem(problem);
         else
             model.addAttribute("failed",ErrorMessages);
-
-
+        //点击修改后，修改文章并发布，到这
+        System.out.println("update");
         return "redirect:/admin_problem_list";
     }
 
@@ -88,6 +95,9 @@ public class PublishController {
 
         model.addAttribute("oldcontent", problemMapper.getContent(id));
         model.addAttribute("oldid",id);
+        model.addAttribute("oldTitle",problemMapper.getTitle(id));
+        //点击admin_problem_list后，点击修改，未发布之前的修改界面，到这
+        System.out.println("/publish problem id Controller");
         return "admin/publish";
     }
 
@@ -100,6 +110,8 @@ public class PublishController {
         Cookie[] cookies = request.getCookies();
         Boolean isAdmin=cookieCheck.Admincheck(cookies);
         if(isAdmin==true){
+            //点击管理页面的发布题目会到这
+            System.out.println("Publish Controller");
             return "admin/publish";
         }else{
             model.addAttribute("failed","you are not administrator");
