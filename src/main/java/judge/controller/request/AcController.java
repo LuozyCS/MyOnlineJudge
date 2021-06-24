@@ -74,7 +74,7 @@ public class AcController {
 
                     long executeTime = 0;
 
-                    for (int exId = 0; exId < 1; exId++) {
+                    for (int exId = 0; exId < 3; exId++) {
 
                         StringBuilder sb = new StringBuilder();
                         int finalExId = exId;

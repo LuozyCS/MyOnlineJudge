@@ -52,10 +52,10 @@
                         0
                     </td>
                     <td>
-                        <input id="in01" name="in01" style="border: 0;text-align: center" th:text="${oldInExample0}">
+                        <input id="in01" name="in01" style="border: 0;text-align: center" th:value="${oldInExample0}">
                     </td>
                     <td>
-                        <input id="in02" name="in02" style="border: 0;text-align: center" th:text="${oldOutExample0}">
+                        <input id="in02" name="in02" style="border: 0;text-align: center" th:value="${oldOutExample0}">
                     </td>
                 </tr>
                 <tr>
@@ -63,10 +63,10 @@
                         1
                     </td>
                     <td>
-                        <input id="in11" name="in11" style="border: 0;text-align: center" th:text="${oldInExample1}">
+                        <input id="in11" name="in11" style="border: 0;text-align: center" th:value="${oldInExample1}">
                     </td>
                     <td>
-                        <input id="in12" name="in12" style="border: 0;text-align: center" th:text="${oldOutExample1}">
+                        <input id="in12" name="in12" style="border: 0;text-align: center" th:value="${oldOutExample1}">
                     </td>
                 </tr>
                 <tr>
@@ -74,10 +74,10 @@
                         2
                     </td>
                     <td>
-                        <input id="in21" name="in21" style="border: 0;text-align: center" th:text="${oldInExample2}">
+                        <input id="in21" name="in21" style="border: 0;text-align: center" th:value="${oldInExample2}">
                     </td>
                     <td>
-                        <input id="in22" name="in22" style="border: 0;text-align: center" th:text="${oldOutExample2}">
+                        <input id="in22" name="in22" style="border: 0;text-align: center" th:value="${oldOutExample2}">
                     </td>
                 </tr>
                 </tbody>
@@ -150,12 +150,16 @@
             /*给自定义按钮指定回调函数*/
             toolbarHandlers: {
                 releaseIcon: function (cm, icon, cursor, selection) {
-                    if(($("#in01").text().length==0)||($("#in02").text().length==0)||($("#in11").text().length==0)||($("#in12").text().length==0)
-                    ||($("#in21").text().length==0)||($("#in22").text().length==0))
-                    {
-                        alert("样例输入框不能为空！");
-                    }
-                    return;
+                    // if(($("#in01").value.length==0)||($("#in02").value.length==0)||($("#in11").value.length==0)||($("#in12").value.length==0)
+                    // ||($("#in21").value.length==0)||($("#in22").value.length==0))
+                    // {
+                    //     alert("样例输入框不能为空！");
+                    // }
+                    console.log($("#in01").value);
+                    console.log("111");
+                    console.log($("#in01").text());
+                    console.log("222");
+                    console.log("子易子易")
 
                     //表单提交
                     mdEditorForm.method = "post";
@@ -168,6 +172,7 @@
                         $("#oldid").val(0);
                         mdEditorForm.action = "/addProblem";//提交至服务器的路径
                     }else{
+                        console.log("罗子易永远的神");
                         $("#oldid").val([[${oldid}]]);
                         mdEditorForm.action = "/updateProblem";//提交至服务器的路径
                     }

@@ -29,8 +29,8 @@ import java.sql.Timestamp;
         }
 
         if (content != null ){
-            if (content.length() > 300) {
-                result.append("题目内容不能超过300个字符\n");
+            if (content.length() > 10000) {
+                result.append("题目内容不能超过10000个字符\n");
             }
         }
 

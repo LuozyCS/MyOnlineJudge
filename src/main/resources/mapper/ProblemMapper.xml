@@ -43,7 +43,7 @@
     <select id="getTitle" resultType="String" parameterType="int">
         select title from problem where id=#{problemId}
     </select>
-    <insert id="insertProblem" parameterType="Problem">
+    <insert id="insertProblem" parameterType="Problem" useGeneratedKeys="true" keyProperty="id">
         insert into problem(title,content,publish_time,publisher_id) values(#{title},#{content},now(),#{publisher.id})
     </insert>
     <update id="updateProblem" parameterType="Problem">
