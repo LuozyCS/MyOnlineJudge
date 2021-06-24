@@ -5,6 +5,9 @@ import judge.dataTransferObject.Comment;
 import judge.dataTransferObject.HistoryList;
 import judge.dataTransferObject.User;
 import judge.dataTransferObject.UserProblem;
+import judge.dataTransferObject.HistoryList;
+import judge.dataTransferObject.User;
+import judge.dataTransferObject.UserProblem;
 import judge.dataTransferObject.Example;
 import judge.mapper.ExampleMapper;
 import judge.mapper.ProblemMapper;
@@ -31,6 +34,7 @@ public class ProblemController
     @Autowired private ProblemMapper problemMapper;
     @Autowired private CommentMapper commentMapper;
     @Autowired private CookieCheck cookieCheck;
+    @Autowired private UserProblemMapper userProblemMapper;
     @Autowired private UserProblemMapper userProblemMapper;
     @Autowired private ExampleMapper exampleMapper;
     @GetMapping("/problem/id={id}")
