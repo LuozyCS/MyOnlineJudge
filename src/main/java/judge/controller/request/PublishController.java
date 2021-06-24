@@ -4,6 +4,7 @@ import judge.controller.CookiendSession.CookieCheck;
 import judge.dataTransferObject.Example;
 import judge.dataTransferObject.Problem;
 import judge.dataTransferObject.User;
+import judge.mapper.ExampleMapper;
 import judge.mapper.ProblemMapper;
 import judge.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +25,17 @@ public class PublishController {
     private UserMapper userMapper;
     @Autowired
     private CookieCheck cookieCheck;
+    @Autowired
+    private ExampleMapper exampleMapper;
     @PostMapping("/addProblem")
     public String addProblem(
             Problem problem
+            ,String in01
+            ,String in02
+            ,String in11
+            ,String in12
+            ,String in21
+            ,String in22
             , HttpServletRequest request
             , Model model
     ){
@@ -37,7 +46,7 @@ public class PublishController {
         }
 
 
-
+        //导入题目内容
         model=cookieCheck.check(cookies,model);
         User user=(User)model.getAttribute("User");
         problem.setPublisher(user);
@@ -47,6 +56,25 @@ public class PublishController {
         else
             model.addAttribute("failed",ErrorMessages);
 
+        //导入测试样例,未作为空处理的约束条件
+        Example example=new Example();
+        example.setAll(problem.getId(), 0,0,in01);
+        exampleMapper.insertExample(example);
+
+        example.setAll(problem.getId(), 1,0,in02);
+        exampleMapper.insertExample(example);
+
+        example.setAll(problem.getId(), 0,1,in11);
+        exampleMapper.insertExample(example);
+
+        example.setAll(problem.getId(), 1,1,in12);
+        exampleMapper.insertExample(example);
+
+        example.setAll(problem.getId(), 0,2,in21);
+        exampleMapper.insertExample(example);
+
+        example.setAll(problem.getId(), 1,2,in22);
+        exampleMapper.insertExample(example);
 
         //点击发布题目后，发布一个新的题目会到这
         System.out.println("add");
@@ -56,6 +84,12 @@ public class PublishController {
     @PostMapping("/updateProblem")
     public String updateProblem(
             Problem problem
+            ,String in01
+            ,String in02
+            ,String in11
+            ,String in12
+            ,String in21
+            ,String in22
             , HttpServletRequest request
             , Model model
     ){
@@ -76,6 +110,27 @@ public class PublishController {
             problemMapper.updateProblem(problem);
         else
             model.addAttribute("failed",ErrorMessages);
+
+        //导入测试样例,未作为空处理的约束条件
+        Example example=new Example();
+        example.setAll(problem.getId(), 0,0,in01);
+        exampleMapper.insertExample(example);
+
+        example.setAll(problem.getId(), 1,0,in02);
+        exampleMapper.insertExample(example);
+
+        example.setAll(problem.getId(), 0,1,in11);
+        exampleMapper.insertExample(example);
+
+        example.setAll(problem.getId(), 1,1,in12);
+        exampleMapper.insertExample(example);
+
+        example.setAll(problem.getId(), 0,2,in21);
+        exampleMapper.insertExample(example);
+
+        example.setAll(problem.getId(), 1,2,in22);
+        exampleMapper.insertExample(example);
+
         //点击修改后，修改文章并发布，到这
         System.out.println("update");
         return "redirect:/admin_problem_list";
@@ -96,6 +151,13 @@ public class PublishController {
         model.addAttribute("oldcontent", problemMapper.getContent(id));
         model.addAttribute("oldid",id);
         model.addAttribute("oldTitle",problemMapper.getTitle(id));
+
+        model.addAttribute("oldInExample0",exampleMapper.getInputByIdAndExampleId(id,0));
+        model.addAttribute("oldInExample1",exampleMapper.getInputByIdAndExampleId(id,1));
+        model.addAttribute("oldInExample2",exampleMapper.getInputByIdAndExampleId(id,2));
+        model.addAttribute("oldOutExample0",exampleMapper.getOutputByIdAndExampleId(id,0));
+        model.addAttribute("oldOutExample1",exampleMapper.getOutputByIdAndExampleId(id,1));
+        model.addAttribute("oldOutExample2",exampleMapper.getOutputByIdAndExampleId(id,2));
         //点击admin_problem_list后，点击修改，未发布之前的修改界面，到这
         System.out.println("/publish problem id Controller");
         return "admin/publish";

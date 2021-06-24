@@ -11,6 +11,14 @@ public class Example {
     private int example_id;
     private String content;
 
+    @Override
+    public void setAll(int id,int IO,int example_id,String content){
+        this.id=id;
+        this.IO=IO;
+        this.example_id=example_id;
+        this.content=content;
+        return;
+    }
 //    @Override public int hashCode()
 //    {
 //        return id;

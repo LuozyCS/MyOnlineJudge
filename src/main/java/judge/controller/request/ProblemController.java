@@ -87,6 +87,7 @@ public class ProblemController
             temp.setProblemTitle(problemMapper.getTitle(each.getProblem_id()));
             historyLists.add(temp);
         }
+        Collections.reverse(historyLists);//倒序排历史表
         model.addAttribute("HistoryList",historyLists);
 
         return "admin/page_list";
