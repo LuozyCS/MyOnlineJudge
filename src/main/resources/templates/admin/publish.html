@@ -20,7 +20,9 @@
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
     <strong>Warning!</strong> <p th:text="${failed}" />
 </div>
-<h1 style="text-align: center">题目发布</h1>
+<h1 style="text-align: center" th:if="${!#strings.isEmpty(oldcontent)}">题目修改</h1>
+<h1 style="text-align: center" th:if="${#strings.isEmpty(oldcontent)}">题目发布</h1>
+
 <div class="panel panel-default" style="width: 90%;margin: auto;">
     <div class="panel-body">
         <!--题目表单-->
@@ -36,6 +38,50 @@
 
             <div id="problem-content">
                 <textarea name="content" id="content" style="display:none" th:text="${oldcontent}"></textarea>
+            </div>
+            <div >
+            <table border="1" style="text-align: center;font-size: 26px;margin: 0 auto;">
+                <tbody >
+                <tr>
+                    <th style="text-align: center;">编号</th>
+                    <th style="text-align: center;">输入</th>
+                    <th style="text-align: center;">输出</th>
+                </tr>
+                <tr>
+                    <td>
+                        0
+                    </td>
+                    <td>
+                        <input id="in01" name="in01" style="border: 0;text-align: center" th:text="${oldInExample0}">
+                    </td>
+                    <td>
+                        <input id="in02" name="in02" style="border: 0;text-align: center" th:text="${oldOutExample0}">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        1
+                    </td>
+                    <td>
+                        <input id="in11" name="in11" style="border: 0;text-align: center" th:text="${oldInExample1}">
+                    </td>
+                    <td>
+                        <input id="in12" name="in12" style="border: 0;text-align: center" th:text="${oldOutExample1}">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        2
+                    </td>
+                    <td>
+                        <input id="in21" name="in21" style="border: 0;text-align: center" th:text="${oldInExample2}">
+                    </td>
+                    <td>
+                        <input id="in22" name="in22" style="border: 0;text-align: center" th:text="${oldOutExample2}">
+                    </td>
+                </tr>
+                </tbody>
+            </table>
             </div>
         </form>
 
@@ -104,8 +150,19 @@
             /*给自定义按钮指定回调函数*/
             toolbarHandlers: {
                 releaseIcon: function (cm, icon, cursor, selection) {
+                    if(($("#in01").text().length==0)||($("#in02").text().length==0)||($("#in11").text().length==0)||($("#in12").text().length==0)
+                    ||($("#in21").text().length==0)||($("#in22").text().length==0))
+                    {
+                        alert("样例输入框不能为空！");
+                    }
+                    return;
+
                     //表单提交
                     mdEditorForm.method = "post";
+                    // var params={
+                    //     "in1":$("#in1").val(),
+                    //     "in2":$("#in2").val(),
+                    // }
                     if([[${oldcontent}]]==null)
                         {
                         $("#oldid").val(0);
@@ -114,7 +171,19 @@
                         $("#oldid").val([[${oldid}]]);
                         mdEditorForm.action = "/updateProblem";//提交至服务器的路径
                     }
+                    // $.ajax(
+                    //     url:'',
+                    //     type:'post',
+                    //     datatype:'json',
+                    //     data:params,
+                    //     success:function(data){
+                    //     if(data==1){
+                    //         console.log(true);
+                    //     }
+                    // }
+                    // )
                     mdEditorForm.submit();
+
                 },
                 index: function () {
                     window.location.href = '/list';
