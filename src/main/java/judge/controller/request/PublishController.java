@@ -27,6 +27,12 @@ public class PublishController {
     @PostMapping("/addProblem")
     public String addProblem(
             Problem problem
+            ,String in01
+            ,String in02
+            ,String in11
+            ,String in12
+            ,String in21
+            ,String in22
             , HttpServletRequest request
             , Model model
     ){
@@ -48,6 +54,8 @@ public class PublishController {
             model.addAttribute("failed",ErrorMessages);
 
 
+
+
         //点击发布题目后，发布一个新的题目会到这
         System.out.println("add");
         return "redirect:/admin_problem_list";
@@ -56,6 +64,12 @@ public class PublishController {
     @PostMapping("/updateProblem")
     public String updateProblem(
             Problem problem
+            ,String in01
+            ,String in02
+            ,String in11
+            ,String in12
+            ,String in21
+            ,String in22
             , HttpServletRequest request
             , Model model
     ){

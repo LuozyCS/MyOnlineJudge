@@ -35,7 +35,6 @@ public class ProblemController
     @Autowired private CommentMapper commentMapper;
     @Autowired private CookieCheck cookieCheck;
     @Autowired private UserProblemMapper userProblemMapper;
-    @Autowired private UserProblemMapper userProblemMapper;
     @Autowired private ExampleMapper exampleMapper;
     @GetMapping("/problem/id={id}")
     public String problem(
