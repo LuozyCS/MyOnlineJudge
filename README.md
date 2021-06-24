@@ -11,7 +11,7 @@
 **用户-题目表**      用户号 题目号 用户通过的次数 每次通过时间
 **测试样例表**        题号  十个样例  输入输各占一行
 
-**记录暂时未修改的内容**
+## **记录暂时未修改的内容**
 
  1.注册时，没填写邮箱不可以注册，但仍然会转跳到login且并未写入数据库。bug
  ~~2. 普通用户右上角图标应该显示历史做题记录，管理员显示管理界面。demand~~
@@ -21,14 +21,18 @@
 6.管理员创建problem 并传入样例。demand
 7.response。demand
 8.安全问题。bug
-9.对于死循环代码的超时报错。bug
+~~9.对于死循环代码的超时报错。bug~~
 ~~10.修改题目没有传入标题。bug~~
+11.创建题目时，若样例为空，则禁止创建题目，返回界面。bug
+12.example的个数取出来并放到accontroller中。demand
+13.未登录提交代码会报很恐怖的错误。bug
+14.倒叙输出historyList。demand
 ## 关于数据库
 **accept** pass=0
 **wrong answer** pass=1
 **compile error** pass=2
 **runtime error** pass=3
-
+**Time Limit Exceeded** pass=4
 **若没有通过时间pass_time,则pass_time=-1**
 
 ## 关于文件路径的记录
