@@ -61,7 +61,7 @@ font-size: larger;color: blue !important;text-align:center;" th:text="'Hello, ' 
                                 <tbody>
                                     <tr th:block th:each="problem: ${Problems}">
                                         <td>
-                                            <a th:href="'problem/id=' + ${problem.id}" th:text="${problem.title}"></a>
+                                            <a th:href="'problem/id=' + ${problem.id}" th:text="'#'+ ${problem.id}+' '+${problem.title}"></a>
                                         </td>
                                         <td>
                                             <block th:text="${problem.publishTime}"></block>
