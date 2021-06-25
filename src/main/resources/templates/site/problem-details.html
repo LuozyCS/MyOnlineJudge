@@ -18,7 +18,7 @@
 <link rel="stylesheet" href="/site/codemirror-5.31.0/addon/fold/foldgutter.css"/>
 <!--end Code Mirror -->
 
-<body style="height:max-content;width:100%;background: url(/site/img/OIP.jpeg) bottom center no-repeat #efeff4 ;background-size: 100% 100%;width: 100%;height: 100%;overflow-x:hidden;">
+<body style="height:max-content;width:100%;background-size: 100% 100%;width: 100%;height: 100%;overflow-x:hidden;">
 
 <ul class="nav" style="position: absolute;right:0px;width:200px;">
     <li style="list-style:none;">
@@ -45,30 +45,17 @@ font-size: larger;color: blue;" th:text="'Hello, ' + ${LoginName}" th:if="${Logi
 <main role="main-inner-wrapper" class="container">
 
 
-    <div class="blog-details" style="position: absolute;top: 100px;left:0;right:0;">
+    <div class="blog-details" style="position: absolute;top: 100px;left:0;right:0;display: inline-block;width:auto;height: auto;">
         <!--题目列表-->
-        <div style="left: 0px;right:0px;height: 400px">
-            <div style="float: left;width: 70%;height: 400px">
-                <!--<article class="post-details" id="post-details">
-                    <header role="bog-header" class="bog-header text-center" style="text-align:center;">
-                        <h2>
-                            <th:block th:text="${ProblemTitle}"></th:block>
-                        </h2>
-                        <div class="m-text ui attached padded segment">
-                            <div class="typo typo-selection">
-                                <div id="test-editormd-view">
-                                    <textarea id="append-test" style="display:none;">[[${ProblemContent}]]</textarea>
-                                </div>
-                            </div>
-                        </div>
-                    </header>
-                </article>-->
+        <div style="left: 0px;right:0px;display: inline-block;width:auto;height: auto;">
+            <div style="float: left;width: 70%;height:80%;">
                 <article>
                     <h1>
                         <th:block th:text="${ProblemTitle}"></th:block>
                     </h1>
-                    <div>
-                        <textarea id="append-test" style="background-color: rgba(255,255,255,0)">[[${ProblemContent}]]</textarea>
+                    <div id="test-editormd-view">
+                        <textarea id="append-test" style="background-color: rgba(255,255,255,0);" th:text="${ProblemContent}">
+                        </textarea>
                     </div>
                     <hr>
                     <div>
@@ -86,20 +73,9 @@ font-size: larger;color: blue;" th:text="'Hello, ' + ${LoginName}" th:if="${Logi
                     </div>
                 </article>
 
-
             </div>
             <div style="float: right;width: 30%;height: 400px">
                 <table>
-                    <tbody>
-                    <tr>
-                        <td>难度：<span>简单</span></td>
-                    </tr>
-                    <tr>
-                        <td>时空限制：<span>1s/64MB</span></td>
-                    </tr>
-                    <tr>
-                        <td>时空限制：<span>1s/64MB</span></td>
-                    </tr>
                     <tr hidden="hidden">
                         <td>
                             <div id="data" th:text="${ProblemId}">
@@ -115,9 +91,11 @@ font-size: larger;color: blue;" th:text="'Hello, ' + ${LoginName}" th:if="${Logi
                 </table>
             </div>
         </div>
+
+
         <!--编辑器-->
-        <div style="top:400px;left:0px;right:0px">
-            <textarea id="code" name="content" style="margin:0 auto;"></textarea>
+        <div style="margin-top:20px;left:0px;right:0px;">
+            <textarea id="code" name="content" style="margin:0 auto;width:400px;"></textarea>
             <div>
                 <button id="codeCommit" value="提交代码" style="float: right;height: 20px">
                     提交代码
@@ -190,7 +168,12 @@ font-size: larger;color: blue;" th:text="'Hello, ' + ${LoginName}" th:if="${Logi
                     problemId:id
                 },
                 function (data,status) {
-                    $("#result").text(data);
+                    if(data[0]=='<'&&data[1]=='!'&&data[2]=='D'){
+                        window.location.href="/login"
+                    }
+                    else{
+                        $("#result").text(data);
+                    }
                 }
             );
 
@@ -211,6 +194,7 @@ font-size: larger;color: blue;" th:text="'Hello, ' + ${LoginName}" th:if="${Logi
         gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
         matchBrackets: true,	//括号匹配
         //readOnly: true,        //只读
+
     });
     //editor.setSize('800px', '950px');     //设置代码框的长宽
 
