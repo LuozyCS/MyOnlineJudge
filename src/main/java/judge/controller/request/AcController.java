@@ -191,6 +191,10 @@ public class AcController {
                     System.out.println("Accept");
                     return;
                 } else if (!fileE.exists()) {
+                    File fileDc = new File(".\\\\" + user.getId() + "_" + problemId + ".cpp");
+                    File fileDe = new File(".\\\\" + user.getId() + "_" + problemId + ".exe");
+                    fileDc.delete();
+                    fileDe.delete();
                     //如果可以，在这里输出错误信息
                     response.getWriter().write("Compile Error");
                     userProblemMapper.insertUserProblem(user.getId(), pId, 2, -1);
