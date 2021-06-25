@@ -45,16 +45,18 @@ font-size: larger;color: blue;" th:text="'Hello, ' + ${LoginName}" th:if="${Logi
 <main role="main-inner-wrapper" class="container">
 
 
-    <div class="blog-details" style="position: absolute;top: 100px;left:0;right:0;display: inline-block;width:auto;height: auto;">
+    <div class="blog-details"
+         style="position: absolute;top: 100px;left:0;right:0;display: inline-block;width:auto;height: auto;padding:15px;border:1px solid #999999;border-radius:5px">
         <!--题目列表-->
-        <div style="left: 0px;right:0px;display: inline-block;width:auto;height: auto;">
+        <div style="border-bottom:1px solid #c5c5c5;left: 0px;right:0px;display: inline-block;width:100%;height: auto;">
             <div style="float: left;width: 70%;height:80%;">
                 <article>
                     <h1>
                         <th:block th:text="${ProblemTitle}"></th:block>
                     </h1>
                     <div id="test-editormd-view">
-                        <textarea id="append-test" style="background-color: rgba(255,255,255,0);" th:text="${ProblemContent}">
+                        <textarea id="append-test" style="background-color: rgba(255,255,255,0);"
+                                  th:text="${ProblemContent}">
                         </textarea>
                     </div>
                     <hr>
@@ -94,27 +96,35 @@ font-size: larger;color: blue;" th:text="'Hello, ' + ${LoginName}" th:if="${Logi
 
 
         <!--编辑器-->
-        <div style="margin-top:20px;left:0px;right:0px;">
-            <textarea id="code" name="content" style="margin:0 auto;width:400px;"></textarea>
-            <div>
-                <button id="codeCommit" value="提交代码" style="float: right;height: 20px">
-                    提交代码
-                </button>
+
+            <div style="margin-top:20px;left:0px;right:0px;">
+                <textarea id="code" name="content" style="margin:0 auto;width:400px;"></textarea>
+                <div style="margin-top: 30px;display: flex;flex-direction: row;width: 100%;height:80px;border-bottom:1px solid #c5c5c5;align-items:center;background-color:#cccccc;border-radius:5px;border:1px solid #777777">
+
+                    <div id="result" style="margin-left:30px;font-size:19px">
+                    </div>
+
+                    <button id="codeCommit" value="提交代码" style="float: right;height: 40px; background-color: #00a1d6;border-radius: 7px;text-align: center;line-height: 40px;font-size: 19px;position:absolute;right:40px;padding-left:15px;padding-right:15px;color:White;">
+                        提交代码
+                    </button>
+
+                </div>
             </div>
 
-        </div>
+            <!--结果-->
 
-        <!--结果-->
-        <div id="result">
 
-        </div>
 
         <!--评论区-->
-        <footer style="left:0px;right:0px;width:60%;transform:translate(30%,0);height:300px;">
+        <footer style="margin-top:30px; padding-top:20px;border-top:1px solid #999999; left:0px;right:0px;width:100%;transform:translate(0%,0);height:300px;">
             <div th:replace="/site/bilibili::footer"></div>
         </footer>
+
+        <div style="height: 60px"></div>
     </div>
+
 </main>
+<div style="height: 50px;"></div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <!--editormd-->
@@ -158,20 +168,27 @@ font-size: larger;color: blue;" th:text="'Hello, ' + ${LoginName}" th:if="${Logi
             $(this).children("ul").hide();
         });
         $("#codeCommit").click(function () {
-            str=editor.getValue();
+            str = editor.getValue();
             console.log(str);
-            var id=$("#data").text();
+            var id = $("#data").text();
             console.log($("#data").text());
             $.post("/code_submit",
                 {
-                    userText:str,
-                    problemId:id
+                    userText: str,
+                    problemId: id
                 },
-                function (data,status) {
-                    if(data[0]=='<'&&data[1]=='!'&&data[2]=='D'){
-                        window.location.href="/login"
-                    }
-                    else{
+                function (data, status) {
+                    if (data[0] == '<' && data[1] == '!' && data[2] == 'D') {
+                        window.location.href = "/login"
+                    } else {
+                        if(data[0]=='A'){
+                            $("#result").css({color:"#5cb85c"})
+                        }else{
+                            $("#result").css({color:"#ff0011"})
+                        }
+
+
+
                         $("#result").text(data);
                     }
                 }

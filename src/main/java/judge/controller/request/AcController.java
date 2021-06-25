@@ -198,8 +198,8 @@ public class AcController {
                     //如果可以，在这里输出错误信息
                     response.getWriter().write("Compile Error");
                     userProblemMapper.insertUserProblem(user.getId(), pId, 2, -1);
-                    File fileDc = new File(".\\\\" + user.getId() + "_" + problemId + ".cpp");
-                    fileDc.delete();
+                    File fileD = new File(".\\\\" + user.getId() + "_" + problemId + ".cpp");
+                    fileD.delete();
                 }
             } else {
                 response.getWriter().write("Judging");
