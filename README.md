@@ -15,18 +15,18 @@
 
  1.注册时，没填写邮箱不可以注册，但仍然会转跳到login且并未写入数据库。bug
  ~~2. 普通用户右上角图标应该显示历史做题记录，管理员显示管理界面。demand~~
-3.对于运行时间过长的程序，需要终止并返回错误，避免恶意代码。bug
+~~3.对于运行时间过长的程序，需要终止并返回错误，避免恶意代码。bug~~
 ~~4.做题分析的标头无法显示。bug~~
 ~~5.做题分析的题目名无法显示。bug~~
-6.管理员创建problem 并传入样例。demand
-7.response。demand
+~~6.管理员创建problem 并传入样例。demand~~
+~~7.response。demand~~
 8.安全问题。bug
 ~~9.对于死循环代码的超时报错。bug~~
 ~~10.修改题目没有传入标题。bug~~
-11.创建题目时，若样例为空，则禁止创建题目，返回界面。bug
-12.example的个数取出来并放到accontroller中。demand
-13.未登录提交代码会报很恐怖的错误。bug
-14.倒叙输出historyList。demand
+~~11.创建题目时，若样例为空，则禁止创建题目，返回界面。bug~~
+~~12.example的个数取出来并放到accontroller中。demand~~  感觉不需要了 恒定三个就行
+~~13.未登录提交代码会报很恐怖的错误。bug~~
+~~14.倒叙输出historyList。demand~~
 ## 关于数据库
 **accept** pass=0
 **wrong answer** pass=1
