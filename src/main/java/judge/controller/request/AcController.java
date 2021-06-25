@@ -33,6 +33,71 @@ public class AcController {
     @Autowired
     private UserProblemMapper userProblemMapper;
 
+    class MyThread extends Thread {
+        User user;
+        String problemId;
+        int pId, finalExId;
+        StringBuilder sb;
+
+        public MyThread(User user, String problemId, int pId, int finalExId, StringBuilder sb) {
+            this.user = user;
+            this.problemId = problemId;
+            this.pId = pId;
+            this.finalExId = finalExId;
+            this.sb = sb;
+        }
+
+        Process p = null;
+        @Override
+        public void run() {
+            try {
+                p = Runtime.getRuntime().exec(" .\\\\" + user.getId() + "_" + problemId + ".exe");
+            } catch (IOException e) {
+                File fileDc = new File(".\\\\" + user.getId() + "_" + problemId + ".cpp");
+                File fileDe = new File(".\\\\" + user.getId() + "_" + problemId + ".exe");
+                fileDc.delete();
+                fileDe.delete();
+                e.printStackTrace();
+            }
+
+            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(p.getOutputStream()));
+
+            try {
+                bw.write(exampleMapper.getInputByIdAndExampleId(pId, finalExId).getContent());
+            } catch (IOException e) {
+                File fileDc = new File(".\\\\" + user.getId() + "_" + problemId + ".cpp");
+                File fileDe = new File(".\\\\" + user.getId() + "_" + problemId + ".exe");
+                fileDc.delete();
+                fileDe.delete();
+                e.printStackTrace();
+            }
+
+            try {
+                bw.close();
+            } catch (IOException e) {
+                File fileDc = new File(".\\\\" + user.getId() + "_" + problemId + ".cpp");
+                File fileDe = new File(".\\\\" + user.getId() + "_" + problemId + ".exe");
+                fileDc.delete();
+                fileDe.delete();
+                e.printStackTrace();
+            }
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
+
+            String line = null;
+
+            //若是死循环，回停在下一步读输出流。不管有没有输出都在后面停下
+            while (true) {
+                try {
+                    if (!((line = br.readLine()) != null)) break;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                sb.append(line + " ");
+            }
+        }
+    }
+
     @PostMapping("/code_submit")
     public void login(
             @RequestParam(value = "userText", required = false) final String userText,
@@ -79,47 +144,16 @@ public class AcController {
                         StringBuilder sb = new StringBuilder();
                         int finalExId = exId;
 
-                        Thread thread = new Thread(()->{
-                            Process p = null;
-                            try {
-                                p = Runtime.getRuntime().exec(" .\\\\" + user.getId() + "_" + problemId + ".exe");
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-
-                            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(p.getOutputStream()));
-
-                            try {
-                                bw.write(exampleMapper.getInputByIdAndExampleId(pId, finalExId).getContent());
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-
-                            try {
-                                bw.close();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-
-                            BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
-
-                            String line = null;
-
-                            //若是死循环，回停在下一步读输出流。不管有没有输出都在后面停下
-                            while (true) {
-                                try {
-                                    if (!((line = br.readLine()) != null)) break;
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                                sb.append(line + " ");
-                            }
-                        });
+                        MyThread thread = new MyThread(user, problemId, pId, finalExId, sb);
                         thread.start();
+
                         long startTime=System.currentTimeMillis();
                         for (;thread.isAlive() && System.currentTimeMillis() - startTime < 10000;);
                         executeTime+=(System.currentTimeMillis()-startTime);
                         if(System.currentTimeMillis() - startTime >= 10000){
+                            thread.interrupt();
+                            thread.p.destroy();
+                            thread.p.waitFor();//destroy也需要wait
                             File fileDc = new File(".\\\\" + user.getId() + "_" + problemId + ".cpp");
                             File fileDe = new File(".\\\\" + user.getId() + "_" + problemId + ".exe");
                             fileDc.delete();
@@ -132,7 +166,6 @@ public class AcController {
                         if(sb.length()!=0)
                             sb.deleteCharAt(sb.length() - 1);
 
-                        System.out.println("5");
                         if (!sb.toString().equals(exampleMapper.getOutputByIdAndExampleId(pId, exId).getContent())) {
                             //删除可执行程序和源程序
                             File fileDc = new File(".\\\\" + user.getId() + "_" + problemId + ".cpp");
