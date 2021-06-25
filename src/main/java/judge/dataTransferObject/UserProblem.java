@@ -15,10 +15,10 @@ public class UserProblem {
     private Timestamp when;
 
     //hashcode()待定
-//    @Override public int hashCode()
-//    {
-//        return id;
-//    }
+    @Override public int hashCode()
+    {
+        return user_id | problem_id | pass_time;
+    }
     @Override public boolean equals(Object object)
     {
         return object instanceof UserProblem //同时挡住null
