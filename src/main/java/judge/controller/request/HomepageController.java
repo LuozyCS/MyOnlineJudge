@@ -44,6 +44,7 @@ public class HomepageController {
         List<Problem> list = problemMapper.getAllExceptContent();
         System.out.println(list);
 
+        //添加通过率
 
         //添加通过率
         ArrayList<AllProblemList> allProblemLists = new ArrayList<>(list.size());
