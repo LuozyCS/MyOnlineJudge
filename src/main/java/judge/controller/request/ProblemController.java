@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import java.sql.Timestamp;
 import java.util.*;
 
 @Controller
@@ -39,6 +40,7 @@ public class ProblemController
     @GetMapping("/problem/id={id}")
     public String problem(
             @PathVariable("id") int id
+
             , Model model
             , HttpServletRequest request)
     {
@@ -60,6 +62,19 @@ public class ProblemController
         model.addAttribute("inputExample",example1);
         Example example2=exampleMapper.getFirstOutputById(id);
         model.addAttribute("outputExample", example2);
+
+        String user_id;
+        user_id=request.getParameter("user_id");
+
+        if(user_id!=null){
+            int uid=Integer.parseInt(user_id);
+            Timestamp when=new Timestamp(System.currentTimeMillis());
+            when=Timestamp.valueOf(request.getParameter("when"));
+            System.out.println(when);
+                    //request.getParameter("when");
+            String content=userProblemMapper.getSubmitContent(uid, id, when);
+            model.addAttribute("content", content);
+        }
 
 
 //        System.err.println(model.getAttribute("Comments"));

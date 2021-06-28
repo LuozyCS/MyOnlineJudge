@@ -167,6 +167,7 @@ font-size: larger;color: blue;" th:text="'Hello, ' + ${LoginName}" th:if="${Logi
         $(".nav>li").mouseout(function () {
             $(this).children("ul").hide();
         });
+        //提交按钮
         $("#codeCommit").click(function () {
             str = editor.getValue();
             console.log(str);
@@ -198,6 +199,7 @@ font-size: larger;color: blue;" th:text="'Hello, ' + ${LoginName}" th:if="${Logi
     })
 
     console.log("2222222");
+
     //根据DOM元素的id构造出一个编辑器
     var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
         mode: "text/groovy",    //实现groovy代码高亮
@@ -215,8 +217,17 @@ font-size: larger;color: blue;" th:text="'Hello, ' + ${LoginName}" th:if="${Logi
     });
     //editor.setSize('800px', '950px');     //设置代码框的长宽
 
-    editor.setValue("");    //先代码框的值清空
-    console.log("111111111");
+    var content=[[${content}]];
+    console.log(content)
+
+    if(content!=null){
+        editor.setValue(content);
+    }else{
+        editor.setValue("");    //先代码框的值清空
+    }
+
+
+
     //editor.setValue(obj.scriptCode);    //给代码框赋值
     // str=editor.getValue();
     // console.log(str);

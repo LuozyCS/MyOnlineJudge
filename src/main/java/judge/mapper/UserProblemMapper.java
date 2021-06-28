@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 @Mapper
@@ -17,6 +18,12 @@ public interface UserProblemMapper {
     //插入一个新的提交历史
     void insertUserProblem(@Param("user_id")final int user_id,@Param("problem_id")final int problem_id,
                            @Param("pass")final int pass,
-                           @Param("pass_time")final int pass_time);
+                           @Param("pass_time")final int pass_time,
+                           @Param("content")final String content);
+
+
+    //根据用户id，问题id，当前时间获得提交内容
+    String getSubmitContent(@Param("user_id")final int user_id, @Param("problem_id")final int problem_id,
+                            @Param("when")final Timestamp when);
 
 }

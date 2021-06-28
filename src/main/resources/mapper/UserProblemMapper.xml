@@ -25,8 +25,13 @@
 
 
     <insert id="insertUserProblem">
-        insert into user_problem(user_id, problem_id, pass,pass_time,`when`) values(#{user_id},#{problem_id},#{pass},#{pass_time},now());
+        insert into user_problem(user_id, problem_id, pass,pass_time,`when`,content) values(#{user_id},#{problem_id},#{pass},#{pass_time},now(),#{content});
     </insert>
 
+    <select id="getSubmitContent" resultType="String">
+        select content
+        from user_problem
+        where user_id=#{user_id} and problem_id=#{problem_id} and `when`=#{when}
+    </select>
 
 </mapper>

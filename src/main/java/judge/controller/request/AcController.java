@@ -112,6 +112,7 @@ public class AcController {
             User user = (User) model.getAttribute("User");
             int pId = Integer.parseInt(problemId);
             File file = new File(user.getId() + "_" + problemId + ".cpp");
+        //System.out.println(userText);
         try {
             if (!file.exists()) {
                 try {
@@ -159,7 +160,7 @@ public class AcController {
                             fileDc.delete();
                             fileDe.delete();
                             response.getWriter().write("Time Limit Exceeded");
-                            userProblemMapper.insertUserProblem(user.getId(), pId, 4, -1);
+                            userProblemMapper.insertUserProblem(user.getId(), pId, 4, -1,userText);
                             System.out.println("Time Limit Exceeded");
                             return;
                         }
@@ -174,7 +175,7 @@ public class AcController {
                             fileDe.delete();
                             //输出错误信息,未通过样例,传到前端
                             response.getWriter().write("Wrong Answer!");
-                            userProblemMapper.insertUserProblem(user.getId(), pId, 1, -1);
+                            userProblemMapper.insertUserProblem(user.getId(), pId, 1, -1,userText);
                             System.out.println("Wrong Answer");
                             return;
                         }
@@ -187,7 +188,7 @@ public class AcController {
                     fileDc.delete();
                     fileDe.delete();
                     response.getWriter().write("Accept");
-                    userProblemMapper.insertUserProblem(user.getId(), pId, 0, (int)executeTime);
+                    userProblemMapper.insertUserProblem(user.getId(), pId, 0, (int)executeTime,userText);
                     System.out.println("Accept");
                     return;
                 } else if (!fileE.exists()) {
@@ -197,7 +198,7 @@ public class AcController {
                     fileDe.delete();
                     //如果可以，在这里输出错误信息
                     response.getWriter().write("Compile Error");
-                    userProblemMapper.insertUserProblem(user.getId(), pId, 2, -1);
+                    userProblemMapper.insertUserProblem(user.getId(), pId, 2, -1,userText);
                 }
             } else {
                 response.getWriter().write("Judging");
