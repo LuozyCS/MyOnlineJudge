@@ -47,6 +47,9 @@ public class ProblemController
         Cookie[] cookies = request.getCookies();
 
         model=cookieCheck.check(cookies,model);
+        if (cookieCheck.Admincheck(cookies) == false) {//不是管理员就隐藏右上角按钮
+            model.addAttribute("failed", "you are not administrator");
+        }
 //        System.out.println(((User)model.getAttribute("User")).getId());
 //        System.out.println("problem controller " + id);
         model.addAttribute("ProblemContent", problemMapper.getContent(id));
