@@ -36,6 +36,7 @@ public class PublishController {
             ,String in12
             ,String in21
             ,String in22
+            ,String select
             , HttpServletRequest request
             , Model model
     ){
@@ -45,11 +46,19 @@ public class PublishController {
             return "redirect:/list";
         }
 
+        System.out.println(select);
 
         //导入题目内容
         model=cookieCheck.check(cookies,model);
         User user=(User)model.getAttribute("User");
         problem.setPublisher(user);
+        if(select=="简单"){
+            problem.setDifficulty(0);
+        }else if(select=="困难"){
+            problem.setDifficulty(1);
+        }else{
+            problem.setDifficulty(2);
+        }
         String ErrorMessages= problem.getErrorMessages();
         if (ErrorMessages==null)
             problemMapper.insertProblem(problem);
@@ -162,6 +171,7 @@ public class PublishController {
         model.addAttribute("oldOutExample0",exampleMapper.getOutputByIdAndExampleId(id,0).getContent());
         model.addAttribute("oldOutExample1",exampleMapper.getOutputByIdAndExampleId(id,1).getContent());
         model.addAttribute("oldOutExample2",exampleMapper.getOutputByIdAndExampleId(id,2).getContent());
+        model.addAttribute("oldDifficulty", problemMapper.getDifficulty(id));
         //点击admin_problem_list后，点击修改，未发布之前的修改界面，到这
         System.out.println("/publish problem id Controller");
         return "admin/publish";

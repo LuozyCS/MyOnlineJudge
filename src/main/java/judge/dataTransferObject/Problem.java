@@ -10,6 +10,7 @@ import java.sql.Timestamp;
     private String title, content;
     private Timestamp publishTime;
     private User publisher;
+    private int difficulty;
     @Override public int hashCode()
     {
         return id;

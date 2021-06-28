@@ -54,6 +54,13 @@ font-size: larger;color: blue;" th:text="'Hello, ' + ${LoginName}" th:if="${Logi
                     <h1>
                         <th:block th:text="${ProblemTitle}"></th:block>
                     </h1>
+                    <div>
+                        <span>难度</span>
+                        <span th:text="简单" th:if="${ProblemDifficulty}=='简单'"  style="color:#1DC116"></span>
+                        <span th:text="中等" th:if="${ProblemDifficulty}=='中等'"  style="color:#66ccff"></span>
+                        <span th:text="困难" th:if="${ProblemDifficulty}=='困难'"  style="color:#FF0000"></span>
+                    </div>
+                    <hr>
                     <div id="test-editormd-view">
                         <textarea id="append-test" style="background-color: rgba(255,255,255,0);"
                                   th:text="${ProblemContent}">
@@ -78,6 +85,7 @@ font-size: larger;color: blue;" th:text="'Hello, ' + ${LoginName}" th:if="${Logi
             </div>
             <div style="float: right;width: 30%;height: 400px">
                 <table>
+
                     <tr hidden="hidden">
                         <td>
                             <div id="data" th:text="${ProblemId}">

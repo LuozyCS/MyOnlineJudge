@@ -57,6 +57,16 @@ public class ProblemController
         for (Comment comment : directComments)
             comment.setPublisher(userMapper.getUserById(comment.getPublisher().getId()));
 
+        int flag=problemMapper.getDifficulty(id);
+        String temp;
+        if(flag==0){
+            temp="简单";
+        }else if(flag==1){
+            temp="中等";
+        }else{
+            temp="困难";
+        }
+        model.addAttribute("ProblemDifficulty",temp);
         //接下来将要获得第一个样例输入以及输出
         Example example1=exampleMapper.getFirstInputById(id);
         model.addAttribute("inputExample",example1);
@@ -100,10 +110,12 @@ public class ProblemController
             HistoryList temp =new HistoryList();
             temp.setUserProblem(each);
             temp.setProblemTitle(problemMapper.getTitle(each.getProblem_id()));
+            temp.setDifficulty(problemMapper.getDifficulty(each.getProblem_id()));
             historyLists.add(temp);
         }
         Collections.reverse(historyLists);//倒序排历史表
         model.addAttribute("HistoryList",historyLists);
+
 
         return "admin/page_list";
     }

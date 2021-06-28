@@ -10,4 +10,5 @@ import lombok.NoArgsConstructor;
 public class HistoryList {
     private UserProblem userProblem;
     private String problemTitle;
+    private int difficulty;
 }
