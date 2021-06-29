@@ -69,7 +69,7 @@ font-size: larger;color: blue !important;text-align:center;" th:text="'Hello, ' 
                                         <td>
                                             <block>
 <!--                                                <a id="delete" style="cursor:pointer;" th:href="'/delete_request/id='+${problem.id}">删除</a>-->
-                                                <a th:href="'/delete_request/id='+${problem.id}">删除</a>
+                                                <a id="delete" th:href="'/delete_request/id='+${problem.id}">删除</a>
                                                 <a th:href="'/publish/problem_id = ' + ${problem.id}">修改</a>
                                             </block>
                                         </td>
@@ -96,11 +96,12 @@ font-size: larger;color: blue !important;text-align:center;" th:text="'Hello, ' 
                 $(this).children("ul").hide();
             })
             $("#delete").click(function() {
-                var second = confirm("你确定删除这篇文章吗？");
+                var second = alert("你确定删除这篇文章吗？");
                 if (second == true) {
                     window.location.href = $(this).attr("url1");
                     // console.log($(this).attr("url1"));
                 }
+
             })
         })
     </script>
