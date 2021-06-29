@@ -50,10 +50,16 @@ public class ProblemController
         if (cookieCheck.Admincheck(cookies) == false) {//不是管理员就隐藏右上角按钮
             model.addAttribute("failed", "you are not administrator");
         }
+        User user= (User) model.getAttribute("User");
+        if(problemMapper.getState(id)==1&&user.getId()!=problemMapper.getPublisher(id)){
+            model.addAttribute("NotPublisher","you are not the publisher of this problem");
+            return "redirect:/list";
+        }
 //        System.out.println(((User)model.getAttribute("User")).getId());
 //        System.out.println("problem controller " + id);
         model.addAttribute("ProblemContent", problemMapper.getContent(id));
         model.addAttribute("ProblemTitle", problemMapper.getTitle(id));
+        model.addAttribute("ProblemState",problemMapper.getState(id));
         model.addAttribute("ProblemId",id);
         List<Comment> directComments = commentMapper.getDirectComments(id);
         model.addAttribute("DirectComments", directComments);

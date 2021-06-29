@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.awt.peer.ListPeer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,25 +79,18 @@ public class ProblemlistController {
         if(cookieCheck.Admincheck(cookies)==false){//不是管理员就回list
             return "redirect:/list";
         }
-//        cookieCheck.check(cookies,model);
-//        User user=(User) model.getAttribute("User");
-//        //通过cookie查找publisherId，查找文章
-//        int tmpPublisherId=user.getId();
+        model = cookieCheck.check(cookies,model);
+        User user=(User) model.getAttribute("User");
 
         //草稿箱状态为1
-        List<Problem> userProblemList = problemMapper.getAllExceptContent();
-        List<Problem> ans=new ArrayList<Problem>();
-        for (Problem problem:userProblemList){
-            if(problem.getState()==1){
-                ans.add(problem);
-            }
+        List<Problem> userDraftList = problemMapper.getAllExceptContent_ByPublisherId(user.getId());
+        ArrayList<Problem> ans=new ArrayList<>();
+        for(int i = 0;i<userDraftList.size();i++){
+            if(userDraftList.get(i).getState()==1) ans.add(userDraftList.get(i));
         }
+
 
         model.addAttribute("Problems", ans);
-
-        for(Problem a: userProblemList){
-            System.out.println(a.getTitle());
-        }
 
         return "admin/admin_draft_list";
 
