@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -51,6 +52,47 @@ public class ProblemlistController {
 
     }
 
+
+
+    @GetMapping("/admin_draft_list")
+    public String draftlist(Model model,
+                              HttpServletResponse response,
+                              HttpServletRequest request
+    )
+    {
+
+        //确认cookie
+        Cookie[] cookies = request.getCookies();
+        if(cookieCheck.Admincheck(cookies)==false){//不是管理员就回list
+            return "redirect:/list";
+        }
+//        cookieCheck.check(cookies,model);
+//        User user=(User) model.getAttribute("User");
+//        //通过cookie查找publisherId，查找文章
+//        int tmpPublisherId=user.getId();
+
+        //草稿箱状态为1
+        List<Problem> userProblemList = problemMapper.getAllExceptContent();
+        List<Problem> ans=new ArrayList<Problem>();
+        for (Problem problem:userProblemList){
+            if(problem.getState()==1){
+                ans.add(problem);
+            }
+        }
+
+        model.addAttribute("Problems", ans);
+
+        for(Problem a: userProblemList){
+            System.out.println(a.getTitle());
+        }
+
+        return "admin/admin_draft_list";
+
+    }
+
+
+
+
     //用于删除文章的controller
     @GetMapping("/delete_request/id={id}") public String deleteProblem(
             @PathVariable("id") int id,
@@ -70,7 +112,7 @@ public class ProblemlistController {
 //    if(user.getId()== problemMapper.getPublisher(id)) {
         problemMapper.deleteProblem(id);
 //    }
-        return "redirect:/admin_problem_list";
+        return "redirect:/admin_draft_list";
     }
 
 
