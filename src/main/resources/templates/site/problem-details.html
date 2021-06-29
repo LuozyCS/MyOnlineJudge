@@ -20,11 +20,14 @@
 
 <body style="height:max-content;width:100%;background-size: 100% 100%;width: 100%;height: 100%;overflow-x:hidden;">
 
-<div style="height: 70px;width: 100%;position:fixed;background-color:#66ccff;opacity:1.0;z-index:99;">
-    <ul class="nav" style="position: absolute;right:0px;width:200px;">
+<div id="theHead" style="height: 60px;width: 100%;position:fixed;opacity:1.0;z-index:99;">
+    <div id="showState" style="height:60px;font-size: 30px;text-align:center;line-height:60px;">
+
+    </div>
+    <ul class="nav" style="position: absolute;right:0px;width:200px;top:0px">
         <li style="list-style:none;">
             <a title="个人界面" href="/login" style="text-decoration: none;
-                    font-size: larger;color: blue;" th:text="'Hello, ' + ${LoginName}" th:if="${LoginName} != null"></a>
+                    font-size: 26px;color: blue;height:60px" th:text="'Hello, ' + ${LoginName}" th:if="${LoginName} != null"></a>
             <ul>
                 <li style="list-style:none;">
                     <a th:if="${ #strings.isEmpty(failed)}" href="/list"
@@ -171,12 +174,22 @@
         var a = [[${ProblemState}]]
         if (a == 0) {//已经发布
             $("#submit").css("background-color", "#00a1d6");
-        } else if (a == 1) {
+            $("#theHead").css("background-color", "#00a1d6");
+            //$("#showState").css("display", "none");
+        } else if (a == 1) {//草稿箱
             $("#codeCommit").css("background-color", "gray");
             $("#submit").css("background-color", "gray");
+            $("#theHead").css("background-color", "gray");
+
+            // $("#showState").attr("value", "该题目尚未发布");
+            $("#showState").text("该题目尚未发布")
+
         } else {//已经废弃
             $("#codeCommit").css("background-color", "gray");
             $("#submit").css("background-color", "gray");
+            $("#theHead").css("background-color", "gray");
+
+            $("#showState").text("该题目已经废弃")
 
         }
         editormd.markdownToHTML("test-editormd-view", {
