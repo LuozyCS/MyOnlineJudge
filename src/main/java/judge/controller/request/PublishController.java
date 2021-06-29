@@ -27,6 +27,8 @@ public class PublishController {
     private CookieCheck cookieCheck;
     @Autowired
     private ExampleMapper exampleMapper;
+
+    //发布界面发布
     @PostMapping("/addProblem")
     public String addProblem(
             Problem problem
@@ -40,6 +42,7 @@ public class PublishController {
             , HttpServletRequest request
             , Model model
     ){
+
         Cookie[] cookies = request.getCookies();
 
         if(cookieCheck.Admincheck(cookies)==false){//不是管理员就回list
@@ -60,8 +63,10 @@ public class PublishController {
             problem.setDifficulty(2);
         }
         String ErrorMessages= problem.getErrorMessages();
-        if (ErrorMessages==null)
+        if (ErrorMessages==null) {
+            problem.setState(0);
             problemMapper.insertProblem(problem);
+        }
         else
             model.addAttribute("failed",ErrorMessages);
 
@@ -92,8 +97,80 @@ public class PublishController {
         return "redirect:/admin_problem_list";
     }
 
-    @PostMapping("/updateProblem")
-    public String updateProblem(
+    //发布界面暂存
+    @PostMapping("/addDraft")
+    public String addDraft(
+            Problem problem
+            ,String in01
+            ,String in02
+            ,String in11
+            ,String in12
+            ,String in21
+            ,String in22
+            ,String select
+            , HttpServletRequest request
+            , Model model
+    ){
+
+        Cookie[] cookies = request.getCookies();
+
+        if(cookieCheck.Admincheck(cookies)==false){//不是管理员就回list
+            return "redirect:/list";
+        }
+
+        System.out.println(select);
+
+        //导入题目内容
+        model=cookieCheck.check(cookies,model);
+        User user=(User)model.getAttribute("User");
+        problem.setPublisher(user);
+        if(select=="简单"){
+            problem.setDifficulty(0);
+        }else if(select=="困难"){
+            problem.setDifficulty(1);
+        }else{
+            problem.setDifficulty(2);
+        }
+        String ErrorMessages= problem.getErrorMessages();
+        if (ErrorMessages==null) {
+            problem.setState(1);
+            problemMapper.insertProblem(problem);
+        }
+        else
+            model.addAttribute("failed",ErrorMessages);
+
+        //导入测试样例,未作为空处理的约束条件
+        Example example=new Example();
+        example.setAll(problem.getId(), 0,0,in01);
+        exampleMapper.insertExample(example);
+
+        example.setAll(problem.getId(), 1,0,in02);
+        exampleMapper.insertExample(example);
+
+        example.setAll(problem.getId(), 0,1,in11);
+        exampleMapper.insertExample(example);
+
+        example.setAll(problem.getId(), 1,1,in12);
+        exampleMapper.insertExample(example);
+
+        example.setAll(problem.getId(), 0,2,in21);
+        exampleMapper.insertExample(example);
+
+        example.setAll(problem.getId(), 1,2,in22);
+        exampleMapper.insertExample(example);
+
+
+
+        //点击发布题目后，发布一个新的题目会到这
+        System.out.println("add");
+        return "redirect:/admin_problem_list";
+    }
+
+
+
+    //草稿箱界面发布
+    @PostMapping("/updateDraftToProblem")
+    public String updateDraftToProblem(
             Problem problem
             ,String in01
             ,String in02
@@ -104,6 +181,7 @@ public class PublishController {
             , HttpServletRequest request
             , Model model
     ){
+
         Cookie[] cookies = request.getCookies();
         if(cookieCheck.Admincheck(cookies)==false){//不是管理员就回list
             return "redirect:/list";
@@ -117,8 +195,72 @@ public class PublishController {
         problem.setPublisher(user);
 
         String ErrorMessages= problem.getErrorMessages();
-        if( ErrorMessages==null || (ErrorMessages.isEmpty()) )
+        if( ErrorMessages==null || (ErrorMessages.isEmpty()) ) {
+            problem.setState(0);
             problemMapper.updateProblem(problem);
+        }
+        else
+            model.addAttribute("failed",ErrorMessages);
+
+
+
+        //导入测试样例,未作为空处理的约束条件
+        Example example=new Example();
+        example.setAll(problem.getId(), 0,0,in01);
+        exampleMapper.updateExample(example);
+
+        example.setAll(problem.getId(), 1,0,in02);
+        exampleMapper.updateExample(example);
+
+        example.setAll(problem.getId(), 0,1,in11);
+        exampleMapper.updateExample(example);
+
+        example.setAll(problem.getId(), 1,1,in12);
+        exampleMapper.updateExample(example);
+
+        example.setAll(problem.getId(), 0,2,in21);
+        exampleMapper.updateExample(example);
+
+        example.setAll(problem.getId(), 1,2,in22);
+        exampleMapper.updateExample(example);
+
+        //点击修改后，修改文章并发布，到这
+        System.out.println("update");
+        return "redirect:/admin_problem_list";
+    }
+
+
+    //草稿箱界面暂存
+    @PostMapping("/updateDraft")
+    public String updateDraft(
+            Problem problem
+            ,String in01
+            ,String in02
+            ,String in11
+            ,String in12
+            ,String in21
+            ,String in22
+            , HttpServletRequest request
+            , Model model
+    ){
+
+        Cookie[] cookies = request.getCookies();
+        if(cookieCheck.Admincheck(cookies)==false){//不是管理员就回list
+            return "redirect:/list";
+        }
+//        System.out.println("这是example0：");
+//        System.out.println(request.getParameter("example0"));
+        model=cookieCheck.check(cookies,model);
+        User user=(User)model.getAttribute("User");
+//        System.out.println(model.getAttribute("User"));
+
+        problem.setPublisher(user);
+
+        String ErrorMessages= problem.getErrorMessages();
+        if( ErrorMessages==null || (ErrorMessages.isEmpty()) ) {
+            problem.setState(1);
+            problemMapper.updateProblem(problem);
+        }
         else
             model.addAttribute("failed",ErrorMessages);
 
@@ -156,6 +298,7 @@ public class PublishController {
             ,HttpServletRequest request
     )
     {
+        //草稿修改按钮和发布文章按钮都在这
         Cookie[] cookies = request.getCookies();
         if(cookieCheck.Admincheck(cookies)==false){//不是管理员就回list
             return "redirect:/list";
