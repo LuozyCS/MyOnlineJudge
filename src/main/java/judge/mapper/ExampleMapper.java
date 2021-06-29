@@ -17,7 +17,7 @@ public interface ExampleMapper {
     Example getFirstInputById(final int problemId);
     Example getFirstOutputById(final int problemId);
     //删除样例
-    void deleteExample(@Param("problemId")final int problemId,@Param("exampleId")final int exampleId);
+    void deleteExample(@Param("problemId")final int problemId);
     //增加样例
     void insertExample(@Param("input")final Example input);
     //更新样例

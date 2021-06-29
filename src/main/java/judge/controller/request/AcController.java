@@ -150,9 +150,10 @@ public class AcController {
 
                         long startTime=System.currentTimeMillis();
                         for (;thread.isAlive() && System.currentTimeMillis() - startTime < 10000;);
-                        executeTime+=(System.currentTimeMillis()-startTime);
+//                        System.out.println(thread.isAlive());
+                        executeTime+=(System.currentTimeMillis()-startTime);//?
                         if(System.currentTimeMillis() - startTime >= 10000){
-                            thread.interrupt();
+                            thread.interrupt();//?
                             thread.p.destroy();
                             thread.p.waitFor();//destroy也需要wait
                             File fileDc = new File(".\\\\" + user.getId() + "_" + problemId + ".cpp");

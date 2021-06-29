@@ -42,7 +42,7 @@
     <delete id="deleteExample" >
         delete
         from example
-        where id = #{problemId} and example_id=#{exampleId}
+        where id = #{problemId}
     </delete>
 
     <insert id="insertExample" >
