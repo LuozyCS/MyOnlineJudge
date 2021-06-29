@@ -11,6 +11,7 @@ import java.sql.Timestamp;
     private Timestamp publishTime;
     private User publisher;
     private int difficulty;
+    private int state;
     @Override public int hashCode()
     {
         return id;

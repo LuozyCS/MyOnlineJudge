@@ -6,6 +6,7 @@
         <result property="title" column="title"/>
         <result property="publishTime" column="publish_time"/>
         <result property="difficulty" column="difficulty"/>
+        <result property="state" column="state"/>
 
         <association property="publisher" javaType="User">
             <result property="id" column="publisher_id"/>
@@ -13,7 +14,7 @@
     </resultMap>
 
     <select id="getAllExceptContent" resultMap="ProblemMap">
-        select publisher_id, problem.id, title, publish_time,difficulty
+        select publisher_id, problem.id, title, publish_time,difficulty,state
         from user_information, problem
         where user_information.id = publisher_id
         order by publish_time desc
@@ -21,7 +22,7 @@
 
 
     <select id="getAllExceptContent_ByPublisherId" resultMap="ProblemMap" parameterType="int">
-        select id, title, publish_time
+        select publisher_id,id, title, publish_time,difficulty,state
         from problem
         where publisher_id=#{publisherId}
         order by publish_time desc
@@ -45,17 +46,26 @@
         select title from problem where id=#{problemId}
     </select>
     <insert id="insertProblem" parameterType="Problem" useGeneratedKeys="true" keyProperty="id">
-        insert into problem(title,content,publish_time,publisher_id,difficulty) values(#{title},#{content},now(),#{publisher.id},#{difficulty})
+        insert into problem(title,content,publish_time,publisher_id,difficulty,state) values(#{title},#{content},now(),#{publisher.id},#{difficulty},#{state})
     </insert>
     <update id="updateProblem" parameterType="Problem">
-        update problem set content=#{content},publisher_id=#{publisher.id},title=#{title},difficulty=#{difficulty} where id=#{id}
+        update problem set content=#{content},publisher_id=#{publisher.id},title=#{title},difficulty=#{difficulty},state=#{state} where id=#{id}
     </update>
 
     <select id="getDifficulty" parameterType="int" resultType="int">
          select difficulty from problem where id=#{problemId}
     </select>
-<!--    <select id="getDraft" resultMap="ProblemMap">-->
-<!--        select -->
-<!--    </select>-->
+
+    <select id="getState" parameterType="int" resultType="int">
+         select state from problem where id=#{problemId}
+    </select>
+
+    <update id="abandonProblem" parameterType="int">
+        update problem set state=2 where id=#{problemId}
+    </update>
+
+
+
+
 </mapper>
 
