@@ -76,3 +76,15 @@
 //       sb.append(line + "\n");  
 //    }  
 //        System.err.println(sb.toString());
+
+## 访问路径解释
+在发布界面：
+- 发布:/addProblem                             (insert)state为0
+
+- 暂存:/addDraft                                   (insert)state为1        
+
+在草稿箱界面：通过点击修改按钮进来
+
+- 发布:/updateDraftToProblem         (update)state为0
+
+- 暂存:/updateDraft                             (update)state为1

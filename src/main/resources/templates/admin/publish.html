@@ -150,14 +150,15 @@
                     "code-block", "table", "datetime", "emoji", "html-entities", "pagebreak", "|",
                     "goto-line", "watch", "preview", "fullscreen", "clear", "search", "|",
                     //"help","info",
-                    "releaseIcon", "index"]
+                    "releaseIcon", "index","tempStorage"]
             },
             // 这里的自定义功能就好比，Vue 组件
 
-            /*自定义功能按钮，下面我自定义了2个，一个是发布，一个是返回首页*/
+            /*自定义功能按钮，下面我自定义了3个，一个是发布，一个是返回首页，一个是暂存*/
             toolbarIconTexts: {
                 releaseIcon: "<span bgcolor=\"gray\">发布</span>",
                 index: "<span bgcolor=\"red\">返回首页</span>",
+                tempStorage:"<span bgcolor=\"red\">暂存</span>",
             },
 
             /*给自定义按钮指定回调函数*/
@@ -165,7 +166,7 @@
                 releaseIcon: function (cm, icon, cursor, selection) {
                     if (($("#in01").val().length == 0) || ($("#in02").val().length == 0) || ($("#in11").val().length == 0) || ($("#in12").val().length == 0)
                         || ($("#in21").val().length == 0) || ($("#in22").val().length == 0)) {
-                        alert("样例输入框不能为空！");
+                        alert("发布题目时样例输入框不能为空！");
                         return;
                     }
                     // console.log($("#in01").val().length);
@@ -187,7 +188,7 @@
                     } else {
                         console.log("罗子易永远的神");
                         $("#oldid").val([[${oldid}]]);
-                        mdEditorForm.action = "/updateProblem";//提交至服务器的路径
+                        mdEditorForm.action = "/updateDraftToProblem";//提交至服务器的路径
                     }
                     // $.ajax(
                     //     url:'',
@@ -206,6 +207,44 @@
                 index: function () {
                     window.location.href = '/list';
                 },
+                tempStorage: function (cm, icon, cursor, selection) {
+
+                    // console.log($("#in01").val().length);
+                    console.log($("#in01").value);
+                    console.log("111");
+                    console.log($("#in01").text());
+                    console.log("222");
+                    console.log("子易子易")
+
+                    //表单提交
+                    mdEditorForm.method = "post";
+                    // var params={
+                    //     "in1":$("#in1").val(),
+                    //     "in2":$("#in2").val(),
+                    // }
+                    if ([[${oldcontent}]] == null) {
+                        $("#oldid").val(0);
+                        mdEditorForm.action = "/addDraft";//提交至服务器的路径
+                    } else {
+                        console.log("罗子易永远的神");
+                        $("#oldid").val([[${oldid}]]);
+                        mdEditorForm.action = "/updateDraft";//提交至服务器的路径
+                    }
+                    // $.ajax(
+                    //     url:'',
+                    //     type:'post',
+                    //     datatype:'json',
+                    //     data:params,
+                    //     success:function(data){
+                    //     if(data==1){
+                    //         console.log(true);
+                    //     }
+                    // }
+                    // )
+                    mdEditorForm.submit();
+
+                },
+
             }
         });
 
@@ -226,29 +265,8 @@
 
                 console.log("333")
             }
-
-
         }
-        // if ([[${oldcontent}]] == null) {//
-        //
-        // } else {
-        //     var a = [[${oldDifficulty}]];
-        //     console.log("这道题的难度是");
-        //     console.log(a);
-        //     if (a == 0) {
-        //         $('#select').attr('value', '简单');
-        //         console.log("111")
-        //     } else if (a == 1) {
-        //         $('#select').attr('value', '中等');
-        //         console.log("222")
-        //     } else {
-        //         $("#select").attr('value', '困难');
-        //
-        //         console.log("333")
-        //     }
-        //
-        //
-        // }
+
     });
 </script>
 </html>
