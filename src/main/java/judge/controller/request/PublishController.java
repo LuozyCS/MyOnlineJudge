@@ -65,7 +65,23 @@ public class PublishController {
         String ErrorMessages= problem.getErrorMessages();
         if (ErrorMessages==null) {
             problem.setState(0);
-            problemMapper.insertProblem(problem);
+            int[] insertBack = problemMapper.insertProblem(problem);
+            if (0==insertBack[1]) {
+                //插入失败
+                model.addAttribute("failedInsert", true);
+                model.addAttribute("oldcontent", problem.getContent());
+                model.addAttribute("oldTitle",problem.getTitle());
+
+                model.addAttribute("oldInExample0",in01);
+                model.addAttribute("oldInExample1",in11);
+                model.addAttribute("oldInExample2",in21);
+                model.addAttribute("oldOutExample0",in02);
+                model.addAttribute("oldOutExample1",in12);
+                model.addAttribute("oldOutExample2",in22);
+                model.addAttribute("oldDifficulty", problem.getDifficulty());
+                return "admin/publish";
+            }
+            problem.setId(insertBack[0]);
         }
         else
             model.addAttribute("failed",ErrorMessages);
@@ -93,7 +109,7 @@ public class PublishController {
 
 
         //点击发布题目后，发布一个新的题目会到这
-        System.out.println("add");
+        System.out.println("addProblem");
         return "redirect:/admin_problem_list";
     }
 
@@ -134,7 +150,7 @@ public class PublishController {
         String ErrorMessages= problem.getErrorMessages();
         if (ErrorMessages==null) {
             problem.setState(1);
-            problemMapper.insertProblem(problem);
+            problemMapper.insertDraft(problem);
         }
         else
             model.addAttribute("failed",ErrorMessages);
@@ -162,8 +178,8 @@ public class PublishController {
 
 
         //点击发布题目后，发布一个新的题目会到这
-        System.out.println("add");
-        return "redirect:/admin_problem_list";
+        System.out.println("addDraft");
+        return "redirect:/admin_draft_list";
     }
 
 
@@ -197,7 +213,23 @@ public class PublishController {
         String ErrorMessages= problem.getErrorMessages();
         if( ErrorMessages==null || (ErrorMessages.isEmpty()) ) {
             problem.setState(0);
-            problemMapper.updateProblem(problem);
+            boolean success=problemMapper.insertDraftToProblem(problem);
+            if(!success){
+                //插入失败
+                model.addAttribute("failedInsert", true);
+                model.addAttribute("oldcontent", problem.getContent());
+                model.addAttribute("oldid",problem.getId());
+                model.addAttribute("oldTitle",problem.getTitle());
+
+                model.addAttribute("oldInExample0",in01);
+                model.addAttribute("oldInExample1",in11);
+                model.addAttribute("oldInExample2",in21);
+                model.addAttribute("oldOutExample0",in02);
+                model.addAttribute("oldOutExample1",in12);
+                model.addAttribute("oldOutExample2",in22);
+                model.addAttribute("oldDifficulty", problem.getDifficulty());
+                return "admin/publish";
+            }
         }
         else
             model.addAttribute("failed",ErrorMessages);
@@ -225,7 +257,7 @@ public class PublishController {
         exampleMapper.updateExample(example);
 
         //点击修改后，修改文章并发布，到这
-        System.out.println("update");
+        System.out.println("updateDraftToProblem");
         return "redirect:/admin_problem_list";
     }
 
@@ -287,8 +319,8 @@ public class PublishController {
         exampleMapper.updateExample(example);
 
         //点击修改后，修改文章并发布，到这
-        System.out.println("update");
-        return "redirect:/admin_problem_list";
+        System.out.println("updateDraft");
+        return "redirect:/admin_draft_list";
     }
 
     @RequestMapping("/publish/problem_id = {id}")
@@ -306,6 +338,7 @@ public class PublishController {
 
         model.addAttribute("oldcontent", problemMapper.getContent(id));
         model.addAttribute("oldid",id);
+        model.addAttribute("old","old");
         model.addAttribute("oldTitle",problemMapper.getTitle(id));
 
         model.addAttribute("oldInExample0",exampleMapper.getInputByIdAndExampleId(id,0).getContent());

@@ -25,8 +25,14 @@ public interface ProblemMapper
     /*
     *
     * */
-    void insertProblem(Problem newProblem);
+    void insertDraft(Problem newProblem);
 
+    /**
+     * @return 0=id, int; 1=success, boolean
+     */
+    int[] insertProblem(Problem newProblem);
+
+    boolean insertDraftToProblem(Problem newProblem);
     //更新
     /*
     *

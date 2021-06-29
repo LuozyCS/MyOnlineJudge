@@ -1,11 +1,14 @@
 package judge.dataTransferObject;
 
+import judge.mapper.ProblemMapper;
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.sql.Timestamp;
 
 @Data public class Problem
 {
+    @Autowired private ProblemMapper problemMapper;
     private int id;
     private String title, content;
     private Timestamp publishTime;
@@ -21,6 +24,7 @@ import java.sql.Timestamp;
         return object instanceof Problem //同时挡住null; Article null?
                 && id == ((Problem)object).id;
     }
+
     public String getErrorMessages(){
         StringBuffer result = new StringBuffer();
 

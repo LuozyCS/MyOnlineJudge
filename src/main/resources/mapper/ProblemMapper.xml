@@ -38,6 +38,8 @@
         select content from problem where id = #{problemId}
     </select>
 
+
+
     <select id="getPublisher" resultType="int" parameterType="int">
         select publisher_id from problem where id = #{problemId}
     </select>
@@ -45,9 +47,25 @@
     <select id="getTitle" resultType="String" parameterType="int">
         select title from problem where id=#{problemId}
     </select>
-    <insert id="insertProblem" parameterType="Problem" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertDraft" parameterType="Problem" useGeneratedKeys="true" keyProperty="id">
         insert into problem(title,content,publish_time,publisher_id,difficulty,state) values(#{title},#{content},now(),#{publisher.id},#{difficulty},#{state})
     </insert>
+
+    <select id="insertProblem" parameterType="Problem" resultType="int">
+        start transaction;
+        call publish_problem(#{title},#{content},#{publisher.id},#{difficulty},#{state});
+        select @@identity union all select row_count();
+        commit ;
+    </select>
+
+
+    <select id="insertDraftToProblem" parameterType="Problem" resultType="boolean">
+        start transaction;
+        call publish_draft(#{id},#{title},#{content},#{publisher.id},#{difficulty},#{state});
+        select row_count() = 1;
+        commit ;
+    </select>
+
     <update id="updateProblem" parameterType="Problem">
         update problem set content=#{content},publisher_id=#{publisher.id},title=#{title},difficulty=#{difficulty},state=#{state} where id=#{id}
     </update>

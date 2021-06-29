@@ -88,3 +88,38 @@
 - 发布:/updateDraftToProblem         (update)state为0
 
 - 暂存:/updateDraft                             (update)state为1
+
+
+## 存储过程
+
+
+drop procedure if exists publish_problem;
+delimiter //
+create procedure publish_problem(in p_title varchar(300), in p_content varchar(10000), in p_publisher_id int, in p_difficulty int, in p_state int) begin
+if ifnull((select 1 = all(select state from problem where title = p_title or content = p_content)), true) then
+ 	insert into problem(title,content,publish_time,publisher_id,difficulty,state) values(p_title,p_content,NOW(),p_publisher_id,p_difficulty,p_state);
+end if;
+end //
+delimiter ;
+
+start transaction;
+call publish_problem('test','0',15,0,0);
+select @@identity;
+select row_count() = 1;
+rollback;
+
+start transaction;
+insert into problem(title,content,publish_time,publisher_id,difficulty,state) values('p_title','p_content',NOW(),15,0,1);
+rollback;
+
+set character_set_database = utf8;
+set character_set_server = utf8;
+
+drop procedure if exists publish_draft;
+delimiter //
+create procedure publish_draft(in p_id int, in p_title varchar(300), in p_content varchar(10000), in p_publisher_id int, in p_difficulty int, in p_state int) begin
+if ifnull((select 1 = all(select state from problem where title = p_title or content = p_content)), true) then
+ 	update problem set title = p_title, content = p_content, publish_time = NOW(), publisher_id=p_publisher_id,difficulty = p_difficulty,state = p_state  where id=p_id;
+end if;
+end //
+delimiter ;
