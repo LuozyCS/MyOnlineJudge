@@ -45,7 +45,7 @@ public class ProblemlistController {
 //        //通过cookie查找publisherId，查找文章
 //        int tmpPublisherId=user.getId();
 
-        //管理员可以看到所有题目
+        //管理员可以看到所有题目，除了草稿
         List<Problem> userProblemList = problemMapper.getAllExceptContent();
 
         for(int i=0;i<userProblemList.size();i++){
@@ -73,7 +73,6 @@ public class ProblemlistController {
                               HttpServletRequest request
     )
     {
-
         //确认cookie
         Cookie[] cookies = request.getCookies();
         if(cookieCheck.Admincheck(cookies)==false){//不是管理员就回list
@@ -99,14 +98,14 @@ public class ProblemlistController {
 
 
 
-    //用于删除文章的controller
+    //用于删除题目的controller
     @GetMapping("/delete_request/id={id}") public String deleteProblem(
             @PathVariable("id") int id,
             Model model,
             HttpServletResponse response,
             HttpServletRequest request)
     {
-        //这个controller改为废弃
+        //这个controller是草稿题目的删除
 
         System.out.println("delete controller");
         Cookie[] cookies = request.getCookies();

@@ -33,6 +33,8 @@ import java.util.List;
             , RedirectAttributesModelMap model
             , HttpServletRequest request) throws IOException
     {
+        //非正式题目无法评论
+        if(problemMapper.getState(problemId)!=0) return "redirect:/problem/id="+problemId;
 
         model.addFlashAttribute("origin_id", commentId);
         List<Comment> comments = commentMapper.getComments(problemId, commentId);
@@ -55,10 +57,13 @@ import java.util.List;
     @RequestMapping({"comment/first","comment/second"})
     public String publishComment(Model model, HttpServletRequest request)
     {
-        cookieCheck.check(request.getCookies(), model);
+        model=cookieCheck.check(request.getCookies(), model);
         final int problemId = Integer.parseInt(request.getParameter("problemid"));
         final int parentId = Integer.parseInt(request.getParameter("parentid"));
         final int originIdOfParent = parentId == -1 ? -2 : commentMapper.getOriginId(problemId, parentId);
+
+        //非正式题目无法评论
+        if(problemMapper.getState(problemId)!=0) return "redirect:/problem/id="+problemId;
 
         String content = request.getParameter("content");
         if (content == null || content.isEmpty())
@@ -94,6 +99,10 @@ import java.util.List;
 //        cookieCheck.check(request.getCookies(), model);
 //        if (((String)(model.getAttribute("LoginName"))).equals(request.getParameter("username")))
         final int problemId = Integer.parseInt(request.getParameter("problemid"));
+
+        //非正式题目无法评论
+        if(problemMapper.getState(problemId)!=0) return "redirect:/problem/id="+problemId;
+
         commentMapper.clearComment(problemId, Integer.parseInt(request.getParameter("id")));
         List<Comment> directComments = commentMapper.getDirectComments(problemId);
         System.out.println(directComments);

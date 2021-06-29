@@ -48,6 +48,7 @@ public class AcController {
         }
 
         Process p = null;
+
         @Override
         public void run() {
             try {
@@ -107,11 +108,15 @@ public class AcController {
             Model model
     ) throws InterruptedException, IOException {
 
-            Cookie[] cookies = request.getCookies();
-            model = cookieCheck.check(cookies, model);
-            User user = (User) model.getAttribute("User");
-            int pId = Integer.parseInt(problemId);
-            File file = new File(user.getId() + "_" + problemId + ".cpp");
+        Cookie[] cookies = request.getCookies();
+        model = cookieCheck.check(cookies, model);
+        User user = (User) model.getAttribute("User");
+        int pId = Integer.parseInt(problemId);
+
+        //非正式题目无法提交代码
+        if (problemMapper.getState(pId) != 0) return;
+
+        File file = new File(user.getId() + "_" + problemId + ".cpp");
         //System.out.println(userText);
         try {
             if (!file.exists()) {
@@ -148,11 +153,11 @@ public class AcController {
                         MyThread thread = new MyThread(user, problemId, pId, finalExId, sb);
                         thread.start();
 
-                        long startTime=System.currentTimeMillis();
-                        for (;thread.isAlive() && System.currentTimeMillis() - startTime < 10000;);
+                        long startTime = System.currentTimeMillis();
+                        for (; thread.isAlive() && System.currentTimeMillis() - startTime < 10000; ) ;
 //                        System.out.println(thread.isAlive());
-                        executeTime+=(System.currentTimeMillis()-startTime);//?
-                        if(System.currentTimeMillis() - startTime >= 10000){
+                        executeTime += (System.currentTimeMillis() - startTime);//?
+                        if (System.currentTimeMillis() - startTime >= 10000) {
                             thread.interrupt();//?
                             thread.p.destroy();
                             thread.p.waitFor();//destroy也需要wait
@@ -161,11 +166,11 @@ public class AcController {
                             fileDc.delete();
                             fileDe.delete();
                             response.getWriter().write("Time Limit Exceeded");
-                            userProblemMapper.insertUserProblem(user.getId(), pId, 4, -1,userText);
+                            userProblemMapper.insertUserProblem(user.getId(), pId, 4, -1, userText);
                             System.out.println("Time Limit Exceeded");
                             return;
                         }
-                        if(sb.length()!=0)
+                        if (sb.length() != 0)
                             sb.deleteCharAt(sb.length() - 1);
 
                         if (!sb.toString().equals(exampleMapper.getOutputByIdAndExampleId(pId, exId).getContent())) {
@@ -176,7 +181,7 @@ public class AcController {
                             fileDe.delete();
                             //输出错误信息,未通过样例,传到前端
                             response.getWriter().write("Wrong Answer!");
-                            userProblemMapper.insertUserProblem(user.getId(), pId, 1, -1,userText);
+                            userProblemMapper.insertUserProblem(user.getId(), pId, 1, -1, userText);
                             System.out.println("Wrong Answer");
                             return;
                         }
@@ -189,7 +194,7 @@ public class AcController {
                     fileDc.delete();
                     fileDe.delete();
                     response.getWriter().write("Accept");
-                    userProblemMapper.insertUserProblem(user.getId(), pId, 0, (int)executeTime,userText);
+                    userProblemMapper.insertUserProblem(user.getId(), pId, 0, (int) executeTime, userText);
                     System.out.println("Accept");
                     return;
                 } else if (!fileE.exists()) {
@@ -199,7 +204,7 @@ public class AcController {
                     fileDe.delete();
                     //如果可以，在这里输出错误信息
                     response.getWriter().write("Compile Error");
-                    userProblemMapper.insertUserProblem(user.getId(), pId, 2, -1,userText);
+                    userProblemMapper.insertUserProblem(user.getId(), pId, 2, -1, userText);
                 }
             } else {
                 response.getWriter().write("Judging");
@@ -208,7 +213,7 @@ public class AcController {
             }
 
 
-        } catch(IOException e){
+        } catch (IOException e) {
             System.out.println("IO catch");
             File fileDc = new File(".\\\\" + user.getId() + "_" + problemId + ".cpp");
             File fileDe = new File(".\\\\" + user.getId() + "_" + problemId + ".exe");

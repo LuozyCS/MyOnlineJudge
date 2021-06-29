@@ -51,8 +51,9 @@ public class ProblemController
             model.addAttribute("failed", "you are not administrator");
         }
         User user= (User) model.getAttribute("User");
+
+        //非发布者禁止访问该草稿,若为废弃题目谁都能访问
         if(problemMapper.getState(id)==1&&user.getId()!=problemMapper.getPublisher(id)){
-            model.addAttribute("NotPublisher","you are not the publisher of this problem");
             return "redirect:/list";
         }
 //        System.out.println(((User)model.getAttribute("User")).getId());

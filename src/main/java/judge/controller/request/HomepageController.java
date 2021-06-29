@@ -41,8 +41,14 @@ public class HomepageController {
             model.addAttribute("failed", "you are not administrator");
         }
 
-        List<Problem> list = problemMapper.getAllExceptContent();
-        System.out.println(list);
+        List<Problem> listTemp = problemMapper.getAllExceptContent();
+        ArrayList<Problem> list = new ArrayList<>();
+//        System.out.println(list);
+
+        //只显示正常发布的题目 state=0
+        for(Problem each: listTemp){
+            if(each.getState()==0) list.add(each);
+        }
 
         //添加通过率
 

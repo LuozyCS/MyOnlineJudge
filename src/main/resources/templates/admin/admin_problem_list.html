@@ -70,7 +70,7 @@ font-size: larger;color: blue !important;text-align:center;" th:text="'Hello, ' 
                                             <block>
 <!--                                                <a id="delete" style="cursor:pointer;" th:href="'/delete_request/id='+${problem.id}">删除</a>-->
                                                 <a th:if="${problem.getState()}==0" th:href="'/abandon_request/id='+${problem.id}">废弃</a>
-<!--                                                <a th:href="'/publish/problem_id = ' + ${problem.id}">修改</a>-->
+                                                <a th:if="${problem.getState()}==2">（已废弃）</a>
                                             </block>
                                         </td>
 
