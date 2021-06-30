@@ -41,7 +41,7 @@ public class ProblemlistController {
         }
 //        cookieCheck.check(cookies,model);
 //        User user=(User) model.getAttribute("User");
-//        //通过cookie查找publisherId，查找文章
+//        //通过cookie查找publisherId，查找题目
 //        int tmpPublisherId=user.getId();
 
         //管理员可以看到所有题目，除了草稿

@@ -5,7 +5,7 @@
 $('#tags').tagsInput({
     width: '100%',
     height: '35px',
-    defaultText: '请输入文章标签'
+    defaultText: '请输入题目标签'
 });
 
 $('.toggle').toggles({
@@ -23,18 +23,18 @@ $(".select2").select2({
 var tale = new $.tale();
 
 /**
- * 保存文章
+ * 保存题目
  * @param status
  */
 function subArticle(status) {
     var title = $('#articleForm input[name=title]').val();
     var content = $('#text').val();
     if (title == '') {
-        tale.alertWarn('请输入文章标题');
+        tale.alertWarn('请输入题目标题');
         return;
     }
     if (content == '') {
-        tale.alertWarn('请输入文章内容');
+        tale.alertWarn('请输入题目内容');
         return;
     }
     $('#content-editor').val(content);
@@ -49,7 +49,7 @@ function subArticle(status) {
         success: function (result) {
             if (result && result.code == 'success') {
                 tale.alertOk({
-                    text:'文章保存成功',
+                    text:'题目保存成功',
                     then: function () {
                         setTimeout(function () {
                             window.location.href = '/admin/article';
@@ -57,7 +57,7 @@ function subArticle(status) {
                     }
                 });
             } else {
-                tale.alertError(result.msg || '保存文章失败');
+                tale.alertError(result.msg || '保存题目失败');
             }
         }
     });
