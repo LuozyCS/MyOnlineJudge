@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" th:with="title='文章管理',active='problem'">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:with="title='题目管理',active='problem'">
 
 <head>
     <link rel="stylesheet" href="admin/css/styles.css">
@@ -22,20 +22,20 @@
     }
 </style>
 <header th:replace="admin/header::headerFragment(${title},${active})"></header>
-<ul class="nav" style="position: absolute;right:0px;width:200px;">
-    <li style="list-style:none;">
-        <a title="个人界面" href="/login" style="text-decoration: none;
-font-size: larger;color: blue !important;text-align:center;" th:text="'Hello, ' + ${LoginName}" th:if="${LoginName} != null"></a>
-        <ul>
-            <li style="list-style:none;text-align:center;">
-                <a href="/list" style="text-decoration: none;color:black;">管理界面</a>
-            </li>
-            <li style="list-style:none;text-align:center;">
-                <a href="/login" style="text-decoration: none;color:black;">退出登录</a>
-            </li>
-        </ul>
-    </li>
-</ul>
+<!--<ul class="nav" style="position: absolute;right:0px;width:200px;">-->
+<!--    <li style="list-style:none;">-->
+<!--        <a title="个人界面" href="/login" style="text-decoration: none;-->
+<!--font-size: larger;color: blue !important;text-align:center;" th:text="'Hello, ' + ${LoginName}" th:if="${LoginName} != null"></a>-->
+<!--        <ul>-->
+<!--            <li style="list-style:none;text-align:center;">-->
+<!--                <a href="/list" style="text-decoration: none;color:black;">管理界面</a>-->
+<!--            </li>-->
+<!--            <li style="list-style:none;text-align:center;">-->
+<!--                <a href="/login" style="text-decoration: none;color:black;">退出登录</a>-->
+<!--            </li>-->
+<!--        </ul>-->
+<!--    </li>-->
+<!--</ul>-->
 
 <body class="fixed-left">
 
@@ -98,7 +98,7 @@ font-size: larger;color: blue !important;text-align:center;" th:text="'Hello, ' 
             })
             $("button[name='delete']").click(function() {
                 var idd=$(this).attr("problemId");
-                var second = confirm("你确定删除这篇文章吗？");
+                var second = confirm("你确定删除这道题目吗？");
                 if (second == true) {
                     window.location.href ='/delete_request/id='+idd;
                     console.log('/delete_request/id='+idd)

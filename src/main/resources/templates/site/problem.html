@@ -3,18 +3,64 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <!--<div th:replace="site/head::head(${commons.site_title()},${commons.google_site_verification()}, ${commons.baidu_site_verification()})"></div>-->
 <header>
-    <link rel="stylesheet" href="site/css/style.css">
-    <link rel="stylesheet" href="site/css/style.min.css">
-    <link rel="stylesheet" href="site/css/bootstrap.min.css">
-    <link rel="stylesheet" href="site/css/responsive.css">
-    <link rel="stylesheet" href="site/css/effects/set2.css">
-    <link rel="stylesheet" href="site/css/effects/normalize.css">
+    <link rel="stylesheet" href="/site/css/style.css">
+    <link rel="stylesheet" href="/site/css/style.min.css">
+    <link rel="stylesheet" href="/site/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/site/css/responsive.css">
+    <link rel="stylesheet" href="/site/css/effects/set2.css">
+    <link rel="stylesheet" href="/site/css/effects/normalize.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 
 </header>
 
 <body>
+
+<div class="row" style="width: 100%">
+    <div id="theHead" style="height: 60px;width: 100%;position:fixed;opacity:1.0;z-index:99;background-color:#404040">
+        <div role="pge-title-content" class="OJ-header" style="height:60px;width:400px;margin-left:300px;">
+
+            <header style="margin-top:10px;margin-left:-150px">
+
+                <div>
+                    <span style="font-size:28px;color:rgb(190,190,190);">
+                        <b>Online Judge</b>
+                        <span style="font-size:16px;margin-top:50px">For C++ and C.</span>
+                    </span>
+
+                </div>
+
+            </header>
+
+
+
+        </div>
+
+        <ul class="nav" style="position: absolute;right:0px;width:200px;top:0px">
+            <li style="list-style:none;">
+                <a title="个人界面" href="/login" style="text-decoration: none;
+                    font-size: 26px;color:rgb(190,190,190);;height:60px" th:text="'Hello, ' + ${LoginName}" th:if="${LoginName} != null"></a>
+                <ul>
+                    <li style="list-style:none;">
+                        <a th:if="${ #strings.isEmpty(failed)}" href="/list"
+                           style="text-decoration: none;color:black;">管理界面</a>
+                        <a th:if="${not #strings.isEmpty(failed)}" href="/list" style="text-decoration: none;color:black;">做题记录</a>
+                        <!--                <a href="/list" style="text-decoration: none;color:black;">管理界面</a>-->
+                    </li>
+                    <li style="list-style:none;">
+                        <a href="/login" style="text-decoration: none;color:black;">退出登录</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <div style="text-align: right;">
+            <a th:text="您未登录" th:if="${LoginName} == null"
+               style="text-align: right;font-size: larger;color: orangered;text-decoration: none;" href="/login"></a>
+        </div>
+    </div>
+
+
+</div>
 
 
     <main role="main-inner-wrapper" class="container">
@@ -24,18 +70,8 @@
             <!-- Left -->
             <div class="col-xs-12 col-sm-6 col-md-11 col-lg-6">
 
-                <problem role="pge-title-content" class="OJ-header" style="height:350px;">
 
-                    <header>
-
-                        <h2><span>Online Judge</span></h2>
-
-                    </header>
-
-                    <p>For C++ and C.</p>
-
-                </problem>
-                <div id="wrapper">
+                <div id="wrapper" style="margin-top: 150px">
                     <!--    <div th:replace="admin/header::header-body"></div>-->
                     <div class="content-page" style="margin-top:100px;transform: translate(-10%,-10%);">
                         <div class="content">
@@ -106,32 +142,7 @@
 
 
             <!-- right -->
-        <div class="row">
-            <div class="col-xs-12 col-sm-6 col-md-1 col-lg-6">
-                <div style="height:20px;"></div>
-                <ul class="nav" style="position: absolute;right:0px;width:200px;">
-                    <li style="list-style:none;">
-                        <a title="个人界面" href="/login" style="text-decoration: none;
-font-size: larger;color: blue;text-align:center;" th:text="'Hello, ' + ${LoginName}" th:if="${LoginName} != null"></a>
-                        <ul>
-                            <li style="list-style:none;text-align:center;">
-                                <a th:if = "${ #strings.isEmpty(failed)}" href="/list" style="text-decoration: none;color:black;">管理界面</a>
-                                <a th:if = "${not #strings.isEmpty(failed)}" href="/list" style="text-decoration: none;color:black;">做题记录</a>
-                            </li>
-                            <li style="list-style:none;text-align:center;">
-                                <a href="/login" style="text-decoration: none;color:black;">退出登陆</a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-                <div style="text-align: right;">
-                    <a th:text="您未登录" th:if="${LoginName} == null" style="text-align: right;font-size: larger;color: orangered;text-decoration: none;" href="/login"></a>
-                </div>
 
-            </div>
-
-
-        </div>
 
     </main>
 

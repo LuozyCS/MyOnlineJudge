@@ -256,7 +256,7 @@ public class PublishController {
         example.setAll(problem.getId(), 1,2,in22);
         exampleMapper.updateExample(example);
 
-        //点击修改后，修改文章并发布，到这
+        //点击修改后，修改题目并发布，到这
         System.out.println("updateDraftToProblem");
         return "redirect:/admin_problem_list";
     }
@@ -318,7 +318,7 @@ public class PublishController {
         example.setAll(problem.getId(), 1,2,in22);
         exampleMapper.updateExample(example);
 
-        //点击修改后，修改文章并发布，到这
+        //点击修改后，修改题目并发布，到这
         System.out.println("updateDraft");
         return "redirect:/admin_draft_list";
     }
@@ -330,7 +330,7 @@ public class PublishController {
             ,HttpServletRequest request
     )
     {
-        //草稿修改按钮和发布文章按钮都在这
+        //草稿修改按钮和发布题目按钮都在这
         Cookie[] cookies = request.getCookies();
         if(cookieCheck.Admincheck(cookies)==false){//不是管理员就回list
             return "redirect:/list";

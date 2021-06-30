@@ -27,7 +27,7 @@
     <ul class="nav" style="position: absolute;right:0px;width:200px;top:0px">
         <li style="list-style:none;">
             <a title="个人界面" href="/login" style="text-decoration: none;
-                    font-size: 26px;color: blue;height:60px" th:text="'Hello, ' + ${LoginName}" th:if="${LoginName} != null"></a>
+                    font-size: 26px;color:rgb(190,190,190);height:60px" th:text="'Hello, ' + ${LoginName}" th:if="${LoginName} != null"></a>
             <ul>
                 <li style="list-style:none;">
                     <a th:if="${ #strings.isEmpty(failed)}" href="/list"
@@ -174,7 +174,9 @@
         var a = [[${ProblemState}]]
         if (a == 0) {//已经发布
             $("#submit").css("background-color", "#00a1d6");
-            $("#theHead").css("background-color", "#00a1d6");
+            $("#theHead").css("background-color", "#404040");
+            //$("#theHead").css("background-color", "#39b54a");
+            //#19CAAD
             //$("#showState").css("display", "none");
         } else if (a == 1) {//草稿箱
             $("#codeCommit").css("background-color", "gray");
