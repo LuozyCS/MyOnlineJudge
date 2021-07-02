@@ -96,6 +96,7 @@
             $(".nav>li").mouseout(function() {
                 $(this).children("ul").hide();
             })
+
             $("button[name='delete']").click(function() {
                 var idd=$(this).attr("problemId");
                 var second = confirm("你确定删除这道题目吗？");

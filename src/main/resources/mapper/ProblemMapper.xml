@@ -82,6 +82,19 @@
         update problem set state=2 where id=#{problemId}
     </update>
 
+    <select id="getAllPublisher"  resultType="java.lang.Integer">
+         select distinct publisher_id
+         from problem
+    </select>
+
+    <select id="getAllByOnePublisher"  resultType="java.lang.Integer">
+         select id
+         from problem
+        where publisher_id=#{publishId} and state=0
+    </select>
+
+
+
 
 
 

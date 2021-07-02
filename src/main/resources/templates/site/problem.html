@@ -96,9 +96,9 @@
                                                     <a th:href="'problem/id=' + ${problem.getProblem().getId()}" th:text="'#'+ ${problem.getProblem().getId()}+' '+${problem.getProblem().getTitle()}"></a>
                                                 </td>
                                                 <td>
-                                                    <block th:if="${problem.getProblem().getDifficulty()}==0" th:text="简单"></block>
-                                                    <block th:if="${problem.getProblem().getDifficulty()}==1" th:text="中等"></block>
-                                                    <block th:if="${problem.getProblem().getDifficulty()}==2" th:text="困难"></block>
+                                                    <block th:if="${problem.getProblem().getDifficulty()}==0" th:text="简单" style="color: #1DC116"></block>
+                                                    <block th:if="${problem.getProblem().getDifficulty()}==1" th:text="中等" style="color: #66ccff"></block>
+                                                    <block th:if="${problem.getProblem().getDifficulty()}==2" th:text="困难" style="color: #FF0000"></block>
                                                 </td>
                                                 <td>
                                                     <block th:if="${problem.getPassRate()}!=-1" th:text="${problem.getPassRate()*100}+'%'"></block>

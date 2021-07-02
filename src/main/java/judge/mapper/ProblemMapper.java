@@ -53,6 +53,15 @@ public interface ProblemMapper
     void abandonProblem(int problemId);
 
 
+    /*
+    * 总体界面
+    * */
+    //获得所有的发布者
+    List<Integer> getAllPublisher();
+    //获得某个发布者发布的所有题目
+    List<Integer> getAllByOnePublisher(int publisherId);
+
+
 
 
 }

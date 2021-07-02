@@ -26,4 +26,13 @@ public interface UserProblemMapper {
     String getSubmitContent(@Param("user_id")final int user_id, @Param("problem_id")final int problem_id,
                             @Param("when")final Timestamp when);
 
+    /*
+     *个人统计功能的实现
+     *
+     * */
+    //做过某道题的总用户数（去重）
+    int doCount(int problemId);
+    //通过某道题的用户数
+    int passCount(int problemId);
+
 }

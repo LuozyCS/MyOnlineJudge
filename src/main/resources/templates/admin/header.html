@@ -58,6 +58,17 @@
                             class="fa fa-list" aria-hidden="true"></i><span> 草稿箱 </span></a>
                 </li>
 
+                <li>
+                    <a th:href="@{/admin_personal_list}" th:if = "${ #strings.isEmpty(failed)}"
+                       th:class="'waves-effect'"><i
+                            class="fa fa-list" aria-hidden="true"></i><span> 我发布的题目 </span></a>
+                </li>
+                <li>
+                    <a th:href="@{/admin_all_list}" th:if = "${ #strings.isEmpty(failed)}"
+                       th:class="'waves-effect'"><i
+                            class="fa fa-list" aria-hidden="true"></i><span> 总体统计 </span></a>
+                </li>
+
             </ul>
             <div class="clearfix"></div>
         </div>

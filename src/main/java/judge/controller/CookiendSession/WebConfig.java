@@ -41,7 +41,7 @@ public class WebConfig implements WebMvcConfigurer {
                         "/signup", "/sign_up",
                         "/login", "/login_request",
                         "/admin_login", "/admin_login_request",
-                        "/problem/id=*");
+                        "/problem/id=*","/admin_personal_list","/admin_all_list");
     }
 
     @Override public void addViewControllers(ViewControllerRegistry registry)
