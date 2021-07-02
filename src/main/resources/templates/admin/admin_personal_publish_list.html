@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:with="title='我发布的题目',active='page'">
+<!--<header th:replace="admin/header::headerFragment(${title},${active})"></header>-->
+<link rel="stylesheet" href="admin/css/styles.css">
+<link rel="stylesheet" href="admin/css/style.min.css">
+<link rel="stylesheet" href="admin/css/flexslider.css">
+<link rel="stylesheet" href="admin/css/responsive.css">
+<link rel="stylesheet" href="admin/css/reset.css">
+<link rel="stylesheet" href="admin/css/contact.css">
+<link th:href="@{//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css}" rel="stylesheet" type="text/css"/>
+<body class="fixed-left">
+
+<div class="content-page" style="margin-top:150px; margin-left:500px;transform: translate(-10%,-10%);">
+    <div class="content">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h4 class="page-title" >我发布的题目</h4>
+                </div>
+                <div class="col-md-12">
+                    <div>
+                        <table class="table table-striped table-bordered">
+                            <thead>
+                            <tr>
+                                <th width="16%">题号</th>
+                                <th width="22%">题目</th>
+                                <th width="10%">难度</th>
+                                <th width="12%">做过该题的用户数</th>
+                                <th width="12%">通过人数</th>
+                                <th width="17%">通过率</th>
+
+                            </tr>
+                            </thead>
+
+<!--                            <tbody>-->
+<!--                            <tr th:block th:each="historyList: ${HistoryList}">-->
+<!--                                <td>-->
+<!--                                    <block th:text="${historyList.getUserProblem().getWhen()}"></block>-->
+<!--                                </td>-->
+<!--                                <td>-->
+<!--                                    <a th:href="'problem/id=' + ${historyList.getUserProblem().getProblem_id()}+'?user_id='+${historyList.getUserProblem().getUser_id()}+'&when='+${historyList.getUserProblem().getWhen()}" th:text="'#'+${historyList.getUserProblem().getProblem_id()}+' '+${historyList.getProblemTitle()} "></a>-->
+<!--                                </td>-->
+<!--                                <td>-->
+<!--                                    <block th:if="${historyList.getDifficulty()}==0" th:text="简单" style="color: #1DC116"></block>-->
+<!--                                    <block th:if="${historyList.getDifficulty()}==1" th:text="中等" style="color: #66ccff"></block>-->
+<!--                                    <block th:if="${historyList.getDifficulty()}==2" th:text="困难" style="color: #FF0000"></block>-->
+<!--                                </td>-->
+<!--                                <td>-->
+<!--                                    <block th:if="${historyList.getUserProblem().getPass()}==0" style="color: #00FF00">Accept</block>-->
+<!--                                    <block th:if="${historyList.getUserProblem().getPass()}==1" style="color: #8a1f11">Wrong Answer</block>-->
+<!--                                    <block th:if="${historyList.getUserProblem().getPass()}==2" style="color: #8a1f11">Compile Error</block>-->
+<!--                                    <block th:if="${historyList.getUserProblem().getPass()}==3" style="color: #8a1f11">Runtime Error</block>-->
+<!--                                    <block th:if="${historyList.getUserProblem().getPass()}==4" style="color: #8a1f11">Time Limit Exceeded</block>-->
+<!--                                </td>-->
+<!--                                <td>-->
+<!--                                    <block th:if="${historyList.getUserProblem().getPass_time()}==-1">N/A</block>-->
+<!--                                    <block th:if="${historyList.getUserProblem().getPass_time()}!=-1" th:text="${historyList.getUserProblem().getPass_time()}+'ms'"></block>-->
+<!--                                </td>-->
+<!--                            </tr>-->
+<!--                            </tbody>-->
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div style="text-align:center;" th:replace="admin/footer :: footer"></div>
+<script type="text/javascript">
+</script>
+</body>
+</html>
