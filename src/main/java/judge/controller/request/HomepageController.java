@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -79,12 +80,18 @@ public class HomepageController {
                 }
                 allUser = users.size();
                 passRate = (double) passUser / (double) allUser;
+                passRate=passRate*100;
             } else {
-                passRate=-1;
+                passRate=-1.00;
             }
 
             temp.setProblem(eachProblem);
-            temp.setPassRate(passRate);
+
+            DecimalFormat dec = new DecimalFormat("0.00");
+            String s= dec.format(passRate);
+            temp.setPassRate(s);
+            temp.setDoUser(allUser);
+            temp.setPassUser(passUser);
             allProblemLists.add(temp);
         }
 

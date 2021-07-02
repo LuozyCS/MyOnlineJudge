@@ -10,6 +10,8 @@ public class AdminInfo {
     private String title;
     private int difficulty;
     private int userCount;
-    private double passRate;
+    private String passRate;
     private int passCount;
+    private Timestamp publishTime;
+    private int state;
 }

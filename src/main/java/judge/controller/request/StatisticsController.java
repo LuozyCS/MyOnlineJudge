@@ -21,6 +21,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,7 +53,7 @@ public class StatisticsController {
         List<Problem> tem=problemMapper.getAllExceptContent_ByPublisherId(user.getId());
         List<Problem> allProblems=new ArrayList<Problem>();
         for(Problem te:tem){
-            if(te.getState()==0) allProblems.add(te);
+            if(te.getState()==0||te.getState()==2) allProblems.add(te);
         }
 
 
@@ -61,14 +62,21 @@ public class StatisticsController {
             temp.setId(problem.getId());
             temp.setTitle(problem.getTitle());
             temp.setDifficulty(problem.getDifficulty());
+            temp.setPublishTime(problem.getPublishTime());
+            temp.setState(problem.getState());
             int doCount=userProblemMapper.doCount(problem.getId());
             int passCount=userProblemMapper.passCount(problem.getId());
             double rate;
-            if(passCount!=0)rate=((double)doCount)/passCount;
-            else rate=0.0;
+            if(doCount!=0){
+                rate=((double)passCount)/doCount;
+                rate=rate*100;
+            }
+            else rate=-1;
+            DecimalFormat dec = new DecimalFormat("0.00");
+            String s= dec.format(rate);
+            temp.setPassRate(s);
             temp.setUserCount(doCount);
             temp.setPassCount(passCount);
-            temp.setPassRate(rate);
             adminInfoList.add(temp);
         }
         model.addAttribute("adminInfoList", adminInfoList);
