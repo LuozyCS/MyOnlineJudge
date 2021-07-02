@@ -38,7 +38,8 @@
                                     <block th:text="${infoList.getPublishTime()}"></block>
                                 </td>
                                 <td>
-                                    <a th:href="'problem/id=' + ${infoList.getId()}" th:text="'#'+${infoList.getId()}+' '+${infoList.getTitle()} "></a>
+                                    <a th:if="${infoList.getState()==0}" th:href="'problem/id=' + ${infoList.getId()}" th:text="'#'+${infoList.getId()}+' '+${infoList.getTitle()} "></a>
+                                    <del><a th:if="${infoList.getState()==2}" th:href="'problem/id=' + ${infoList.getId()}" th:text="'#'+${infoList.getId()}+' '+${infoList.getTitle()} "></a></del>
                                 </td>
                                 <td>
                                     <block th:if="${infoList.getDifficulty()}==0" th:text="简单" style="color: #1DC116"></block>

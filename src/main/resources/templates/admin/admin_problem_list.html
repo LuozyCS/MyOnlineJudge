@@ -61,7 +61,8 @@
                                 <tbody>
                                     <tr th:block th:each="problem: ${Problems}">
                                         <td>
-                                            <a th:href="'problem/id=' + ${problem.id}" th:text="'#'+ ${problem.id}+' '+${problem.title}"></a>
+                                            <a th:if="${problem.getState()}==0" th:href="'problem/id=' + ${problem.id}" th:text="'#'+ ${problem.id}+' '+${problem.title}"></a>
+                                           <del><a th:if="${problem.getState()}==2" th:href="'problem/id=' + ${problem.id}" th:text="'#'+ ${problem.id}+' '+${problem.title}"></a></del>
                                         </td>
                                         <td>
                                             <block th:text="${problem.publishTime}"></block>

@@ -42,7 +42,8 @@
                                 <block th:text="${historyList.getUserProblem().getWhen()}"></block>
                             </td>
                             <td>
-                                <a th:href="'problem/id=' + ${historyList.getUserProblem().getProblem_id()}+'?user_id='+${historyList.getUserProblem().getUser_id()}+'&when='+${historyList.getUserProblem().getWhen()}" th:text="'#'+${historyList.getUserProblem().getProblem_id()}+' '+${historyList.getProblemTitle()} "></a>
+                                <del><a th:if="${historyList.getState()==2}" th:href="'problem/id=' + ${historyList.getUserProblem().getProblem_id()}+'?user_id='+${historyList.getUserProblem().getUser_id()}+'&when='+${historyList.getUserProblem().getWhen()}" th:text="'#'+${historyList.getUserProblem().getProblem_id()}+' '+${historyList.getProblemTitle()} "></a></del>
+                                <a th:if="${historyList.getState()==0}" th:href="'problem/id=' + ${historyList.getUserProblem().getProblem_id()}+'?user_id='+${historyList.getUserProblem().getUser_id()}+'&when='+${historyList.getUserProblem().getWhen()}" th:text="'#'+${historyList.getUserProblem().getProblem_id()}+' '+${historyList.getProblemTitle()} "></a>
                             </td>
                             <td>
                                 <block th:if="${historyList.getDifficulty()}==0" th:text="简单" style="color: #1DC116"></block>

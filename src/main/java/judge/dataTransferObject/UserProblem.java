@@ -1,9 +1,14 @@
 package judge.dataTransferObject;
 
+import judge.mapper.UserProblemMapper;
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 
+@Component
 @Data
 public class UserProblem {
 
@@ -27,16 +32,65 @@ public class UserProblem {
                 && pass_time == ((UserProblem)object).pass_time;
     }
 
-//这个数据库里的数据都是系统写入的，不需要判断异常
-//    public String getErrorMessage(){
-//        StringBuffer result = new StringBuffer();
-//        if (content == null || content.isEmpty())
-//            result.append("评论不能为空\n");
-//        else {
-//            if (content.length() > 500)
-//                result.append("评论不能超过500个字符\n");
-//        }
-//        return result.length() == 0 ? null : result.substring(0,result.length() - 1);
-//    }
+    private static UserProblemMapper userProblemMapper;
+    @Autowired
+    void setUserProblemMapper(UserProblemMapper userProblemMapper) {
+        UserProblem.userProblemMapper = userProblemMapper;
+    }
+
+    public ArrayList<Integer> notPassAverageSubmit(int problemId){
+        /*
+            每道题未通过的人平均提交次数
+        */
+       ArrayList<Integer> tempAll= userProblemMapper.whoNotPass(problemId);//取出的是全部写了这题的人
+       ArrayList<Integer> tempPass=userProblemMapper.whoPass(problemId);
+       for(int i=0;i<tempAll.size();i++){
+           for(int eachPass:tempPass){
+               if(tempAll.get(i)==eachPass){
+                   tempAll.remove(i);
+                   break;
+               }
+           }
+       }
+        if(tempAll.size()==0)return null;
+        ArrayList<Integer> notPassUsers=tempAll;
+
+        int notPassSubmit=0;
+        for(int xid:notPassUsers){
+            notPassSubmit+=userProblemMapper.submitTimes(problemId,xid);
+        }
+        int sumNotPassSubmit=notPassSubmit;
+        int sumNotPassUserCount=notPassUsers.size();
+        ArrayList<Integer> temp=new ArrayList<>();
+        temp.add(sumNotPassSubmit);
+        temp.add(sumNotPassUserCount);
+        temp.add(notPassSubmit/notPassUsers.size());
+        return temp;
+    }
+
+    public ArrayList<Integer> passAverageSubmit(int problemId){
+         /*
+            每道题通过的人平均提交次数，只截至到第一次AC时的提交次数
+         */
+        if(userProblemMapper.whoPass(problemId).size()==0)return null;
+        ArrayList<Integer> passUsers=userProblemMapper.whoPass(problemId);
+        int passSubmit=0;
+        for (int xid:passUsers){
+            ArrayList<UserProblem> temp= (ArrayList<UserProblem>) userProblemMapper.submitRecordsWhenPass(problemId,xid);
+            int i;
+            for(i=0;i<temp.size();i++){
+                if (temp.get(i).getPass()==0)break;//截止到第一次AC时所有的提交次数为i+1
+            }
+            passSubmit=passSubmit+i+1;
+        }
+        ArrayList<Integer> temp=new ArrayList<>();
+        int sumPassSubmit=passSubmit;
+        int sumPassUserCount=passUsers.size();
+        temp.add(sumPassSubmit);
+        temp.add(sumPassUserCount);
+        temp.add(passSubmit/passUsers.size());
+        return temp;
+    }
+
 
 }

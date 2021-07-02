@@ -121,6 +121,7 @@ public class ProblemController
             temp.setUserProblem(each);
             temp.setProblemTitle(problemMapper.getTitle(each.getProblem_id()));
             temp.setDifficulty(problemMapper.getDifficulty(each.getProblem_id()));
+            temp.setState(problemMapper.getState(each.getProblem_id()));
             historyLists.add(temp);
         }
         Collections.reverse(historyLists);//倒序排历史表

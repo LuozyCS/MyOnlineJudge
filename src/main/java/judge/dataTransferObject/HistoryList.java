@@ -11,4 +11,5 @@ public class HistoryList {
     private UserProblem userProblem;
     private String problemTitle;
     private int difficulty;
+    private int state;
 }

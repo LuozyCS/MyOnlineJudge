@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 @Mapper
@@ -35,4 +36,19 @@ public interface UserProblemMapper {
     //通过某道题的用户数
     int passCount(int problemId);
 
+    /*
+    没通过这道题的用户id
+     */
+    ArrayList<Integer> whoNotPass(int problemId);
+
+    /*
+    通过这题的用户
+     */
+    ArrayList<Integer> whoPass(int problemId);
+    /*
+    某题某人所提交的次数
+     */
+    int submitTimes(int problemId,int user_id);
+
+    List<UserProblem> submitRecordsWhenPass(int problemId,int user_id);
 }

@@ -43,6 +43,33 @@
 
 
     </select>
+
+    <select id="whoPass" resultType="int" parameterType="int">
+        select distinct user_id
+        from user_problem
+        where problem_id=#{problemId} and pass=0
+    </select>
+
+    <select id="whoNotPass" resultType="int" parameterType="int">
+        select distinct user_id
+        from user_problem
+        where problem_id=#{problemId}
+    </select>
+
+    <select id="submitTimes" resultType="int" parameterType="int">
+        select count(*)
+        from user_problem
+        where problem_id=#{problemId} and user_id=#{user_id}
+    </select>
+
+    <select id="submitRecordsWhenPass" resultMap="userProblemMap" parameterType="int">
+        select user_id, problem_id, pass,pass_time,`when`
+        from user_problem
+        where problem_id=#{problemId} and user_id=#{user_id}
+        order by `when` ASC
+    </select>
+
+
     <select id="passCount" resultType="int" parameterType="int">
         select count(*)
         from (select distinct user_id

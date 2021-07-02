@@ -50,7 +50,12 @@ public class StatisticsController {
             if(te.getState()==0||te.getState()==2) allProblems.add(te);
         }
 
-
+        int sumDoUser=0;//管理员所有题目的总提交用户数
+        int sumPassUser=0;//管理员所有题目的总通过用户数
+        int sumNotPassSubmit =0;//没通过每道题的用户，每道题所提交的次数的总和
+        int sumNotPassUserCount =0;//没通过题目的总用户数
+        int sumPassSubmit =0;//通过每道题的用户，每道题所提交的次数的总和
+        int sumPassUserCount =0;//通过题目的总用户数
         for(Problem problem:allProblems){
             AdminInfo temp=new AdminInfo();
             temp.setId(problem.getId());
@@ -58,8 +63,39 @@ public class StatisticsController {
             temp.setDifficulty(problem.getDifficulty());
             temp.setPublishTime(problem.getPublishTime());
             temp.setState(problem.getState());
+
+            /*
+            计算每道题未通过的人平均提交次数
+            */
+            UserProblem tempSubmit = new UserProblem();
+            if(tempSubmit.notPassAverageSubmit(problem.getId())==null){
+                sumNotPassSubmit += 0;
+                sumNotPassUserCount += 0;
+                temp.setNotPassAverageSubmit(0);//每道题没通过平均提交次数
+            }else {
+                ArrayList<Integer> tempNotPass = tempSubmit.notPassAverageSubmit(problem.getId());
+                sumNotPassSubmit += tempNotPass.get(0);
+                sumNotPassUserCount += tempNotPass.get(1);
+                temp.setNotPassAverageSubmit(tempNotPass.get(2));//每道题没通过平均提交次数
+            }
+            /*
+            每道题通过的人平均提交次数，只截至到第一次AC时的提交次数
+             */
+            if(tempSubmit.passAverageSubmit(problem.getId())==null){
+                sumPassSubmit += 0;
+                sumPassUserCount += 0;
+                temp.setPassAverageSubmit(0);
+            }else {
+                ArrayList<Integer> tempPass = tempSubmit.passAverageSubmit(problem.getId());
+                sumPassSubmit += tempPass.get(0);
+                sumPassUserCount += tempPass.get(1);
+                temp.setPassAverageSubmit(tempPass.get(2));
+            }
+
             int doCount=userProblemMapper.doCount(problem.getId());
             int passCount=userProblemMapper.passCount(problem.getId());
+            sumDoUser+=doCount;
+            sumPassUser+=passCount;
             double rate;
             if(doCount!=0){
                 rate=((double)passCount)/doCount;
@@ -71,11 +107,37 @@ public class StatisticsController {
             temp.setPassRate(s);
             temp.setUserCount(doCount);
             temp.setPassCount(passCount);
+
+
             adminInfoList.add(temp);
         }
         model.addAttribute("adminInfoList", adminInfoList);
-        //System.out.println("111111111111111111111111111111");
-        System.out.println(adminInfoList);
+
+
+        /*
+        以下都是总体情况的统计
+         */
+        model.addAttribute("sumPassUser",sumPassUser);
+        model.addAttribute("sumDoUser",sumDoUser);
+        double SumPassRate;
+        SumPassRate=(double)sumPassUser/(double)sumDoUser;
+        DecimalFormat dec = new DecimalFormat("0.00");
+        String sumPassRate= dec.format(SumPassRate);
+        model.addAttribute("sumPassRate",sumPassRate);
+
+        if(sumNotPassUserCount==0)model.addAttribute("sumNotPassAverageSubmit",-1);
+        else model.addAttribute("sumNotPassAverageSubmit",sumNotPassSubmit/sumNotPassUserCount);
+
+        if(sumPassUserCount==0)model.addAttribute("sumPassAverageSubmit",-1);
+        else model.addAttribute("sumPassAverageSubmit",sumPassSubmit/sumPassUserCount);
+
+        System.out.println(sumNotPassSubmit);
+        System.out.println(sumNotPassUserCount);
+        System.out.println("---------------------------");
+
+        System.out.println(sumPassSubmit);
+        System.out.println(sumPassUserCount);
+
         return "admin/admin_personal_publish_list";
 
     }

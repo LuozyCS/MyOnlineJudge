@@ -14,4 +14,6 @@ public class AdminInfo {
     private int passCount;
     private Timestamp publishTime;
     private int state;
+    private int passAverageSubmit;
+    private int notPassAverageSubmit;
 }
