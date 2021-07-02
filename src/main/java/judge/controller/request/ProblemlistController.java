@@ -34,7 +34,6 @@ public class ProblemlistController {
                               HttpServletRequest request
                               )
     {
-
         //确认cookie
         Cookie[] cookies = request.getCookies();
         if(cookieCheck.Admincheck(cookies)==false){//不是管理员就回list
