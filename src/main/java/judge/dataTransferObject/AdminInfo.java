@@ -8,12 +8,12 @@ import java.sql.Timestamp;
 public class AdminInfo {
     private int id;
     private String title;
-    private int difficulty;
+    private String difficulty;
     private int userCount;
     private String passRate;
     private int passCount;
     private Timestamp publishTime;
     private int state;
-    private int passAverageSubmit;
-    private int notPassAverageSubmit;
+    private String passAverageSubmit;
+    private String notPassAverageSubmit;
 }

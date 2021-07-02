@@ -112,10 +112,10 @@ public class StatisticsController {
         sumPassRate+="%";
         model.addAttribute("sumPassRate",sumPassRate);
 
-        if(sumNotPassUserCount==0)model.addAttribute("sumNotPassAverageSubmit",-1);
+        if(sumNotPassUserCount==0)model.addAttribute("sumNotPassAverageSubmit","N/A");
         else model.addAttribute("sumNotPassAverageSubmit",sumNotPassSubmit/sumNotPassUserCount);
 
-        if(sumPassUserCount==0)model.addAttribute("sumPassAverageSubmit",-1);
+        if(sumPassUserCount==0)model.addAttribute("sumPassAverageSubmit","N/A");
         else model.addAttribute("sumPassAverageSubmit",sumPassSubmit/sumPassUserCount);
 
 
@@ -255,7 +255,13 @@ public class StatisticsController {
             AdminInfo temp=new AdminInfo();
             temp.setId(problem.getId());
             temp.setTitle(problem.getTitle());
-            temp.setDifficulty(problem.getDifficulty());
+            if(problem.getDifficulty()==0){
+                temp.setDifficulty("简单");
+            }else if(problem.getDifficulty()==2){
+                temp.setDifficulty("困难");
+            }else{
+                temp.setDifficulty("中等");
+            }
             temp.setPublishTime(problem.getPublishTime());
             temp.setState(problem.getState());
 
@@ -266,12 +272,12 @@ public class StatisticsController {
             if(tempSubmit.notPassAverageSubmit(problem.getId())==null){
                 sumNotPassSubmit += 0;
                 sumNotPassUserCount += 0;
-                temp.setNotPassAverageSubmit(0);//每道题没通过平均提交次数
+                temp.setNotPassAverageSubmit("N/A");//每道题没通过平均提交次数
             }else {
                 ArrayList<Integer> tempNotPass = tempSubmit.notPassAverageSubmit(problem.getId());
                 sumNotPassSubmit += tempNotPass.get(0);
                 sumNotPassUserCount += tempNotPass.get(1);
-                temp.setNotPassAverageSubmit(tempNotPass.get(2));//每道题没通过平均提交次数
+                temp.setNotPassAverageSubmit(String.valueOf(tempNotPass.get(2)));//每道题没通过平均提交次数
             }
             /*
             每道题通过的人平均提交次数，只截至到第一次AC时的提交次数
@@ -279,12 +285,12 @@ public class StatisticsController {
             if(tempSubmit.passAverageSubmit(problem.getId())==null){
                 sumPassSubmit += 0;
                 sumPassUserCount += 0;
-                temp.setPassAverageSubmit(0);
+                temp.setPassAverageSubmit("N/A");
             }else {
                 ArrayList<Integer> tempPass = tempSubmit.passAverageSubmit(problem.getId());
                 sumPassSubmit += tempPass.get(0);
                 sumPassUserCount += tempPass.get(1);
-                temp.setPassAverageSubmit(tempPass.get(2));
+                temp.setPassAverageSubmit(String.valueOf(tempPass.get(2)));
             }
 
             int doCount=userProblemMapper.doCount(problem.getId());
@@ -299,7 +305,12 @@ public class StatisticsController {
             else rate=-1;
             DecimalFormat dec = new DecimalFormat("0.00");
             String s= dec.format(rate);
+            s+="%";
+            if(s.equals("-1.00%")) s="N/A";
             temp.setPassRate(s);
+
+
+
             temp.setUserCount(doCount);
             temp.setPassCount(passCount);
 
