@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" th:with="title='我发布的题目',active='page'">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:with="title='总体统计',active='page'"
+      style="height:100%;background-color: #FFFFFF;overflow-y: hidden">
 <!--<header th:replace="admin/header::headerFragment(${title},${active})"></header>-->
 <link rel="stylesheet" href="admin/css/styles.css">
 <link rel="stylesheet" href="admin/css/style.min.css">
@@ -7,68 +8,138 @@
 <link rel="stylesheet" href="admin/css/responsive.css">
 <link rel="stylesheet" href="admin/css/reset.css">
 <link rel="stylesheet" href="admin/css/contact.css">
+
+<!-- 引入 layui.css -->
+<link rel="stylesheet" href="//unpkg.com/layui@2.6.8/dist/css/layui.css">
+
 <link th:href="@{//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css}" rel="stylesheet" type="text/css"/>
-<body class="fixed-left">
 
-<div class="content-page" style="margin-top:150px; margin-left:500px;transform: translate(-10%,-10%);">
-    <div class="content">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-12">
-                    <h4 class="page-title" >我发布的题目</h4>
-                </div>
+<body style="height:100%">
 
-
-                <div class="col-md-12">
-                    <div>
-                        <table class="table table-striped table-bordered">
-                            <thead>
-                            <tr>
-                                <th width="15%">时间</th>
-                                <th width="37%">标题</th>
-                                <th width="12%">难度</th>
-                                <th width="12%">通过率</th>
-                                <th width="12%">通过用户数</th>
-                                <th width="12%">做过该题的用户数</th>
-
-                            </tr>
-                            </thead>
-
-                            <tbody>
-                            <tr th:block th:each="infoList: ${adminInfoList}">
-                                <td>
-                                    <block th:text="${infoList.getPublishTime()}"></block>
-                                </td>
-                                <td>
-                                    <a th:if="${infoList.getState()==0}" th:href="'problem/id=' + ${infoList.getId()}" th:text="'#'+${infoList.getId()}+' '+${infoList.getTitle()} "></a>
-                                    <del><a th:if="${infoList.getState()==2}" th:href="'problem/id=' + ${infoList.getId()}" th:text="'#'+${infoList.getId()}+' '+${infoList.getTitle()} "></a></del>
-                                </td>
-                                <td>
-                                    <block th:if="${infoList.getDifficulty()}==0" th:text="简单" style="color: #1DC116"></block>
-                                    <block th:if="${infoList.getDifficulty()}==1" th:text="中等" style="color: #66ccff"></block>
-                                    <block th:if="${infoList.getDifficulty()}==2" th:text="困难" style="color: #FF0000"></block>
-                                </td>
-                                <td>
-                                    <block th:if="${not infoList.getPassRate().equals('-1.00')}" th:text="${infoList.getPassRate()}+'%'"></block>
-                                    <block th:if="${infoList.getPassRate().equals('-1.00')}" th:text="'N/A'"></block>
-                                </td>
-                                <td>
-                                    <block th:text="${infoList.getPassCount()}"></block>
-                                </td>
-                                <td>
-                                    <block th:text="${infoList.getUserCount()}"></block>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
+<div style="height:100%">
+    <div style="height: 100px;text-align: center">
+        <h1>总体情况统计</h1>
     </div>
+    <div style="height:100%">
+
+
+
+        <!--左边-->
+        <div style="float:left;width: 75%;height: 100%">
+            <div style="height: 50px;text-align:center">
+                <h3>我发布的题目</h3>
+            </div>
+
+            <div style="width: 100%;" class="col-md-12">
+                <table id="demo" lay-filter="testrank"></table>
+            </div>
+
+        </div>
+
+        <!--右边-->
+        <div style="float:right;width: 25%;height: 100%;">
+            <div style="height: 50px;text-align:center">
+                <h3> </h3>
+            </div>
+            <table class="layui-table" lay-skin="line" style="width: 90%">
+                <colgroup>
+                    <col>
+                    <col>
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>总体情况统计</th>
+                    <th> </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>总通过用户数</td>
+                    <td th:text="${sumPassUser}"></td>
+                </tr>
+                <tr>
+                    <td>总答题用户数</td>
+                    <td th:text="${sumDoUser}"></td>
+                </tr>
+                <tr>
+                    <td>总体通过率</td>
+                    <td th:text="${sumPassRate}"></td>
+                </tr>
+                <tr>
+                    <td>未通过用户提交次数</td>
+                    <td th:text="${sumNotPassAverageSubmit}"></td>
+                </tr>
+                <tr>
+                    <td>通过用户提交次数</td>
+                    <td th:text="${sumPassAverageSubmit}"></td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+
+    </div>
+
 </div>
-<div style="text-align:center;" th:replace="admin/footer :: footer"></div>
-<script type="text/javascript">
+<!--&lt;!&ndash; 引入 layui.js &ndash;&gt;-->
+<script src="//unpkg.com/layui@2.6.8/dist/layui.js">
 </script>
+<script>
+    layui.use('table', function () {
+        var table = layui.table;
+
+        //第一个实例
+        table.render({
+            elem: '#demo'
+            , height: 400
+            , url: '/personal' //数据接口
+            , page: true //开启分页
+            , cols:
+                [
+                    [
+                        //{field: 'id', title: '题号', sort: true, event: 'test'}
+                        {
+                            field: 'id', title: '标题', sort: true, event: 'test', templet: function (d) {
+
+                                //得到当前行数据，并拼接成自定义模板
+                                return '<span>#' + d.id + ' ' + d.title + '</span>'
+                            }
+                        }
+                        , {field: 'difficulty', title: '难度', sort: true}
+                        , {field: 'userCount', title: '累计做题用户', sort: true}
+                        , {field: 'passRate', title: '通过率', sort: true}
+                        , {field: 'passCount', title: '通过数', sort: true}
+                        , {field: 'state', title: '题目状态', sort: true}
+                        , {field: 'passAverageSubmit', title: '平均通过提交', sort: true}
+                        , {field: 'notPassAverageSubmit', title: '平均不通过提交', sort: true}
+                    ]
+                ]
+            , initSort: {
+                field: 'id' //排序字段，对应 cols 设定的各字段名
+                , type: 'asc' //排序方式  asc: 升序、desc: 降序、null: 默认排序
+            }
+        });
+        table.on('tool(testrank)', function (obj) {
+            if (obj.event == 'test') {
+                // console.log(obj.data)
+                // console.log(obj.data.id)
+                window.location.href = '/problem/id=' + obj.data.id
+            }
+        })
+
+    });
+
+</script>
+<!--<script type="text/html" id="titl">-->
+<!--    -->
+<!--&lt;!&ndash;    {{#  if(d.id < 100){ }}&ndash;&gt;-->
+<!--&lt;!&ndash;    <a href="/detail/{{d.id}}" class="layui-table-link">{{d.title}}</a>&ndash;&gt;-->
+<!--&lt;!&ndash;    {{#  } else { }}&ndash;&gt;-->
+<!--&lt;!&ndash;    {{d.title}}(普通用户)&ndash;&gt;-->
+<!--&lt;!&ndash;    {{#  } }}&ndash;&gt;-->
+<!--</script>-->
+
+
 </body>
 </html>

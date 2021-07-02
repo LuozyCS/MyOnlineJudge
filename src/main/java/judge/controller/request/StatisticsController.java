@@ -47,6 +47,7 @@ public class StatisticsController {
         model=cookieCheck.check(cookies,model);
         User user=(User)model.getAttribute("User");
 
+
         //adminInfoList表示结果集
         List<AdminInfo>adminInfoList=new ArrayList<AdminInfo>();
         //allproblems表示所有的问题
@@ -62,13 +63,8 @@ public class StatisticsController {
         int sumNotPassUserCount =0;//没通过题目的总用户数
         int sumPassSubmit =0;//通过每道题的用户，每道题所提交的次数的总和
         int sumPassUserCount =0;//通过题目的总用户数
+
         for(Problem problem:allProblems){
-            AdminInfo temp=new AdminInfo();
-            temp.setId(problem.getId());
-            temp.setTitle(problem.getTitle());
-            temp.setDifficulty(problem.getDifficulty());
-            temp.setPublishTime(problem.getPublishTime());
-            temp.setState(problem.getState());
 
             /*
             计算每道题未通过的人平均提交次数
@@ -77,12 +73,10 @@ public class StatisticsController {
             if(tempSubmit.notPassAverageSubmit(problem.getId())==null){
                 sumNotPassSubmit += 0;
                 sumNotPassUserCount += 0;
-                temp.setNotPassAverageSubmit(0);//每道题没通过平均提交次数
             }else {
                 ArrayList<Integer> tempNotPass = tempSubmit.notPassAverageSubmit(problem.getId());
                 sumNotPassSubmit += tempNotPass.get(0);
                 sumNotPassUserCount += tempNotPass.get(1);
-                temp.setNotPassAverageSubmit(tempNotPass.get(2));//每道题没通过平均提交次数
             }
             /*
             每道题通过的人平均提交次数，只截至到第一次AC时的提交次数
@@ -90,34 +84,19 @@ public class StatisticsController {
             if(tempSubmit.passAverageSubmit(problem.getId())==null){
                 sumPassSubmit += 0;
                 sumPassUserCount += 0;
-                temp.setPassAverageSubmit(0);
             }else {
                 ArrayList<Integer> tempPass = tempSubmit.passAverageSubmit(problem.getId());
                 sumPassSubmit += tempPass.get(0);
                 sumPassUserCount += tempPass.get(1);
-                temp.setPassAverageSubmit(tempPass.get(2));
             }
 
             int doCount=userProblemMapper.doCount(problem.getId());
             int passCount=userProblemMapper.passCount(problem.getId());
             sumDoUser+=doCount;
             sumPassUser+=passCount;
-            double rate;
-            if(doCount!=0){
-                rate=((double)passCount)/doCount;
-                rate=rate*100;
-            }
-            else rate=-1;
-            DecimalFormat dec = new DecimalFormat("0.00");
-            String s= dec.format(rate);
-            temp.setPassRate(s);
-            temp.setUserCount(doCount);
-            temp.setPassCount(passCount);
 
-
-            adminInfoList.add(temp);
         }
-        model.addAttribute("adminInfoList", adminInfoList);
+
 
 
         /*
@@ -127,8 +106,10 @@ public class StatisticsController {
         model.addAttribute("sumDoUser",sumDoUser);
         double SumPassRate;
         SumPassRate=(double)sumPassUser/(double)sumDoUser;
+        SumPassRate*=100;
         DecimalFormat dec = new DecimalFormat("0.00");
         String sumPassRate= dec.format(SumPassRate);
+        sumPassRate+="%";
         model.addAttribute("sumPassRate",sumPassRate);
 
         if(sumNotPassUserCount==0)model.addAttribute("sumNotPassAverageSubmit",-1);
@@ -137,12 +118,6 @@ public class StatisticsController {
         if(sumPassUserCount==0)model.addAttribute("sumPassAverageSubmit",-1);
         else model.addAttribute("sumPassAverageSubmit",sumPassSubmit/sumPassUserCount);
 
-        System.out.println(sumNotPassSubmit);
-        System.out.println(sumNotPassUserCount);
-        System.out.println("---------------------------");
-
-        System.out.println(sumPassSubmit);
-        System.out.println(sumPassUserCount);
 
         return "admin/admin_personal_publish_list";
 
@@ -247,6 +222,137 @@ public class StatisticsController {
         response.setCharacterEncoding("UTF-8");
         response.getWriter().write(jsonRank);
     }
+
+
+    @GetMapping("/personal")
+    public void personal(Model model, HttpServletRequest request,HttpServletResponse response) throws IOException {
+        Cookie[] cookies = request.getCookies();
+
+        if(cookieCheck.Admincheck(cookies)==false){//不是管理员就回list
+            return;
+        }
+
+        //导入题目内容
+        model=cookieCheck.check(cookies,model);
+        User user=(User)model.getAttribute("User");
+
+        //adminInfoList表示结果集
+        List<AdminInfo>adminInfoList=new ArrayList<AdminInfo>();
+        //allproblems表示所有的问题
+        List<Problem> tem=problemMapper.getAllExceptContent_ByPublisherId(user.getId());
+        List<Problem> allProblems=new ArrayList<Problem>();
+        for(Problem te:tem){
+            if(te.getState()==0||te.getState()==2) allProblems.add(te);
+        }
+
+        int sumDoUser=0;//管理员所有题目的总提交用户数
+        int sumPassUser=0;//管理员所有题目的总通过用户数
+        int sumNotPassSubmit =0;//没通过每道题的用户，每道题所提交的次数的总和
+        int sumNotPassUserCount =0;//没通过题目的总用户数
+        int sumPassSubmit =0;//通过每道题的用户，每道题所提交的次数的总和
+        int sumPassUserCount =0;//通过题目的总用户数
+        for(Problem problem:allProblems){
+            AdminInfo temp=new AdminInfo();
+            temp.setId(problem.getId());
+            temp.setTitle(problem.getTitle());
+            temp.setDifficulty(problem.getDifficulty());
+            temp.setPublishTime(problem.getPublishTime());
+            temp.setState(problem.getState());
+
+            /*
+            计算每道题未通过的人平均提交次数
+            */
+            UserProblem tempSubmit = new UserProblem();
+            if(tempSubmit.notPassAverageSubmit(problem.getId())==null){
+                sumNotPassSubmit += 0;
+                sumNotPassUserCount += 0;
+                temp.setNotPassAverageSubmit(0);//每道题没通过平均提交次数
+            }else {
+                ArrayList<Integer> tempNotPass = tempSubmit.notPassAverageSubmit(problem.getId());
+                sumNotPassSubmit += tempNotPass.get(0);
+                sumNotPassUserCount += tempNotPass.get(1);
+                temp.setNotPassAverageSubmit(tempNotPass.get(2));//每道题没通过平均提交次数
+            }
+            /*
+            每道题通过的人平均提交次数，只截至到第一次AC时的提交次数
+             */
+            if(tempSubmit.passAverageSubmit(problem.getId())==null){
+                sumPassSubmit += 0;
+                sumPassUserCount += 0;
+                temp.setPassAverageSubmit(0);
+            }else {
+                ArrayList<Integer> tempPass = tempSubmit.passAverageSubmit(problem.getId());
+                sumPassSubmit += tempPass.get(0);
+                sumPassUserCount += tempPass.get(1);
+                temp.setPassAverageSubmit(tempPass.get(2));
+            }
+
+            int doCount=userProblemMapper.doCount(problem.getId());
+            int passCount=userProblemMapper.passCount(problem.getId());
+            sumDoUser+=doCount;
+            sumPassUser+=passCount;
+            double rate;
+            if(doCount!=0){
+                rate=((double)passCount)/doCount;
+                rate=rate*100;
+            }
+            else rate=-1;
+            DecimalFormat dec = new DecimalFormat("0.00");
+            String s= dec.format(rate);
+            temp.setPassRate(s);
+            temp.setUserCount(doCount);
+            temp.setPassCount(passCount);
+
+
+            adminInfoList.add(temp);
+        }
+        //model.addAttribute("adminInfoList", adminInfoList);
+        String jsonRank= JSON.toJSON(adminInfoList).toString();
+        //model.addAttribute("problemRanks", problemRanks);
+
+        System.out.println(adminInfoList);
+
+        jsonRank="{\"code\":0,\"msg\":\"\",\"count\":"+adminInfoList.size()+",\"data\":"+jsonRank+"}";
+        System.out.println(jsonRank);
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write(jsonRank);
+
+        /*
+        以下都是总体情况的统计
+         */
+//        model.addAttribute("sumPassUser",sumPassUser);
+//        model.addAttribute("sumDoUser",sumDoUser);
+//        double SumPassRate;
+//        SumPassRate=(double)sumPassUser/(double)sumDoUser;
+//        DecimalFormat dec = new DecimalFormat("0.00");
+//        String sumPassRate= dec.format(SumPassRate);
+//        model.addAttribute("sumPassRate",sumPassRate);
+//
+//        if(sumNotPassUserCount==0)model.addAttribute("sumNotPassAverageSubmit",-1);
+//        else model.addAttribute("sumNotPassAverageSubmit",sumNotPassSubmit/sumNotPassUserCount);
+//
+//        if(sumPassUserCount==0)model.addAttribute("sumPassAverageSubmit",-1);
+//        else model.addAttribute("sumPassAverageSubmit",sumPassSubmit/sumPassUserCount);
+
+//        response.getWriter().write(sumPassUser);
+//        response.getWriter().write(sumDoUser);
+//        double SumPassRate;
+//        SumPassRate=(double)sumPassUser/(double)sumDoUser;
+//        DecimalFormat dec = new DecimalFormat("0.00");
+//        String sumPassRate= dec.format(SumPassRate);
+//        //model.addAttribute("sumPassRate",sumPassRate);
+//        response.getWriter().write(sumPassRate);
+//
+//        if(sumNotPassUserCount==0) response.getWriter().write("-1");
+//        else  response.getWriter().write(sumNotPassSubmit/sumNotPassUserCount);
+//
+//        if(sumPassUserCount==0) response.getWriter().write("-1");
+//        else response.getWriter().write(sumPassSubmit/sumPassUserCount);
+
+
+
+    }
+
 
 
 
