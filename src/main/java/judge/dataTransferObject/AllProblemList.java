@@ -5,5 +5,7 @@ import lombok.Data;
 @Data
 public class AllProblemList {
     private Problem problem;
-    private double passRate;
+    private String passRate;
+    private int passUser;
+    private int doUser;
 }
